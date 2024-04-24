@@ -52,7 +52,7 @@ while True:
 
     if time > 50:
         time = 0
-        if inGame[0].static: 
+        if inGame[0].static: pass
 
         print(board)
         inGame[0].move(0, 1)
