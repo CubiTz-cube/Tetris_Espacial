@@ -83,6 +83,6 @@ class Piece:
         for Y in range(3):
                 for X in range(3):
                     if tempShape[Y, X] == 1:
-                        if self.x + X < 0 or self.board[self.y + Y, self.x + X] != 0:
+                        if self.x + X < 0 or self.x + X >= self.board.shape[1] or self.board[self.y + Y, self.x + X] != 0:
                             return True
         return False

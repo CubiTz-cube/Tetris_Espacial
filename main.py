@@ -4,62 +4,32 @@ from random import choice
 from copy import copy
 
 from Piece import Piece
+from shapes import *
 from pages.Game import Game
 
-N = 15
-M = 9
+N = 21
+M = 12
 board = np.zeros((N, M), dtype=int)
 
-shape_I = np.zeros((3, 3), dtype=int)
-shape_I[0, 1] = 1
-shape_I[1, 1] = 1
-shape_I[2, 1] = 1
-
-shape_L = np.zeros((3, 3), dtype=int)
-shape_L[0, 1] = 1
-shape_L[1, 1] = 1
-shape_L[2, 1] = 1
-shape_L[2, 2] = 1
-
-shape_LI = np.zeros((3, 3), dtype=int)
-shape_LI[0, 1] = 1
-shape_LI[1, 1] = 1
-shape_LI[2, 1] = 1
-shape_LI[2, 0] = 1
-
-shape_D = np.zeros((3, 3), dtype=int)
-shape_D[1, 0] = 1
-shape_D[1, 1] = 1
-shape_D[2, 1] = 1
-shape_D[2, 2] = 1
-
-shape_O = np.zeros((3, 3), dtype=int)
-shape_O[0, 0] = 1
-shape_O[1, 0] = 1
-shape_O[0, 1] = 1
-shape_O[1, 1] = 1
-
-shape_T = np.zeros((3, 3), dtype=int)
-shape_T[0, 0] = 1
-shape_T[0, 1] = 1
-shape_T[0, 2] = 1
-shape_T[1, 1] = 1
-shape_T[2, 1] = 1
-
-pieces = [Piece(board, shape_I, 1),Piece(board, shape_L, 3),Piece(board, shape_LI, 4),Piece(board, shape_D, 5), Piece(board, shape_O, 7, False), Piece(board, shape_T, 9)]
+pieces = [Piece(board, shape_I, 1),Piece(board, shape_L, 3),Piece(board, shape_LI, 4),Piece(board, shape_D, 5), Piece(board, shape_O, 7, False), Piece(board, shape_T, 8)]
 
 pg.init()
 W = pg.display.Info().current_w
 H = pg.display.Info().current_h
-pg.display.set_mode((W-1000, H-500), pg.RESIZABLE)
+pg.display.set_mode((W-100, H-50), pg.RESIZABLE)
+clock = pg.time.Clock()
 
 gamePieces = []
 inGame = [copy(choice(pieces)) for _ in range(2)]
-time = 0
+time = 100
+timeT = 0
+move = [0,0]
 
 pages = [Game(board)]
+page = 0
 
 while True:
+    dt = clock.tick(60) / 1000
     for event in pg.event.get():
         if event.type == pg.QUIT:
             pg.quit()
@@ -70,16 +40,25 @@ while True:
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_LEFT or event.key == pg.K_a:
                 inGame[0].move([-1,0])
+                move = [-1,0]
+                timeT = 0
             if event.key == pg.K_RIGHT or event.key == pg.K_d:
                 inGame[0].move([1,0])
+                move = [1,0]
+                timeT = 0
             if event.key == pg.K_DOWN or event.key == pg.K_s:
-                inGame[0].move([0,1])
+                while not inGame[0].static:
+                    inGame[0].move([0,1])
             if event.key == pg.K_UP or event.key == pg.K_w:
                 inGame[0].rotateR()
         if event.type == pg.KEYUP:
             move = [0,0]
 
-    if time > 50:
+    if timeT > int(540 * dt) and move != [0,0]: 
+        timeT = 0
+        inGame[0].move(move)
+
+    if time > int(1500 * dt):
         time = 0
         if inGame[0].static: 
             gamePieces.append(inGame.pop(0))
@@ -87,7 +66,7 @@ while True:
 
         inGame[0].move([0,1])
 
-    pages[0].bucle()
+    pages[page].bucle()
     time += 1
+    timeT += 1
     pg.display.flip()
-    pg.time.Clock().tick(60)
