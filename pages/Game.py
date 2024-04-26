@@ -4,16 +4,18 @@ from Piece import Piece
 from random import choice
 from copy import copy
 
+from shapes import *
+
 colors = [(50,50,50), (100, 100, 200), (200, 100, 100), (100, 200, 100), (200, 200, 100), (100, 100, 200), (200, 100, 200), (100, 200, 200), (200, 200, 200)]
 
 class Game():
-    def __init__(self, clock:pg.time.Clock, board:np.ndarray[any], pieces:list[Piece]):
+    def __init__(self, clock:pg.time.Clock, board:np.ndarray[any]):
         self.clock = clock
         self.screen = pg.display.get_surface()
         self.board = board
-        self.pieces = pieces
-        self.pieceInGame = [copy(choice(pieces)) for _ in range(2)]
-        self.gamePieces = []
+        self.pieces = [Piece(board, shape_I, 1),Piece(board, shape_L, 3),Piece(board, shape_LI, 4),Piece(board, shape_D, 5), Piece(board, shape_O, 7, False), Piece(board, shape_T, 8)]
+        self.pieceInGame = [copy(choice(self.pieces)) for _ in range(2)]
+        self.gamePieces:list[Piece] = []
 
         self.dimY = self.board.shape[0]
         self.dimX = self.board.shape[1]
@@ -73,6 +75,9 @@ class Game():
             self.time = 0
             if self.pieceInGame[0].static: 
                 self.gamePieces.append(self.pieceInGame.pop(0))
+                #self.gamePieces[-1].color = 2
+                #self.gamePieces[-1].erase()
+                #self.gamePieces[-1].create()
                 self.pieceInGame.append(copy(choice(self.pieces)))
 
             #Cambiar por recursividad
