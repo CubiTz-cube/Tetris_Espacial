@@ -25,11 +25,11 @@ time = 100
 timeT = 0
 move = [0,0]
 
-pages = [Game(board)]
+pages = [Game(board, inGame)]
 page = 0
 
 while True:
-    dt = clock.tick(60) / 1000
+    deltaTime = clock.tick(60) / 1000
     for event in pg.event.get():
         if event.type == pg.QUIT:
             pg.quit()
@@ -54,15 +54,27 @@ while True:
         if event.type == pg.KEYUP:
             move = [0,0]
 
-    if timeT > int(540 * dt) and move != [0,0]: 
+    if timeT > int(540 * deltaTime) and move != [0,0]: 
         timeT = 0
         inGame[0].move(move)
 
-    if time > int(1500 * dt):
+    if time > int(1500 * deltaTime):
         time = 0
         if inGame[0].static: 
             gamePieces.append(inGame.pop(0))
             inGame.append(copy(choice(pieces)))
+
+        #Cambiar por recursividad y mandar señal a interfaz cuando se compelta una fila
+        for Y in range(3,N):
+            completeLine = True
+            for X in range(M):
+                if board[Y,X] == 0:
+                    completeLine = False
+
+            if completeLine: 
+                board[Y] = np.zeros(M, dtype=int)
+                board[3:Y+1] = np.roll(board[3:Y+1], shift=1, axis=0)
+
 
         inGame[0].move([0,1])
 
