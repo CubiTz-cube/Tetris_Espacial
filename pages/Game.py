@@ -1,6 +1,6 @@
 import pygame as pg
 import numpy as np
-from Piece import Piece
+from piece import Piece
 from random import choice
 from copy import copy
 
