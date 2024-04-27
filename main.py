@@ -5,7 +5,7 @@ from pages.Game import Game
 
 N = 21
 M = 12
-board = np.zeros((N, M), dtype=int)
+board = np.full([N,M,4], [0, 0, 0, 0])
 
 pg.init()
 W = pg.display.Info().current_w
