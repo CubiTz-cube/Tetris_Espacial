@@ -1,23 +1,27 @@
 import pygame as pg
 import numpy as np
-from piece import Piece
+from Piece import Piece
 from random import choice
 from copy import copy
 
-from shapes import *
-
 class Game():
-    def __init__(self, clock:pg.time.Clock, board:np.ndarray[any]):
-        self.clock = clock
-        self.screen = pg.display.get_surface()
+    def __init__(self,changePage, board:np.ndarray[any], pieces:list[Piece], mode:int):
+        self.changePage = changePage
         self.board = board
-        self.pieces = [Piece(board, shape_I, 1),Piece(board, shape_L, 3),Piece(board, shape_LI, 4),Piece(board, shape_D, 5), Piece(board, shape_O, 7, False), Piece(board, shape_T, 8)]
-        self.pieceInGame = [copy(choice(self.pieces)) for _ in range(2)]
-        self.gamePieces:list[Piece] = []
+        self.pieces = pieces
+        self.mode = mode
 
+        self.clock = pg.Clock()
+        self.screen = pg.display.get_surface()
         self.dimY = self.board.shape[0]
         self.dimX = self.board.shape[1]
-
+ 
+        self.pieceInGame = [copy(choice(self.pieces)) for _ in range(2)]
+        self.gamePieces:list[Piece] = []
+        self.restPiece = 0
+        self.restTime = 0
+        self.score = 0
+        self.scoreR = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
         self.time = 0
         self.timeT = 0
         self.move = [0,0]
@@ -63,6 +67,8 @@ class Game():
                 if self.pieceInGame[1].shape[Y,X] != 0:
                     pg.draw.rect(self.screen, self.pieceInGame[1].color, (400 + X * 30, Y * 30, 30, 30))
 
+        self.screen.blit(self.scoreR, (400, 100))
+
     def backEnd(self):
         deltaTime = self.clock.tick(60) / 1000
         if self.timeT > int(540 * deltaTime) and self.move != [0,0]: 
@@ -72,7 +78,8 @@ class Game():
         if self.time > int(1500 * deltaTime):
             self.time = 0
             if self.pieceInGame[0].static: 
-                if (self.pieceInGame[0].y <= 3): exit()
+                if (self.pieceInGame[0].y <= 3):
+                    exit()
                 self.gamePieces.append(self.pieceInGame.pop(0))
                 self.pieceInGame.append(copy(choice(self.pieces)))
 
@@ -84,6 +91,8 @@ class Game():
                         completeLine = False
 
                 if completeLine: 
+                    self.score += 100
+                    self.scoreR = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
                     self.board[Y] = np.full([self.dimX,4], [0,0,0,0])
                     self.board[3:Y+1] = np.roll(self.board[3:Y+1], shift=1, axis=0)
 
