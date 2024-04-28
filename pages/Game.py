@@ -72,6 +72,7 @@ class Game():
         if self.time > int(1500 * deltaTime):
             self.time = 0
             if self.pieceInGame[0].static: 
+                if (self.pieceInGame[0].y <= 3): exit()
                 self.gamePieces.append(self.pieceInGame.pop(0))
                 self.pieceInGame.append(copy(choice(self.pieces)))
 
