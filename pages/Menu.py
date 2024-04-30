@@ -25,7 +25,7 @@ class Menu():
                 #Reside screen
                 pass
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
-                self.changePage(4)
+                self.changePage(5)
 
             self.manager.process_events(event)
 

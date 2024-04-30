@@ -83,7 +83,7 @@ class Register():
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
                 code = self.codeGenerator()
                 self.saveBinary(code)
-                #self.changePage(1)
+                self.changePage(2)
 
             self.manager.process_events(event)
 

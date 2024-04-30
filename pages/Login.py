@@ -21,7 +21,13 @@ class Login():
         print( self.usersData)
 
         self.userData = ["name/mail","password"]
-        self.renderText = [self.font.render(str(data), True, (255,255,255)) for data in self.userData]   
+        self.renderTextData = [self.font.render(str(data), True, (255,255,255)) for data in self.userData]  
+        self.renderTextInvalid = [
+            self.font.render("User not found", True, (255,255,255)),
+            self.font.render("Password incorrect", True, (255,255,255)),
+            self.font.render("", True, (255,255,255))
+        ] 
+        self.invalid = 2
 
         self.inputName = pgu.elements.UITextEntryLine(
         relative_rect=pg.Rect((250, 0), (500, 30)),
@@ -40,7 +46,7 @@ class Login():
         object_id="#buttonPlay")
 
         self.buttonRegister = pgu.elements.UIButton(
-        relative_rect=pg.Rect((300, 250), (100, 50)),
+        relative_rect=pg.Rect((450, 250), (100, 50)),
         text="Register",
         manager=self.manager,
         object_id="#buttonRegister")
@@ -57,16 +63,21 @@ class Login():
                 self.mouseUP = True
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_object_id == "#inputName":
                 self.userData[0] = self.inputName.get_text()
-                self.renderText[0] = self.font.render(self.userData[0], True, (255,255,255))
+                self.renderTextData[0] = self.font.render(self.userData[0], True, (255,255,255))
 
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_object_id == "#inputPassword":
                 self.userData[1] = self.inputPassword.get_text()
-                self.renderText[1] = self.font.render(self.userData[1], True, (255,255,255))
+                self.renderTextData[1] = self.font.render(self.userData[1], True, (255,255,255))
+
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonRegister":
+                self.changePage(1)
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
                 check = self.checkUser()
-
-                print(check)
+                if check == 2:
+                    self.changePage(2)
+                else:
+                    self.invalid = check
 
             self.manager.process_events(event)
 
@@ -76,15 +87,18 @@ class Login():
         self.manager.update(self.clock.tick(60)/1000)
         self.manager.draw_ui(self.screen)
 
-        for index, text in enumerate(self.renderText):
+        for index, text in enumerate(self.renderTextData):
             self.screen.blit(text, (0, 50*index))
 
+        self.screen.blit(self.renderTextInvalid[self.invalid], (0,100))
+
     def checkUser(self):
+        if len(self.usersData) == 0: return 0
         for user in self.usersData:
             print(user[1], user[5], user[4])
             print(self.userData[0], self.userData[1])
             if (self.userData[0] == user[1] or self.userData[1] == user[5]) and self.userData[1] == user[4]:
-                return True
+                return 2
             else:
                 if self.userData[0] != user[1] and self.userData[1] != user[5]:
                     return 0
