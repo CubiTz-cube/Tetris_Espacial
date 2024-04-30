@@ -12,13 +12,7 @@ class Register():
         self.font = pg.font.Font(None, 32)
         self.mouseUP = False
 
-        self.userData:dict[str:str] = {
-            "name": "nombre",
-            "lastName": "Apellido",
-            "state": "Bolivar",
-            "password": "password",
-            "mail": "hola@gmail.com",
-        }
+        self.userData = ["code","name", "lastName", "state", "password", "mail", []]
 
         self.inputName = pgu.elements.UITextEntryLine(
         relative_rect=pg.Rect((250, 0), (500, 30)),
@@ -53,8 +47,6 @@ class Register():
         manager=self.manager,
         object_id="#buttonPlay")
 
-        self.render = [self.font.render(self.userData["name"], True, (255, 255, 255)), self.font.render(self.userData["lastName"], True, (255, 255, 255)), self.font.render(self.userData["state"], True, (255, 255, 255)), self.font.render(self.userData["password"], True, (255, 255, 255)), self.font.render(self.userData["mail"], True, (255, 255, 255))]
-
     def events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -67,28 +59,23 @@ class Register():
                 self.mouseUP = True
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#inputName":
                 self.userData["name"] = self.inputName.get_text()
-                self.render[0] = self.font.render(self.userData["name"], True, (255, 255, 255))
 
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#inputLastName":
                 self.userData["lastName"] = self.inputLastName.get_text()
-                self.render[1] = self.font.render(self.userData["lastName"], True, (255, 255, 255))
 
             if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_object_id == "#inputState":
                 self.userData["state"] = self.inputState.selected_option[0]
-                self.render[2] = self.font.render(self.userData["state"], True, (255, 255, 255))
 
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#inputPassword":
                 self.userData["password"] = self.inputPassword.get_text()
-                self.render[3] = self.font.render(self.userData["password"], True, (255, 255, 255))
 
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#inputMail":
                 self.userData["mail"] = self.inputMail.get_text()
-                self.render[4] = self.font.render(self.userData["mail"], True, (255, 255, 255))
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
-                code = self.codeGenerator(self.userData)
+                code = self.codeGenerator()
                 self.saveBinary(code)
-                self.changePage(1)
+                #self.changePage(1)
 
             self.manager.process_events(event)
 
@@ -98,26 +85,26 @@ class Register():
         self.manager.update(self.clock.tick(60)/1000)
         self.manager.draw_ui(self.screen)
 
-        for index, data in enumerate(self.render):
-            self.screen.blit(data, (50, 50*index))
-
     def backEnd(self):
         pass
 
-    def codeGenerator(self, data:dict[str:str]):
+    def codeGenerator(self):
         #hacerlo de forma recursiva
-        return sum(ord(c) for c in data["name"]+data["lastName"]+data["state"]+data["password"]+data["mail"])
+        code = 0
+        for index, value in enumerate(self.userData):
+            code += len(value)*index
+        
+        self.userData[0] = str(code)
     
     def saveBinary(self, code:int):
         with open("./data/JUGADORES.bin", "rb") as file:
-                info:list[bin] = file.readlines()
+                preInfo:list[bin] = file.readlines()
 
         with open("./data/JUGADORES.bin", "wb") as file:
-            file.writelines(info)
-            file.write(b"Code ")
-            file.write(code.to_bytes(4))
+            file.writelines(preInfo)
+            for data in self.userData:
+                file.write((str(data)+" ").encode())
             file.write(b"\n")
-            for data in self.userData: file.write((data+"\n").encode())
     
     def bucle(self):
         self.events()
