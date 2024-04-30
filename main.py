@@ -2,6 +2,7 @@ import numpy as np
 import pygame as pg
 
 from Piece import *
+from pages.Login import Login
 from pages.Register import Register
 from pages.Menu import Menu
 from pages.Leaderboard import Leaderboard
@@ -33,12 +34,13 @@ clock = pg.time.Clock()
 pieces:list[Piece] = [piI, piL, piLI, piD, piO, piT]
 mode = 0
 
-page = 3
+page = 0
 def changePage(newPage):
     global page
     page = newPage
 
 pages = [
+    Login(changePage),
     Register(changePage),
     Menu(changePage),
     Leaderboard(changePage),
