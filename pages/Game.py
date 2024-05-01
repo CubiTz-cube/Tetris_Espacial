@@ -9,7 +9,8 @@ class Game():
         self.changePage = changePage
         self.board = board
         self.pieces = pieces
-        self.mode = mode
+        self.mode = 1
+        
 
         self.clock = pg.Clock()
         self.screen = pg.display.get_surface()
@@ -20,7 +21,7 @@ class Game():
         self.gamePieces:list[Piece] = []
         self.restPiece = 0
         self.restTime = 0
-        self.score = 0
+        self.score = 1000
         self.scoreR = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
         self.time = 0
         self.timeT = 0
@@ -83,7 +84,6 @@ class Game():
                     exit()
                 self.gamePieces.append(self.pieceInGame.pop(0))
                 self.pieceInGame.append(copy(choice(self.pieces)))
-                self.mode()
 
             #Cambiar por recursividad
             for Y in range(3,self.dimY):
@@ -109,19 +109,30 @@ class Game():
         self.frontEnd()
 
         self.backEnd()
+
+        self.check_mode()
                     
-    def mode(self):
+    def check_mode(self):
+        print(f"Checking mode: {self.mode}")
         if self.mode == 1:
+            print(f"Piece es static: {self.pieceInGame[0].static}")
             if self.pieceInGame[0].static:
                 self.score -= 1
+                self.scoreR = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
+                print(f"Score reduced: {self.score}")
+              
+        """if self.mode == 1:
+            if self.pieceInGame[0].static:
+                self.score -= 1
+                print("hola")
+                
+                    
             
-            if self.score <= 0:
-                self.game_over()
                 
 
         if self.mode == 2:
             if self.time >= self.maxtime:
-                self.game_over()
+                self.game_over()"""
 
     def game_over(self):
         pass
