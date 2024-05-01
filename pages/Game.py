@@ -123,11 +123,6 @@ class Game():
                 self.scoreReduced = True
                 
               
-<<<<<<< HEAD
-=======
-     
-
->>>>>>> 3b02dbbef0474a2d9a60356e8a93686b341c7a4b
     def game_over(self):
         pass
     
