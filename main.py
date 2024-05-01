@@ -1,7 +1,7 @@
 import numpy as np
 import pygame as pg
 
-from Piece import *
+from piece import *
 from pages.Login import Login
 from pages.Register import Register
 from pages.Menu import Menu
