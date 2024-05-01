@@ -121,18 +121,7 @@ class Game():
                 self.scoreR = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
                 print(f"Score reduced: {self.score}")
               
-        """if self.mode == 1:
-            if self.pieceInGame[0].static:
-                self.score -= 1
-                print("hola")
-                
-                    
-            
-                
-
-        if self.mode == 2:
-            if self.time >= self.maxtime:
-                self.game_over()"""
+     
 
     def game_over(self):
         pass
