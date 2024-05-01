@@ -10,7 +10,7 @@ class Game():
         self.board = board
         self.pieces = pieces
         self.mode = 1
-        self.scoreReduced = False
+        self.reduccion = False
         
 
         self.clock = pg.Clock()
@@ -22,7 +22,7 @@ class Game():
         self.gamePieces:list[Piece] = []
         self.restPiece = 0
         self.restTime = 0
-        self.score = 1000
+        self.score = 0
         self.scoreR = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
         self.time = 0
         self.timeT = 0
@@ -86,7 +86,7 @@ class Game():
                 self.gamePieces.append(self.pieceInGame.pop(0))
                 self.pieceInGame.append(copy(choice(self.pieces)))
 
-                self.scoreReduced = False
+                self.reduccion = False
 
             #Cambiar por recursividad
             for Y in range(3,self.dimY):
@@ -117,10 +117,10 @@ class Game():
                     
     def check_mode(self):
         if self.mode == 1:
-            if self.pieceInGame[0].static == True and not  self.scoreReduced:
+            if self.pieceInGame[0].static == True and not  self.reduccion:
                 self.score -= 1
                 self.scoreR = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
-                self.scoreReduced = True
+                self.reduccion = True
                 
               
     def game_over(self):
