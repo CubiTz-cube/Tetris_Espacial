@@ -10,6 +10,7 @@ class Game():
         self.board = board
         self.pieces = pieces
         self.mode = 1
+        self.scoreReduced = False
         
 
         self.clock = pg.Clock()
@@ -85,6 +86,8 @@ class Game():
                 self.gamePieces.append(self.pieceInGame.pop(0))
                 self.pieceInGame.append(copy(choice(self.pieces)))
 
+                self.scoreReduced = False
+
             #Cambiar por recursividad
             for Y in range(3,self.dimY):
                 completeLine = True
@@ -113,26 +116,13 @@ class Game():
         self.check_mode()
                     
     def check_mode(self):
-        print(f"Checking mode: {self.mode}")
         if self.mode == 1:
-            print(f"Piece es static: {self.pieceInGame[0].static}")
-            if self.pieceInGame[0].static:
+            if self.pieceInGame[0].static == True and not  self.scoreReduced:
                 self.score -= 1
                 self.scoreR = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
-                print(f"Score reduced: {self.score}")
+                self.scoreReduced = True
+                
               
-        """if self.mode == 1:
-            if self.pieceInGame[0].static:
-                self.score -= 1
-                print("hola")
-                
-                    
-            
-                
-
-        if self.mode == 2:
-            if self.time >= self.maxtime:
-                self.game_over()"""
-
     def game_over(self):
         pass
+    
