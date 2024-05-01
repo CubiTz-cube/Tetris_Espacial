@@ -5,13 +5,14 @@ from random import choice
 from copy import copy
 
 class Game():
-    def __init__(self,changePage, board:np.ndarray[any], pieces:list[Piece], mode:int):
+    def __init__(self,changePage, board:np.ndarray[any], pieces:list[Piece], mode:int, limit:int):
         self.changePage = changePage
         self.board = board
         self.pieces = pieces
-        self.mode = 1
-        self.reduccion = False
-        
+        self.mode = mode
+        self.limit = limit
+        self.modes = ["Inactivo", "Piezas","Tiempo"]
+        self.limitR = pg.font.Font(None, 30).render(f"{self.modes[mode]}: {self.limit}", True, (255,255,255))
 
         self.clock = pg.Clock()
         self.screen = pg.display.get_surface()
@@ -71,6 +72,7 @@ class Game():
                     pg.draw.rect(self.screen, self.pieceInGame[1].color, (400 + X * 30, Y * 30, 30, 30))
 
         self.screen.blit(self.scoreR, (400, 100))
+        self.screen.blit(self.limitR, (400, 150))
 
     def backEnd(self):
         deltaTime = self.clock.tick(60) / 1000
@@ -82,11 +84,10 @@ class Game():
             self.time = 0
             if self.pieceInGame[0].static: 
                 if (self.pieceInGame[0].y <= 3):
-                    exit()
+                    self.gameOver()
                 self.gamePieces.append(self.pieceInGame.pop(0))
                 self.pieceInGame.append(copy(choice(self.pieces)))
-
-                self.reduccion = False
+                self.checkMode()
 
             #Cambiar por recursividad
             for Y in range(3,self.dimY):
@@ -112,17 +113,15 @@ class Game():
         self.frontEnd()
 
         self.backEnd()
-
-        self.check_mode()
                     
-    def check_mode(self):
+    def checkMode(self):
         if self.mode == 1:
-            if self.pieceInGame[0].static == True and not  self.reduccion:
-                self.score -= 1
-                self.scoreR = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
-                self.reduccion = True
+            self.limit -= 1
+            self.limitR = pg.font.Font(None, 30).render(f"{self.modes[self.mode]}: {self.limit}", True, (255,255,255))
+
+        if self.limit <= 0: self.gameOver()
                 
               
-    def game_over(self):
-        pass
+    def gameOver(self):
+        exit()
     

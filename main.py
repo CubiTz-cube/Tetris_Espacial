@@ -38,7 +38,8 @@ pg.display.set_mode((W-100, H-50), pg.RESIZABLE)
 clock = pg.time.Clock()
 
 pieces:list[Piece] = [piezaImax, piezaTmin, piezaO, piezaS, piezaSI, piezaL, piezaLI]#[piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar]
-mode = 0
+mode = 1
+limit = 3
 
 page = 5
 def changePage(newPage):
@@ -51,7 +52,7 @@ pages = [
     Menu(changePage),
     Leaderboard(changePage),
     Selection(changePage),
-    Game(changePage,board, pieces, mode)
+    Game(changePage,board, pieces, mode, limit)
 ]
 
 while True:
