@@ -1,6 +1,6 @@
 import pygame as pg
 import numpy as np
-from Piece import Piece
+from piece import Piece
 from random import choice
 from copy import copy
 
@@ -24,6 +24,7 @@ class Game():
         self.scoreR = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
         self.time = 0
         self.timeT = 0
+        self.maxtime = 1000
         self.move = [0,0]
     def events(self):
         for event in pg.event.get():
@@ -82,6 +83,7 @@ class Game():
                     exit()
                 self.gamePieces.append(self.pieceInGame.pop(0))
                 self.pieceInGame.append(copy(choice(self.pieces)))
+                self.mode()
 
             #Cambiar por recursividad
             for Y in range(3,self.dimY):
@@ -108,3 +110,18 @@ class Game():
 
         self.backEnd()
                     
+    def mode(self):
+        if self.mode == 1:
+            if self.pieceInGame[0].static:
+                self.score -= 1
+            
+            if self.score <= 0:
+                self.game_over()
+                
+
+        if self.mode == 2:
+            if self.time >= self.maxtime:
+                self.game_over()
+
+    def game_over(self):
+        pass
