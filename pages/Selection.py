@@ -12,7 +12,7 @@ class Selection():
 
         self.buttonPlay = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 50), (150, 50)),
-        text="Regresar",
+        text="Inicar juego con el tablero actual",
         manager=self.manager,
         object_id="#buttonPlay")
 
@@ -25,7 +25,7 @@ class Selection():
                 #Reside screen
                 pass
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
-                self.changePage(1)
+                self.changePage(5)
 
             self.manager.process_events(event)
 

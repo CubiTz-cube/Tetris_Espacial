@@ -50,6 +50,12 @@ class Register():
         manager=self.manager,
         object_id="#buttonPlay")
 
+        self.buttonLogin = pgu.elements.UIButton(
+        relative_rect=pg.Rect((450, 250), (100, 50)),
+        text="Login",
+        manager=self.manager,
+        object_id="#buttonLogin")
+
     def events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -84,6 +90,9 @@ class Register():
                 code = self.codeGenerator()
                 self.saveBinary(code)
                 self.changePage(2)
+            
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonLogin":
+                self.changePage(0)
 
             self.manager.process_events(event)
 
