@@ -63,7 +63,7 @@ class Piece:
         self.board = board
         self.shape = shape
         self.value = value
-        self.rotate = rotate
+        self.canRotate = rotate
 
         self.x = 0
         self.y = 0
@@ -86,7 +86,7 @@ class Piece:
                     self.board[self.y + Y, self.x + X][3] = self.color[2]
 
     def rotateR(self, right:bool = True):
-        if self.static or not self.rotate: return
+        if self.static or not self.canRotate: return
 
 
         self.erase()
