@@ -13,7 +13,7 @@ class Game():
         self.limit = limit
         self.modes = ["Inactivo", "Piezas","Tiempo"]
         self.limitR = pg.font.Font(None, 30).render(f"{self.modes[mode]}: {self.limit}", True, (255,255,255))
-
+        
         self.clock = pg.Clock()
         self.screen = pg.display.get_surface()
         self.dimY = self.board.shape[0]
@@ -27,7 +27,8 @@ class Game():
         self.scoreR = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
         self.time = 0
         self.timeT = 0
-        self.maxtime = 1000
+        self.maxtime = 600
+        self.limitTime = 0
         self.move = [0,0]
     def events(self):
         for event in pg.event.get():
@@ -75,6 +76,7 @@ class Game():
         self.screen.blit(self.limitR, (400, 150))
 
     def backEnd(self):
+        self.checkMode()
         deltaTime = self.clock.tick(60) / 1000
         if self.timeT > int(540 * deltaTime) and self.move != [0,0]: 
             self.timeT = 0
@@ -87,7 +89,7 @@ class Game():
                     self.gameOver()
                 self.gamePieces.append(self.pieceInGame.pop(0))
                 self.pieceInGame.append(copy(choice(self.pieces)))
-                self.checkMode()
+                
 
             #Cambiar por recursividad
             for Y in range(3,self.dimY):
@@ -115,12 +117,26 @@ class Game():
         self.backEnd()
                     
     def checkMode(self):
-        if self.mode == 1:
+        if self.mode == 1: #tengo que mover esto de lugar para que no interfiera con el modo2
             self.limit -= 1
             self.limitR = pg.font.Font(None, 30).render(f"{self.modes[self.mode]}: {self.limit}", True, (255,255,255))
 
+
         if self.limit <= 0: self.gameOver()
-                
+
+        if self.mode == 2:  
+            self.limitTime+=1
+            if self.limitTime >=self.maxtime:
+                self.gameOver()
+            self.limitR = pg.font.Font(None, 30).render(f"{self.modes[self.mode]}: {self.limitTime}, limite:{self.maxtime}", True, (255,255,255))
+            
+            
+            
+          # Agregado
+
+      
+           
+                    
               
     def gameOver(self):
         exit()
