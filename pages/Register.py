@@ -1,5 +1,6 @@
 import pygame as pg
 import pygame_gui as pgu
+from library.encrypter import encrypt, decrypt
 
 class Register():
     def __init__(self, changePage) -> None:
@@ -123,7 +124,7 @@ class Register():
         with open("./data/JUGADORES.bin", "wb") as file:
             file.writelines(preInfo)
             for data in self.userData:
-                file.write((str(data)+" ").encode())
+                file.write((encrypt(str(data))+" ").encode())
             file.write(b"\n")
     
     def bucle(self):

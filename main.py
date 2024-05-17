@@ -41,7 +41,7 @@ pieces:list[Piece] = [piezaImax, piezaTmin, piezaO, piezaS, piezaSI, piezaL, pie
 mode = 1
 limit = 3
 
-page = 5
+page = 1
 def changePage(newPage):
     global page
     page = newPage
