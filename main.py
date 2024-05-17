@@ -57,4 +57,6 @@ pages = [
 
 while True:
     pages[page].bucle()
+    print(clock.get_fps())
+    clock.tick(60)
     pg.display.flip()

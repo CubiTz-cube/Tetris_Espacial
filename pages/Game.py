@@ -12,21 +12,21 @@ class Game():
         self.mode = mode
         self.limit = limit
         self.modes = ["Inactivo", "Piezas","Tiempo"]
-        self.limitR = pg.font.Font(None, 30).render(f"{self.modes[mode]}: {self.limit}", True, (255,255,255))
+        self.limitTextRender = pg.font.Font(None, 30).render(f"{self.modes[mode]}: {self.limit}", True, (255,255,255))
         
-        self.clock = pg.Clock()
+        self.lastTime = pg.time.get_ticks()
         self.screen = pg.display.get_surface()
         self.dimY = self.board.shape[0]
         self.dimX = self.board.shape[1]
  
         self.pieceInGame = [copy(choice(self.pieces)) for _ in range(2)]
         self.gamePieces:list[Piece] = []
-        self.restPiece = 0
-        self.restTime = 0
+        #self.restPiece = 0
+        #self.restTime = 0
         self.score = 0
-        self.scoreR = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
-        self.time = 0
-        self.timeT = 0
+        self.scoreTextRender = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
+        self.tickPiece = 0
+        self.tickKey = 0
         self.maxtime = 600
         self.limitTime = 0
         self.move = [0,0]
@@ -42,15 +42,19 @@ class Game():
                 if event.key == pg.K_LEFT or event.key == pg.K_a:
                     self.pieceInGame[0].move([-1,0])
                     self.move = [-1,0]
-                    self.timeT = 0
-                if event.key == pg.K_RIGHT or event.key == pg.K_d:
+                    self.tickKey = 0
+                elif event.key == pg.K_RIGHT or event.key == pg.K_d:
                     self.pieceInGame[0].move([1,0])
                     self.move = [1,0]
-                    self.timeT = 0
-                if event.key == pg.K_DOWN or event.key == pg.K_s:
+                    self.tickKey = 0
+                elif event.key == pg.K_SPACE:
                     while not self.pieceInGame[0].static:
                         self.pieceInGame[0].move([0,1])
-                if event.key == pg.K_UP or event.key == pg.K_w:
+                elif event.key == pg.K_DOWN or event.key == pg.K_s:
+                    self.pieceInGame[0].move([0,1])
+                    self.move = [0,1]
+                    self.tickKey = 0
+                elif event.key == pg.K_UP or event.key == pg.K_w:
                     self.pieceInGame[0].rotateR()
             if event.type == pg.KEYUP:
                 self.move = [0,0]
@@ -72,25 +76,23 @@ class Game():
                 if self.pieceInGame[1].shape[Y,X] != 0:
                     pg.draw.rect(self.screen, self.pieceInGame[1].color, (400 + X * 30, Y * 30, 30, 30))
 
-        self.screen.blit(self.scoreR, (400, 100))
-        self.screen.blit(self.limitR, (400, 150))
+        self.screen.blit(self.scoreTextRender, (400, 100))
+        self.screen.blit(self.limitTextRender, (400, 150))
 
-    def backEnd(self):
-        self.checkMode()
-        deltaTime = self.clock.tick(60) / 1000
-        if self.timeT > int(540 * deltaTime) and self.move != [0,0]: 
-            self.timeT = 0
+    def backEnd(self, deltaTime:int):
+        #self.checkMode() se cierra el juego
+        if self.tickKey > 100 and self.move != [0,0]: 
+            self.tickKey = 0
             self.pieceInGame[0].move(self.move)
 
-        if self.time > int(1500 * deltaTime):
-            self.time = 0
+        if self.tickPiece > 350:
+            self.tickPiece = 0
             if self.pieceInGame[0].static: 
                 if (self.pieceInGame[0].y <= 3):
                     self.gameOver()
                 self.gamePieces.append(self.pieceInGame.pop(0))
                 self.pieceInGame.append(copy(choice(self.pieces)))
                 
-
             #Cambiar por recursividad
             for Y in range(3,self.dimY):
                 completeLine = True
@@ -100,43 +102,37 @@ class Game():
 
                 if completeLine: 
                     self.score += 100
-                    self.scoreR = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
+                    self.scoreTextRender = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
                     self.board[Y] = np.full([self.dimX,4], [0,0,0,0])
                     self.board[3:Y+1] = np.roll(self.board[3:Y+1], shift=1, axis=0)
 
             self.pieceInGame[0].move([0,1])
 
-        self.time += 1
-        self.timeT += 1
+        self.tickPiece += 1 * deltaTime
+        self.tickKey += 1 * deltaTime
 
     def bucle(self):
+        currentTime = pg.time.get_ticks()
+        deltaTime = currentTime - self.lastTime
+        self.lastTime = currentTime
+
         self.events()
 
         self.frontEnd()
 
-        self.backEnd()
+        self.backEnd(deltaTime)
                     
     def checkMode(self):
-        if self.mode == 1: #tengo que mover esto de lugar para que no interfiera con el modo2
-            self.limit -= 1
-            self.limitR = pg.font.Font(None, 30).render(f"{self.modes[self.mode]}: {self.limit}", True, (255,255,255))
-
-
         if self.limit <= 0: self.gameOver()
-
-        if self.mode == 2:  
+        #lo intente mover para que funcioanra pero aun se cierra cuado se ejecuta
+        if self.mode == 1:
+            self.limit -= 1
+            self.limitTextRender = pg.font.Font(None, 30).render(f"{self.modes[self.mode]}: {self.limit}", True, (255,255,255))
+        elif self.mode == 2:  
             self.limitTime+=1
-            if self.limitTime >=self.maxtime:
+            if self.limitTime >= self.maxtime:
                 self.gameOver()
-            self.limitR = pg.font.Font(None, 30).render(f"{self.modes[self.mode]}: {self.limitTime}, limite:{self.maxtime}", True, (255,255,255))
-            
-            
-            
-          # Agregado
-
-      
-           
-                    
+            self.limitTextRender = pg.font.Font(None, 30).render(f"{self.modes[self.mode]}: {self.limitTime}, limite:{self.maxtime}", True, (255,255,255))              
               
     def gameOver(self):
         exit()

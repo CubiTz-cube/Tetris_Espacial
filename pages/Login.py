@@ -18,7 +18,6 @@ class Login():
             for line in lines:
                 self.usersData.append(line.decode()[:-2].split(" "))
 
-        print( self.usersData)
 
         self.userData = ["name/mail","password"]
         self.renderTextData = [self.font.render(str(data), True, (255,255,255)) for data in self.userData]  
