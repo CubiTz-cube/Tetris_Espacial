@@ -12,9 +12,16 @@ class Selection():
 
         self.buttonPlay = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 50), (150, 50)),
-        text="Inicar juego con el tablero actual",
+        text="Inicar",
         manager=self.manager,
         object_id="#buttonPlay")
+
+        self.inputModo = pgu.elements.UIDropDownMenu(
+        relative_rect=pg.Rect((300, 150), (150, 30)),
+        starting_option="Desactivado",
+        options_list=["Desactivado", "Tiempo", "Pieza"],
+        manager=self.manager,
+        object_id="#inputModo")
 
     def events(self):
         for event in pg.event.get():
@@ -25,7 +32,9 @@ class Selection():
                 #Reside screen
                 pass
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
-                self.changePage(5)
+                self.changePage(4)
+            if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_object_id == "#inputModo":
+                if self.inputModo.selected_option[0] == "Desactivado": pass
 
             self.manager.process_events(event)
 

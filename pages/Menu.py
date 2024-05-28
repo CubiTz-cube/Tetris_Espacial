@@ -12,9 +12,15 @@ class Menu():
 
         self.buttonPlay = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 50), (150, 50)),
-        text="Comenzar",
+        text="Jugar",
         manager=self.manager,
         object_id="#buttonPlay")
+
+        self.buttonLeader = pgu.elements.UIButton(
+        relative_rect=pg.Rect((300, 150), (150, 50)),
+        text="Estadisticas",
+        manager=self.manager,
+        object_id="#buttonLeader")
 
     def events(self):
         for event in pg.event.get():
@@ -25,7 +31,9 @@ class Menu():
                 #Reside screen
                 pass
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
-                self.changePage(4)
+                self.changePage(3)
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonLeader":
+                self.changePage(5)
 
             self.manager.process_events(event)
 

@@ -25,7 +25,7 @@ class Leaderboard():
                 #Reside screen
                 pass
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
-                self.changePage(1)
+                pass
 
             self.manager.process_events(event)
 
