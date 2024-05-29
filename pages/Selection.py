@@ -1,9 +1,12 @@
 import pygame as pg
 import pygame_gui as pgu
 
+import globalVariables as gv
+
 class Selection():
     def __init__(self, changePage) -> None:
         self.changePage = changePage
+
         self.screen = pg.display.get_surface()
         self.clock = pg.Clock()
         self.W = pg.display.Info().current_w
@@ -34,7 +37,7 @@ class Selection():
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
                 self.changePage(4)
             if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_object_id == "#inputModo":
-                if self.inputModo.selected_option[0] == "Desactivado": pass
+                if self.inputModo.selected_option[0] == "Desactivado": gv.limit = 33; print("33")
 
             self.manager.process_events(event)
 

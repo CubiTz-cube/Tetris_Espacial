@@ -26,16 +26,17 @@ N = 21
 M = 12
 board = np.full([N,M,4], [0, 0, 0, 0])
 
-page = 3
+page = 3 # cambiar esto por variables globales
 def changePage(newPage): global page; page = newPage
+
 pages = [
-    Login(changePage), # 0
-    Register(changePage), # 1
-    Menu(changePage), # 2
-    Selection(changePage), # 3
-    Game(changePage), # 4
-    Leaderboard(changePage), # 5
-    Config(changePage), # 6
+    Login(changePage),
+    Register(changePage),
+    Menu(changePage),
+    Selection(changePage),
+    Game(changePage),
+    Leaderboard(changePage),
+    Config(changePage)
 ]
 
 while True:

@@ -2,6 +2,7 @@ import pygame as pg
 import numpy as np
 
 from library.piece import *
+import globalVariables as gv
 
 from random import choice
 from copy import copy
@@ -27,11 +28,9 @@ class Game():
 
         self.changePage = changePage
         self.pieces = [piezaImax, piezaTmin, piezaO, piezaS, piezaSI, piezaL, piezaLI]#[piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar]
-        self.mode = 0
-        self.limit = 3
 
         self.modes = ["Inactivo", "Piezas","Tiempo"]
-        self.limitTextRender = pg.font.Font(None, 30).render(f"{self.modes[self.mode]}: {self.limit}", True, (255,255,255))
+        self.limitTextRender = pg.font.Font(None, 30).render(f"{self.modes[gv.mode]}: {gv.limit}", True, (255,255,255))
         
         self.lastTime = pg.time.get_ticks()
         self.screen = pg.display.get_surface()
@@ -47,24 +46,24 @@ class Game():
         self.tickPiece = 0
         self.tickKey = 0
         self.maxtime = 600
-        self.limitTime = 0
+        limitTime = 0
         self.move = [0,0]
-    def resize(self, height:int, width:int):
+    def changeSize(self, height:int, width:int):
         self.board.resize([height,width,4])
         self.dimY = self.board.shape[0]
         self.dimX = self.board.shape[1]
 
     def checkMode(self):
-        if self.limit <= 0: self.gameOver()
+        if gv.limit <= 0: self.gameOver()
         #lo intente mover para que funcioanra pero aun se cierra cuado se ejecuta
-        if self.mode == 1:
-            self.limit -= 1
-            self.limitTextRender = pg.font.Font(None, 30).render(f"{self.modes[self.mode]}: {self.limit}", True, (255,255,255))
-        elif self.mode == 2:  
-            self.limitTime+=1
-            if self.limitTime >= self.maxtime:
+        if gv.mode == 1:
+            gv.limit -= 1
+            self.limitTextRender = pg.font.Font(None, 30).render(f"{self.modes[gv.mode]}: {gv.limit}", True, (255,255,255))
+        elif gv.mode == 2:  
+            limitTime+=1
+            if limitTime >= self.maxtime:
                 self.gameOver()
-            self.limitTextRender = pg.font.Font(None, 30).render(f"{self.modes[self.mode]}: {self.limitTime}, limite:{self.maxtime}", True, (255,255,255))              
+            self.limitTextRender = pg.font.Font(None, 30).render(f"{self.modes[gv.mode]}: {limitTime}, limite:{self.maxtime}", True, (255,255,255))              
               
     def gameOver(self):
         exit()
@@ -157,7 +156,7 @@ class Game():
         self.lastTime = currentTime
 
         self.events()
-
+        print(gv.limit)
         self.drawBackground()
         self.drawBoard()
         self.drawText()
