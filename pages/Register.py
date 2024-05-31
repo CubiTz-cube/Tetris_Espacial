@@ -57,7 +57,7 @@ class Register():
         manager=self.manager,
         object_id="#buttonLogin")
 
-    def validate(str):
+    def validatePassword(str):
         valid = [True, True, True]
         if bool(re.search(r'[ñÑ]', str)): valid[0] = False
         if not (bool(re.search(r'[a-z]', str)) and bool(re.search(r'[A-Z]', str))): valid[0] = False
@@ -122,7 +122,7 @@ class Register():
     def backEnd(self):
         pass
 
-    def saveBinary(self, code:int):
+    def saveBinary(self):
         with open("./data/JUGADORES.bin", "ab") as file:
             for data in self.userData:
                 file.write((encrypt(str(data))+" ").encode())
