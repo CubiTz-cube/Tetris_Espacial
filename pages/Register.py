@@ -2,9 +2,10 @@ import pygame as pg
 import pygame_gui as pgu
 from library.encrypter import encrypt, decrypt
 
+import globalVariables as gv
+
 class Register():
-    def __init__(self, changePage) -> None:
-        self.changePage = changePage
+    def __init__(self) -> None:
         self.screen = pg.display.get_surface()
         self.clock = pg.Clock()
         self.W = pg.display.Info().current_w
@@ -88,10 +89,10 @@ class Register():
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
                 code = self.codeGenerator()
                 self.saveBinary(code)
-                self.changePage(2)
+                gv.actualPage = 2
             
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonLogin":
-                self.changePage(0)
+                gv.actualPage = 0
 
             self.manager.process_events(event)
 

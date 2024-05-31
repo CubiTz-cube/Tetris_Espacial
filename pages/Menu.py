@@ -1,9 +1,10 @@
 import pygame as pg
 import pygame_gui as pgu
 
+import globalVariables as gv
+
 class Menu():
-    def __init__(self, changePage) -> None:
-        self.changePage = changePage
+    def __init__(self) -> None:
         self.screen = pg.display.get_surface()
         self.clock = pg.Clock()
         self.W = pg.display.Info().current_w
@@ -31,9 +32,9 @@ class Menu():
                 #Reside screen
                 pass
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
-                self.changePage(3)
+                gv.actualPage = 4
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonLeader":
-                self.changePage(5)
+                gv.actualPage = 5
 
             self.manager.process_events(event)
 

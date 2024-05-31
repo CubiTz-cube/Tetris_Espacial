@@ -1,9 +1,10 @@
 import pygame as pg
 import pygame_gui as pgu
 
+import globalVariables as gv
+
 class Leaderboard():
-    def __init__(self, changePage) -> None:
-        self.changePage = changePage
+    def __init__(self) -> None:
         self.screen = pg.display.get_surface()
         self.clock = pg.Clock()
         self.W = pg.display.Info().current_w

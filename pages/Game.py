@@ -21,17 +21,13 @@ piezaTmin = Piece(shape_Tmin, 11)
 piezaImax = Piece(shape_Imax, 12)
 
 class Game():
-    def __init__(self,changePage):
+    def __init__(self):
         N = 21
         M = 12
         self.board = np.full([N,M,4], [0, 0, 0, 0])
 
-        self.changePage = changePage
         self.pieces = [piezaImax, piezaTmin, piezaO, piezaS, piezaSI, piezaL, piezaLI]#[piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar]
 
-        self.textRenderModeInactive = pg.font.Font(None, 30).render(f"Sin modo de juego", True, (255,255,255))
-        self.textRenderModeTime = pg.font.Font(None, 30).render(f"Tiempo restante:", True, (255,255,255))
-        self.textRenderModePiece = pg.font.Font(None, 30).render(f"Piezas restantes:", True, (255,255,255))
         
         self.lastTime = pg.time.get_ticks()
         self.screen = pg.display.get_surface()
@@ -43,10 +39,14 @@ class Game():
         #self.restPiece = 0
         #self.restTime = 0
         self.score = 0
-        self.scoreTextRender = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
         self.tickPiece = 0
         self.tickKey = 0
         self.move = [0,0]
+
+        self.textRenderModeInactive = pg.font.Font(gv.fontLekton, 30).render(f"Sin modo de juego", True, (255,255,255))
+        self.textRenderModeTime = pg.font.Font(gv.fontLekton, 30).render(f"Tiempo restante:", True, (255,255,255))
+        self.textRenderModePiece = pg.font.Font(gv.fontLekton, 30).render(f"Piezas restantes:", True, (255,255,255))
+        self.scoreTextRender = pg.font.Font(gv.fontLekton, 30).render(f"Score: {self.score}", True, (255,255,255))
     def changeSize(self, height:int, width:int):
         self.board.resize([height,width,4])
         self.dimY = self.board.shape[0]
@@ -54,7 +54,7 @@ class Game():
 
     def checkMode(self):
         if gv.limit <= 0: self.gameOver()
-        #lo intente mover para que funcioanra pero aun se cierra cuado se ejecuta
+        #Juan david separa esto en dos partes y usa solo la varialbes limit
         if gv.mode == 1:
             gv.limit -= 1
         elif gv.mode == 2:  
@@ -148,7 +148,7 @@ class Game():
                 self.gamePieces.append(self.pieceInGame.pop(0))
                 self.pieceInGame.append(copy(choice(self.pieces)))
                 
-            self.clearCompleteLines()
+                self.clearCompleteLines()
 
             self.pieceInGame[0].move(self.board,[0,1])
 

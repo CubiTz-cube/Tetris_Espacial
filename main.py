@@ -1,6 +1,7 @@
 import numpy as np
 import pygame as pg
 
+import globalVariables as gv
 from pages.Login import Login
 from pages.Register import Register
 from pages.Menu import Menu
@@ -26,20 +27,17 @@ N = 21
 M = 12
 board = np.full([N,M,4], [0, 0, 0, 0])
 
-page = 3 # cambiar esto por variables globales
-def changePage(newPage): global page; page = newPage
-
 pages = [
-    Login(changePage),
-    Register(changePage),
-    Menu(changePage),
-    Selection(changePage),
-    Game(changePage),
-    Leaderboard(changePage),
-    Config(changePage)
+    Login(),
+    Register(),
+    Menu(),
+    Selection(),
+    Game(),
+    Leaderboard(),
+    Config()
 ]
 
 while True:
-    pages[page].bucle()
+    pages[gv.actualPage].bucle()
     clock.tick(60)
     pg.display.flip()
