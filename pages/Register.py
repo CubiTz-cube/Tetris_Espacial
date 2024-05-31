@@ -1,6 +1,7 @@
 import pygame as pg
 import pygame_gui as pgu
 from library.encrypter import encrypt, decrypt
+import re
 
 import globalVariables as gv
 
@@ -56,35 +57,18 @@ class Register():
         manager=self.manager,
         object_id="#buttonLogin")
 
-    def validate_password(self, password:str) -> list[bool]:
-        special_chars = '*-=.'
-        valid_chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890*-=.'
-            
-        rule_1 = 8 <= len(password) <= 10
-        for i in password:
-            if i not in valid_chars or i in 'Ññ':
-                rule_1 = False
-                break
+    def validate(str):
+        valid = [True, True, True]
+        if bool(re.search(r'[ñÑ]', str)): valid[0] = False
+        if not (bool(re.search(r'[a-z]', str)) and bool(re.search(r'[A-Z]', str))): valid[0] = False
+        if bool(re.search(r'[áéíóúÁÉÍÓÚ]', str)): valid[0] = False
 
-        rule_2 = False
-        for i in password:
-            if i in special_chars:
-                rule_2 = True
-                break
+        if bool(re.search(r'[^\w=*-.]', str)): valid[1] = False
+        if not bool(re.search(r'[=*-.]', str)): valid[1] = False
 
-        rule_3 = True
-        for i in password:
-            if i not in valid_chars:
-                rule_3 = False
-                break
+        if bool(re.search(r'(.)\1\1\1', str)): valid[2] = False
 
-        rule_4 = True
-        for i in range(len(password) - 3):
-            if password[i] == password[i+1] == password[i+2] == password[i+3]:
-                rule_4 = False
-                break
-
-        return [rule_1, rule_2, rule_3, rule_4]
+        return valid
 
     def events(self):
         for event in pg.event.get():
