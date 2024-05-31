@@ -118,6 +118,23 @@ class Game():
                 if self.pieceInGame[1].shape[Y,X] != 0:
                     pg.draw.rect(self.screen, self.pieceInGame[1].color, (400 + X * 30, Y * 30, 30, 30))
 
+    def clearCompleteLines(self, Y):
+        if Y >= self.dimY:
+            return
+
+        completeLine = True
+        for X in range(self.dimX):
+            if self.board[Y,X][0] == 0:
+                completeLine = False
+
+        if completeLine:
+            self.score += 100
+            self.scoreTextRender = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
+            self.board[Y] = np.full([self.dimX,4], [0,0,0,0])
+            self.board[3:Y+1] = np.roll(self.board[3:Y+1], shift=1, axis=0)
+
+        self.clearCompleteLines(Y+1)
+                
     def backEnd(self, deltaTime:int):
         #self.checkMode() se cierra el juego
         if self.tickKey > 100 and self.move != [0,0]: 
@@ -132,18 +149,8 @@ class Game():
                 self.gamePieces.append(self.pieceInGame.pop(0))
                 self.pieceInGame.append(copy(choice(self.pieces)))
                 
-            #Cambiar por recursividad
-            for Y in range(3,self.dimY):
-                completeLine = True
-                for X in range(self.dimX):
-                    if self.board[Y,X][0] == 0:
-                        completeLine = False
-
-                if completeLine: 
-                    self.score += 100
-                    self.scoreTextRender = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
-                    self.board[Y] = np.full([self.dimX,4], [0,0,0,0])
-                    self.board[3:Y+1] = np.roll(self.board[3:Y+1], shift=1, axis=0)
+            #Llamada funcion recursiva
+            self.clearCompleteLines(0)
 
             self.pieceInGame[0].move(self.board,[0,1])
 
