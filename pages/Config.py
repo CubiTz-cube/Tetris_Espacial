@@ -13,7 +13,7 @@ class Config():
 
         self.buttonPlay = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 50), (150, 50)),
-        text="Inicar juego con el tablero actual",
+        text="Regresar al menu",
         manager=self.manager,
         object_id="#buttonPlay")
 
@@ -26,7 +26,7 @@ class Config():
                 #Reside screen
                 pass
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
-                gv.actualPage = 4
+                gv.actualPage = 2
 
             self.manager.process_events(event)
 

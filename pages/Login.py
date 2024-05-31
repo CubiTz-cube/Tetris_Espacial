@@ -10,46 +10,41 @@ class Login():
         self.W = pg.display.Info().current_w
         self.H = pg.display.Info().current_h
         self.manager = pgu.UIManager((self.W,self.H))
-        self.font = pg.font.Font(None, 32)
         self.mouseUP = False
 
         self.usersData = []
         with open("./data/JUGADORES.bin", "rb") as file:
             lines = file.readlines()
             for line in lines:
-                self.usersData.append(line.decode()[:-2].split(" "))
+                self.usersData.append(line.decode().replace("\n", "").split(" "))
 
 
-        self.userData = ["name/mail","password"]
-        self.renderTextData = [self.font.render(str(data), True, (255,255,255)) for data in self.userData]  
+        self.userData = ["mail","password"]
+        self.renderTextData = [pg.font.Font(None, 32).render(str(data), True, (255,255,255)) for data in self.userData]  
         self.renderTextInvalid = [
-            self.font.render("User not found", True, (255,255,255)),
-            self.font.render("Password incorrect", True, (255,255,255)),
-            self.font.render("", True, (255,255,255))
+            pg.font.Font(None, 32).render("User not found", True, (255,255,255)),
+            pg.font.Font(None, 32).render("Password incorrect", True, (255,255,255)),
+            pg.font.Font(None, 32).render("", True, (255,255,255))
         ] 
         self.invalid = 2
 
         self.inputName = pgu.elements.UITextEntryLine(
         relative_rect=pg.Rect((250, 0), (500, 30)),
-        manager=self.manager,
-        object_id="#inputName")
+        manager=self.manager)
 
         self.inputPassword = pgu.elements.UITextEntryLine(
         relative_rect=pg.Rect((250, 150), (500, 30)),
-        manager=self.manager,
-        object_id="#inputPassword")
+        manager=self.manager)
 
         self.buttonPlay = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 250), (100, 50)),
         text="Play",
-        manager=self.manager,
-        object_id="#buttonPlay")
+        manager=self.manager)
 
         self.buttonRegister = pgu.elements.UIButton(
         relative_rect=pg.Rect((450, 250), (100, 50)),
         text="Register",
-        manager=self.manager,
-        object_id="#buttonRegister")
+        manager=self.manager)
 
     def events(self):
         for event in pg.event.get():
@@ -61,18 +56,18 @@ class Login():
                 pass
             if event.type == pg.MOUSEBUTTONUP:
                 self.mouseUP = True
-            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_object_id == "#inputName":
+            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputName:
                 self.userData[0] = self.inputName.get_text()
-                self.renderTextData[0] = self.font.render(self.userData[0], True, (255,255,255))
+                self.renderTextData[0] = pg.font.Font(None, 32).render(self.userData[0], True, (255,255,255))
 
-            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_object_id == "#inputPassword":
+            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputPassword:
                 self.userData[1] = self.inputPassword.get_text()
-                self.renderTextData[1] = self.font.render(self.userData[1], True, (255,255,255))
+                self.renderTextData[1] = pg.font.Font(None, 32).render(self.userData[1], True, (255,255,255))
 
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonRegister":
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonRegister:
                 gv.actualPage = 1
 
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay:
                 check = self.checkUser()
                 if check == 2:
                     gv.actualPage = 2

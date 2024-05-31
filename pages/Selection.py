@@ -15,15 +15,18 @@ class Selection():
         self.buttonPlay = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 50), (150, 50)),
         text="Inicar",
-        manager=self.manager,
-        object_id="#buttonPlay")
+        manager=self.manager)
 
-        self.inputModo = pgu.elements.UIDropDownMenu(
-        relative_rect=pg.Rect((300, 150), (150, 30)),
+        self.inputMode = pgu.elements.UIDropDownMenu(
+        relative_rect=pg.Rect((300, 100), (150, 30)),
         starting_option="Desactivado",
         options_list=["Desactivado", "Tiempo", "Pieza"],
-        manager=self.manager,
-        object_id="#inputModo")
+        manager=self.manager)
+
+        self.inputLimit = pgu.elements.UITextEntryLine(
+        relative_rect=pg.Rect((300, 150), (150, 30)),
+        initial_text="0",
+        manager=self.manager)
 
     def events(self):
         for event in pg.event.get():
@@ -33,18 +36,24 @@ class Selection():
             if event.type == pg.VIDEORESIZE:
                 #Reside screen
                 pass
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay:
                 gv.actualPage = 4
-            if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_object_id == "#inputModo":
-                if self.inputModo.selected_option[0] == "Desactivado": 
+            if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputMode:
+                if self.inputMode.selected_option[0] == "Desactivado": 
                     gv.limit = 0
                     gv.mode = 0
-                if self.inputModo.selected_option[0] == "Tiempo": 
+                if self.inputMode.selected_option[0] == "Tiempo": 
                     gv.limit = 60
                     gv.mode = 1
-                if self.inputModo.selected_option[0] == "Pieza": 
+                if self.inputMode.selected_option[0] == "Pieza": 
                     gv.limit = 10
                     gv.mode = 2
+            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputLimit:
+                try:
+                    gv.limit = int(self.inputLimit.get_text())
+                    print(gv.limit)
+                except:
+                    pass
 
             self.manager.process_events(event)
 
