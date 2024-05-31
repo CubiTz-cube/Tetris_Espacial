@@ -59,13 +59,16 @@ class Register():
 
     def validatePassword(str):
         valid = [True, True, True]
+        # No tiene ñ, tiene almenos una mayuscura y minuscula no tiene acentos ni caracteres especiales aparte de los permitidos (*=.-)
         if bool(re.search(r'[ñÑ]', str)): valid[0] = False
         if not (bool(re.search(r'[a-z]', str)) and bool(re.search(r'[A-Z]', str))): valid[0] = False
         if bool(re.search(r'[áéíóúÁÉÍÓÚ]', str)): valid[0] = False
+        if bool(re.search(r'[^\w=*-.]', str)): valid[0] = False
 
-        if bool(re.search(r'[^\w=*-.]', str)): valid[1] = False
+        # Tiene al menos uno de los caracteres (*=.-)
         if not bool(re.search(r'[=*-.]', str)): valid[1] = False
 
+        # No se repite 3 veces el mismo caracter
         if bool(re.search(r'(.)\1\1\1', str)): valid[2] = False
 
         return valid
