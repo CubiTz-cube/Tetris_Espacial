@@ -29,8 +29,9 @@ class Game():
         self.changePage = changePage
         self.pieces = [piezaImax, piezaTmin, piezaO, piezaS, piezaSI, piezaL, piezaLI]#[piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar]
 
-        self.modes = ["Inactivo", "Piezas","Tiempo"]
-        self.limitTextRender = pg.font.Font(None, 30).render(f"{self.modes[gv.mode]}: {gv.limit}", True, (255,255,255))
+        self.textRenderModeInactive = pg.font.Font(None, 30).render(f"Sin modo de juego", True, (255,255,255))
+        self.textRenderModeTime = pg.font.Font(None, 30).render(f"Tiempo restante:", True, (255,255,255))
+        self.textRenderModePiece = pg.font.Font(None, 30).render(f"Piezas restantes:", True, (255,255,255))
         
         self.lastTime = pg.time.get_ticks()
         self.screen = pg.display.get_surface()
@@ -45,8 +46,6 @@ class Game():
         self.scoreTextRender = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
         self.tickPiece = 0
         self.tickKey = 0
-        self.maxtime = 600
-        limitTime = 0
         self.move = [0,0]
     def changeSize(self, height:int, width:int):
         self.board.resize([height,width,4])
@@ -58,12 +57,10 @@ class Game():
         #lo intente mover para que funcioanra pero aun se cierra cuado se ejecuta
         if gv.mode == 1:
             gv.limit -= 1
-            self.limitTextRender = pg.font.Font(None, 30).render(f"{self.modes[gv.mode]}: {gv.limit}", True, (255,255,255))
         elif gv.mode == 2:  
-            limitTime+=1
-            if limitTime >= self.maxtime:
+            gv.limit -=1
+            if gv.limit <= 0:
                 self.gameOver()
-            self.limitTextRender = pg.font.Font(None, 30).render(f"{self.modes[gv.mode]}: {limitTime}, limite:{self.maxtime}", True, (255,255,255))              
               
     def gameOver(self):
         exit()
@@ -103,7 +100,9 @@ class Game():
 
     def drawText(self):
         self.screen.blit(self.scoreTextRender, (400, 100))
-        self.screen.blit(self.limitTextRender, (400, 150))
+        if gv.mode == 0: self.screen.blit(self.textRenderModeInactive, (400, 150))
+        elif gv.mode == 1: self.screen.blit(self.textRenderModeTime, (400, 150))
+        else: self.screen.blit(self.textRenderModePiece, (400, 150))
 
     def drawBoard(self):
         for Y in range(3, self.dimY):
@@ -118,7 +117,7 @@ class Game():
                 if self.pieceInGame[1].shape[Y,X] != 0:
                     pg.draw.rect(self.screen, self.pieceInGame[1].color, (400 + X * 30, Y * 30, 30, 30))
 
-    def clearCompleteLines(self, Y):
+    def clearCompleteLines(self, Y = 0):
         if Y >= self.dimY:
             return
 
@@ -149,8 +148,7 @@ class Game():
                 self.gamePieces.append(self.pieceInGame.pop(0))
                 self.pieceInGame.append(copy(choice(self.pieces)))
                 
-            #Llamada funcion recursiva
-            self.clearCompleteLines(0)
+            self.clearCompleteLines()
 
             self.pieceInGame[0].move(self.board,[0,1])
 
@@ -163,7 +161,6 @@ class Game():
         self.lastTime = currentTime
 
         self.events()
-        print(gv.limit)
         self.drawBackground()
         self.drawBoard()
         self.drawText()

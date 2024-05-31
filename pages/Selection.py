@@ -37,7 +37,15 @@ class Selection():
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
                 self.changePage(4)
             if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_object_id == "#inputModo":
-                if self.inputModo.selected_option[0] == "Desactivado": gv.limit = 33; print("33")
+                if self.inputModo.selected_option[0] == "Desactivado": 
+                    gv.limit = 0
+                    gv.mode = 0
+                if self.inputModo.selected_option[0] == "Tiempo": 
+                    gv.limit = 60
+                    gv.mode = 1
+                if self.inputModo.selected_option[0] == "Pieza": 
+                    gv.limit = 10
+                    gv.mode = 2
 
             self.manager.process_events(event)
 
