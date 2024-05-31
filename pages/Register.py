@@ -15,8 +15,6 @@ class Register():
 
         self.userData = ["code","name", "lastName", "state", "password", "mail", []]
         self.renderText = [self.font.render(str(data), True, (255,255,255)) for data in self.userData]
-        
-            
 
         self.inputName = pgu.elements.UITextEntryLine(
         relative_rect=pg.Rect((250, 0), (500, 30)),
@@ -109,12 +107,16 @@ class Register():
     def backEnd(self):
         pass
 
-    def codeGenerator(self):
-        #hacerlo de forma recursiva
-        code = 0
-        for index, value in enumerate(self.userData):
-            code += len(value)*index
-        
+    #FUNCION RECURSIVA CALCULAR CODIGO UNICO
+    def calculate_code(data, index=0):
+        if not data:
+            return 0
+        else:
+            value = data[0]
+            code = len(value) * index
+            return code + calculate_code(data[1:], index + 1)
+
+        code = calculate_code(self.userData)
         self.userData[0] = str(code)
     
     def saveBinary(self, code:int):
