@@ -69,6 +69,29 @@ class Register():
         if bool(re.search(r'(.)\1\1\1', str)): valid[2] = False
 
         return valid
+    
+    def validate_email(email):
+        valid = [False, False, False, False, False, False]
+
+        if "@" in email:
+            valid[0] = True
+
+        if valid[0] and ".com" in email.split("@")[1]:
+            valid[1] = True
+
+        if re.match("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", email):
+            valid[2] = True
+
+        if not (email.startswith(".") or email.endswith(".") or email.startswith("@") or email.endswith("@")):
+            valid[3] = True
+
+        if ".." not in email and "@@" not in email and ".@" not in email and "@." not in email:
+            valid[4] = True
+
+        if email.endswith(".com") and email.count(".com") == 1:
+            valid[5] = True
+
+        return valid
 
     def events(self):
         for event in pg.event.get():
