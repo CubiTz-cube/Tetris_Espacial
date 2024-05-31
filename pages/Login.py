@@ -104,16 +104,6 @@ class Login():
                 elif self.userData[1] != user[4]:
                     return 1
 
-    #FUNCION RECURSIVA GENERADOR DE CODIGO UNICO
-    def codeGenerator(data, index):
-        if index >= len(data):
-            return 0
-        else:
-            return len(data[index]) * index + codeGenerator(data, index + 1)
-
-        code = codeGenerator(self.userData, 0)
-        self.userData[0] = str(code)
-
     def saveBinary(self, code:int):
         with open("./data/JUGADORES.bin", "rb") as file:
                 preInfo:list[bin] = file.readlines()
