@@ -20,42 +20,66 @@ class Register():
 
         self.inputName = pgu.elements.UITextEntryLine(
         relative_rect=pg.Rect((250, 0), (500, 30)),
-        manager=self.manager,
-        object_id="#inputName")
-
-        self.inputLastName = pgu.elements.UITextEntryLine(
-        relative_rect=pg.Rect((250, 50), (500, 30)),
-        manager=self.manager,
-        object_id="#inputLastName")
+        manager=self.manager)
 
         self.inputState = pgu.elements.UIDropDownMenu(
         relative_rect=pg.Rect((250, 100), (500, 30)),
         starting_option="Bolivar",
         options_list=["Bolivar", "Anzoategui", "Carabobo"],
-        manager=self.manager,
-        object_id="#inputState")
+        manager=self.manager)
 
         self.inputPassword = pgu.elements.UITextEntryLine(
         relative_rect=pg.Rect((250, 150), (500, 30)),
-        manager=self.manager,
-        object_id="#inputPassword")
+        manager=self.manager)
 
         self.inputMail = pgu.elements.UITextEntryLine(
         relative_rect=pg.Rect((250, 200), (500, 30)),
-        manager=self.manager,
-        object_id="#inputMail")
+        manager=self.manager)
 
         self.buttonPlay = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 250), (100, 50)),
         text="Play",
-        manager=self.manager,
-        object_id="#buttonPlay")
+        manager=self.manager)
 
         self.buttonLogin = pgu.elements.UIButton(
         relative_rect=pg.Rect((450, 250), (100, 50)),
         text="Login",
-        manager=self.manager,
-        object_id="#buttonLogin")
+        manager=self.manager)
+
+    def events(self):
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                quit()
+            if event.type == pg.VIDEORESIZE:
+                #Reside screen
+                pass
+            if event.type == pg.MOUSEBUTTONUP:
+                self.mouseUP = True
+            if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputName:
+                self.userData[1] = self.inputName.get_text()
+                self.renderText[1] = self.font.render(self.userData[1], True, (255,255,255))
+
+            if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputState:
+                self.userData[3] = self.inputState.selected_option[0]
+                self.renderText[3] = self.font.render(self.userData[3], True, (255,255,255))
+
+            if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputPassword:
+                self.userData[4] = self.inputPassword.get_text()
+                self.renderText[4] = self.font.render(self.userData[4], True, (255,255,255))
+
+            if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputMail:
+                self.userData[5] = self.inputMail.get_text()
+                self.renderText[5] = self.font.render(self.userData[5], True, (255,255,255))
+
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay:
+                self.saveBinary()
+                gv.actualPage = 2
+            
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLogin:
+                gv.actualPage = 0
+
+            self.manager.process_events(event)
 
     def validatePassword(str):
         valid = [True, True, True]
@@ -74,68 +98,28 @@ class Register():
         return valid
     
     def validate_email(email):
-        valid = [False, False, False, False, False, False]
+        valid = False
 
         if "@" in email:
-            valid[0] = True
+            valid = True
 
         if valid[0] and ".com" in email.split("@")[1]:
-            valid[1] = True
+            valid = True
 
         if re.match("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", email):
-            valid[2] = True
+            valid = True
 
         if not (email.startswith(".") or email.endswith(".") or email.startswith("@") or email.endswith("@")):
-            valid[3] = True
+            valid = True
 
         if ".." not in email and "@@" not in email and ".@" not in email and "@." not in email:
-            valid[4] = True
+            valid = True
 
         if email.endswith(".com") and email.count(".com") == 1:
-            valid[5] = True
+            valid = True
 
         return valid
-
-    def events(self):
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()
-                quit()
-            if event.type == pg.VIDEORESIZE:
-                #Reside screen
-                pass
-            if event.type == pg.MOUSEBUTTONUP:
-                self.mouseUP = True
-            if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#inputName":
-                self.userData[1] = self.inputName.get_text()
-                self.renderText[1] = self.font.render(self.userData[1], True, (255,255,255))
-
-            if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#inputLastName":
-                self.userData[2] = self.inputLastName.get_text()
-                self.renderText[2] = self.font.render(self.userData[2], True, (255,255,255))
-
-            if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_object_id == "#inputState":
-                self.userData[3] = self.inputState.selected_option[0]
-                self.renderText[3] = self.font.render(self.userData[3], True, (255,255,255))
-
-            if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#inputPassword":
-                self.userData[4] = self.inputPassword.get_text()
-                self.renderText[4] = self.font.render(self.userData[4], True, (255,255,255))
-
-            if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_object_id == "#inputMail":
-                self.userData[5] = self.inputMail.get_text()
-                self.renderText[5] = self.font.render(self.userData[5], True, (255,255,255))
-
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
-                code = self.codeGenerator()
-                self.saveBinary(code)
-                gv.actualPage = 2
-            
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonLogin":
-                gv.actualPage = 0
-
-            self.manager.process_events(event)
-
+    
     def frontEnd(self):
         self.screen.fill((0,0,0))
 
