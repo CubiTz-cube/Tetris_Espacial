@@ -56,7 +56,7 @@ class Register():
         manager=self.manager,
         object_id="#buttonLogin")
 
-    def validate_password(self, password):
+    def validate_password(self, password:str) -> list[bool]:
         special_chars = '*-=.'
         valid_chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890*-=.'
             
@@ -138,24 +138,8 @@ class Register():
     def backEnd(self):
         pass
 
-    #FUNCION RECURSIVA CALCULAR CODIGO UNICO
-    def calculate_code(data, index=0):
-        if not data:
-            return 0
-        else:
-            value = data[0]
-            code = len(value) * index
-            return code + calculate_code(data[1:], index + 1)
-
-        code = calculate_code(self.userData)
-        self.userData[0] = str(code)
-    
     def saveBinary(self, code:int):
-        with open("./data/JUGADORES.bin", "rb") as file:
-                preInfo:list[bin] = file.readlines()
-
-        with open("./data/JUGADORES.bin", "wb") as file:
-            file.writelines(preInfo)
+        with open("./data/JUGADORES.bin", "ab") as file:
             for data in self.userData:
                 file.write((encrypt(str(data))+" ").encode())
             file.write(b"\n")
