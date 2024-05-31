@@ -59,7 +59,7 @@ class Register():
 
     def validatePassword(str):
         valid = [True, True, True]
-       
+        # No tiene ñ, tiene almenos una mayuscula y minuscula no tiene acentos ni caracteres especiales aparte de los permitidos (*=.-)
         if bool(re.search(r'[ñÑ]', str)): valid[0] = False
         if not (bool(re.search(r'[a-z]', str)) and bool(re.search(r'[A-Z]', str))): valid[0] = False
         if bool(re.search(r'[áéíóúÁÉÍÓÚ]', str)): valid[0] = False
