@@ -14,7 +14,7 @@ class Selection():
 
         self.buttonPlay = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 50), (150, 50)),
-        text="Inicar",
+        text="Iniciar",
         manager=self.manager)
 
         self.inputMode = pgu.elements.UIDropDownMenu(
