@@ -12,10 +12,9 @@ class Register():
         self.W = pg.display.Info().current_w
         self.H = pg.display.Info().current_h
         self.manager = pgu.UIManager((self.W,self.H))
-        self.font = pg.font.Font(None, 32)
-        self.mouseUP = False
+        self.font = pg.font.Font(gv.fontLekton, 32)
 
-        self.userData = ["code","name", "lastName", "state", "password", "mail", []]
+        self.userData = [""]
         self.renderText = [self.font.render(str(data), True, (255,255,255)) for data in self.userData]
 
         self.inputName = pgu.elements.UITextEntryLine(
@@ -54,8 +53,6 @@ class Register():
             if event.type == pg.VIDEORESIZE:
                 #Reside screen
                 pass
-            if event.type == pg.MOUSEBUTTONUP:
-                self.mouseUP = True
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputName:
                 self.userData[1] = self.inputName.get_text()
                 self.renderText[1] = self.font.render(self.userData[1], True, (255,255,255))

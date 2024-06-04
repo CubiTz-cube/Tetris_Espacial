@@ -26,18 +26,17 @@ class Game():
         M = 12
         self.board = np.full([N,M,4], [0, 0, 0, 0])
 
-        self.pieces = [piezaImax, piezaTmin, piezaO, piezaS, piezaSI, piezaL, piezaLI]#[piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar]
+        self.pieces = [piezaImax, piezaTmin, piezaO, piezaS, piezaSI, piezaL, piezaLI]#[piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar] piezas que pode franklin
 
-        
         self.lastTime = pg.time.get_ticks()
         self.screen = pg.display.get_surface()
         self.dimY = self.board.shape[0]
         self.dimX = self.board.shape[1]
+
+        self.gameOverScene = False
  
         self.pieceInGame = [copy(choice(self.pieces)) for _ in range(2)]
-        self.gamePieces:list[Piece] = []
-        #self.restPiece = 0
-        #self.restTime = 0
+        self.pieceSaved = None
         self.score = 0
         self.tickPiece = 0
         self.tickKey = 0
@@ -47,6 +46,7 @@ class Game():
         self.textRenderModeTime = pg.font.Font(gv.fontLekton, 30).render(f"Tiempo restante:", True, (255,255,255))
         self.textRenderModePiece = pg.font.Font(gv.fontLekton, 30).render(f"Piezas restantes:", True, (255,255,255))
         self.scoreTextRender = pg.font.Font(gv.fontLekton, 30).render(f"Score: {self.score}", True, (255,255,255))
+
     def changeSize(self, height:int, width:int):
         self.board.resize([height,width,4])
         self.dimY = self.board.shape[0]
@@ -63,6 +63,7 @@ class Game():
                 self.gameOver()
               
     def gameOver(self):
+        #self.gameOverScene = True
         exit()
 
     def events(self):
@@ -145,7 +146,7 @@ class Game():
             if self.pieceInGame[0].static: 
                 if (self.pieceInGame[0].y <= 3):
                     self.gameOver()
-                self.gamePieces.append(self.pieceInGame.pop(0))
+                self.pieceInGame.pop(0)
                 self.pieceInGame.append(copy(choice(self.pieces)))
                 
                 self.clearCompleteLines()
