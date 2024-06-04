@@ -128,7 +128,7 @@ class Game():
                 completeLine = False
 
         if completeLine:
-            self.score += 100
+            self.score += (self.board[Y][X][0]) * (100)
             self.scoreTextRender = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
             self.board[Y] = np.full([self.dimX,4], [0,0,0,0])
             self.board[3:Y+1] = np.roll(self.board[3:Y+1], shift=1, axis=0)
@@ -167,4 +167,4 @@ class Game():
         self.drawText()
 
         self.backEnd(deltaTime)
-    
+        actualPlayer = self.score
