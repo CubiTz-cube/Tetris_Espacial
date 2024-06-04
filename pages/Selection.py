@@ -51,7 +51,6 @@ class Selection():
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputLimit:
                 try:
                     gv.limit = int(self.inputLimit.get_text())
-                    print(gv.limit)
                 except:
                     pass
 

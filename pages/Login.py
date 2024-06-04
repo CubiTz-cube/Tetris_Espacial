@@ -10,31 +10,33 @@ class Login():
         self.W = pg.display.Info().current_w
         self.H = pg.display.Info().current_h
         self.manager = pgu.UIManager((self.W,self.H))
-        self.mouseUP = False
 
-        self.usersData = []
+        self.user = ["", ""]
+        self.allUsers = []
         with open("./data/JUGADORES.bin", "rb") as file:
             lines = file.readlines()
             for line in lines:
-                self.usersData.append(line.decode().replace("\n", "").split(" "))
+                self.allUsers.append(line.decode().replace("\n", "").split(" "))
 
+        print(self.allUsers)
 
-        self.userData = ["mail","password"]
-        self.renderTextData = [pg.font.Font(None, 32).render(str(data), True, (255,255,255)) for data in self.userData]  
+        self.userInputs = ["mail","password"]
+        self.renderTextData = [pg.font.Font(None, 32).render(str(inpu), True, (255,255,255)) for inpu in self.userInputs]  
         self.renderTextInvalid = [
-            pg.font.Font(None, 32).render("User not found", True, (255,255,255)),
+            pg.font.Font(None, 32).render("", True, (255,255,255)),
+            pg.font.Font(None, 32).render("Correo no encontrado", True, (255,255,255)),
             pg.font.Font(None, 32).render("Password incorrect", True, (255,255,255)),
-            pg.font.Font(None, 32).render("", True, (255,255,255))
         ] 
-        self.invalid = 2
+        self.invalidText = 0
 
-        self.inputName = pgu.elements.UITextEntryLine(
-        relative_rect=pg.Rect((250, 0), (500, 30)),
-        manager=self.manager)
-
-        self.inputPassword = pgu.elements.UITextEntryLine(
-        relative_rect=pg.Rect((250, 150), (500, 30)),
-        manager=self.manager)
+        self.userInputsUI = []
+        for index, inpu in enumerate(self.userInputs):
+            self.userInputsUI.append(
+                pgu.elements.UITextEntryLine(
+                    relative_rect=pg.Rect((250, 50*index), (500, 30)),
+                    manager=self.manager
+                )
+            )
 
         self.buttonPlay = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 250), (100, 50)),
@@ -54,27 +56,39 @@ class Login():
             if event.type == pg.VIDEORESIZE:
                 #Reside screen
                 pass
-            if event.type == pg.MOUSEBUTTONUP:
-                self.mouseUP = True
-            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputName:
-                self.userData[0] = self.inputName.get_text()
-                self.renderTextData[0] = pg.font.Font(None, 32).render(self.userData[0], True, (255,255,255))
+            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.userInputsUI[0]:
+                self.user[0] = self.userInputsUI[0].get_text()
+                self.renderTextData[0] = pg.font.Font(None, 32).render(self.user[0], True, (255,255,255))
 
-            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputPassword:
-                self.userData[1] = self.inputPassword.get_text()
-                self.renderTextData[1] = pg.font.Font(None, 32).render(self.userData[1], True, (255,255,255))
+            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.userInputsUI[1]:
+                self.user[1] = self.userInputsUI[1].get_text()
+                self.renderTextData[1] = pg.font.Font(None, 32).render(self.user[1], True, (255,255,255))
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonRegister:
                 gv.actualPage = 1
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay:
-                check = self.checkUser()
-                if check == 2:
+                result = self.searchUser()
+                if all(result):
                     gv.actualPage = 2
+                elif result[0] and not result[1]:
+                    self.invalidText = 2
                 else:
-                    self.invalid = check
+                    self.invalidText = 1
 
             self.manager.process_events(event)
+
+    def searchUser(self):
+        userFind = False
+        passwordFind = False
+
+        for outer in self.allUsers:
+            if (outer[0] == self.user[0]):
+                userFind = True
+                if (outer[1] == self.user[1]):
+                    passwordFind = True
+
+        return [userFind, passwordFind]
 
     def frontEnd(self):
         self.screen.fill((0,0,0))
@@ -85,30 +99,7 @@ class Login():
         for index, text in enumerate(self.renderTextData):
             self.screen.blit(text, (0, 50*index))
 
-        self.screen.blit(self.renderTextInvalid[self.invalid], (0,100))
-
-    def checkUser(self):
-        if len(self.usersData) == 0: return 0
-        for user in self.usersData:
-            print(user[1], user[5], user[4])
-            print(self.userData[0], self.userData[1])
-            if (self.userData[0] == user[1] or self.userData[1] == user[5]) and self.userData[1] == user[4]:
-                return 2
-            else:
-                if self.userData[0] != user[1] and self.userData[1] != user[5]:
-                    return 0
-                elif self.userData[1] != user[4]:
-                    return 1
-
-    def saveBinary(self, code:int):
-        with open("./data/JUGADORES.bin", "rb") as file:
-                preInfo:list[bin] = file.readlines()
-
-        with open("./data/JUGADORES.bin", "wb") as file:
-            file.writelines(preInfo)
-            for data in self.userData:
-                file.write((str(data)+" ").encode())
-            file.write(b"\n")
+        self.screen.blit(self.renderTextInvalid[self.invalidText], (0, 150))
     
     def bucle(self):
         self.events()

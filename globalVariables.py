@@ -1,5 +1,5 @@
 # Pages
-actualPage = 3
+actualPage = 0
 
 #Game
 mode = 0
