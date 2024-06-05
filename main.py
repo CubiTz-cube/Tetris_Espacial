@@ -10,8 +10,6 @@ from pages.Game import Game
 from pages.Leaderboard import Leaderboard
 from pages.Config import Config
 
-#Reorganizar los saltos a paginas ya que cambie los indices de estas
-
 try:
     open("./data/JUGADORES.bin", "x")
 except:
