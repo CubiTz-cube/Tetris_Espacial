@@ -1,10 +1,11 @@
+actualPlayer = []
+
 # Pages
-actualPage = 0
+actualPage = 3
 
 #Game
 mode = 0
 limit = 0
-actualPlayer = 0
 
 #fonts
 fontLekton = "./public/fonts/Lekton-Regular.ttf"
