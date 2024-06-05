@@ -3,6 +3,8 @@ import pygame_gui as pgu
 
 import globalVariables as gv
 
+from library.dataFormating import getAllUsers
+
 class Login():
     def __init__(self) -> None:
         self.screen = pg.display.get_surface()
@@ -12,13 +14,10 @@ class Login():
         self.manager = pgu.UIManager((self.W,self.H))
 
         self.user = ["", ""]
-        self.allUsers = []
-        with open("./data/JUGADORES.bin", "rb") as file:
-            lines = file.readlines()
-            for line in lines:
-                self.allUsers.append(line.decode().replace("\n", "").split(" "))
+        self.allUsers = getAllUsers(gv.fileUsers)
 
-        print(self.allUsers)
+        for user in self.allUsers:
+            print(user)
 
         self.userInputs = ["mail","password"]
         self.renderTextData = [pg.font.Font(None, 32).render(str(inpu), True, (255,255,255)) for inpu in self.userInputs]  
@@ -30,7 +29,7 @@ class Login():
         self.invalidText = 0
 
         self.userInputsUI = []
-        for index, inpu in enumerate(self.userInputs):
+        for index, inputUI in enumerate(self.userInputs):
             self.userInputsUI.append(
                 pgu.elements.UITextEntryLine(
                     relative_rect=pg.Rect((250, 50*index), (500, 30)),
@@ -87,6 +86,7 @@ class Login():
                 userFind = True
                 if (outer[1] == self.user[1]):
                     passwordFind = True
+                    gv.actualUser = outer
 
         return [userFind, passwordFind]
 

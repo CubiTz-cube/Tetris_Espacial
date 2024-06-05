@@ -70,7 +70,7 @@ class Register():
                 self.renderText[5] = self.font.render(self.userData[5], True, (255,255,255))
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay:
-                self.saveBinary()
+                self.saveUser()
                 gv.actualPage = 2
             
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLogin:
@@ -129,8 +129,8 @@ class Register():
     def backEnd(self):
         pass
 
-    def saveBinary(self):
-        with open("./data/JUGADORES.bin", "ab") as file:
+    def saveUser(self):
+        with open(gv.fileUsers, "ab") as file:
             for data in self.userData:
                 file.write((encrypt(str(data))+" ").encode())
             file.write(b"\n")

@@ -28,6 +28,16 @@ class Selection():
         initial_text="0",
         manager=self.manager)
 
+        self.inputLimit = pgu.elements.UITextEntryLine(
+        relative_rect=pg.Rect((350, 200), (150, 30)),
+        initial_text="12",
+        manager=self.manager)
+
+        self.inputLimit = pgu.elements.UITextEntryLine(
+        relative_rect=pg.Rect((250, 200), (150, 30)),
+        initial_text="21",
+        manager=self.manager)
+
     def events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:

@@ -14,20 +14,22 @@ class Menu():
         self.buttonPlay = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 50), (150, 50)),
         text="Jugar",
-        manager=self.manager,
-        object_id="#buttonPlay")
+        manager=self.manager)
 
         self.buttonLeader = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 100), (150, 50)),
         text="Estadisticas",
-        manager=self.manager,
-        object_id="#buttonLeader")
+        manager=self.manager)
 
         self.buttonConfig = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 150), (150, 50)),
         text="Configuracion",
-        manager=self.manager,
-        object_id="#buttonConfig")
+        manager=self.manager)
+
+        self.buttonExit = pgu.elements.UIButton(
+        relative_rect=pg.Rect((300, 200), (150, 50)),
+        text="Salir",
+        manager=self.manager)
 
     def events(self):
         for event in pg.event.get():
@@ -37,12 +39,15 @@ class Menu():
             if event.type == pg.VIDEORESIZE:
                 #Reside screen
                 pass
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay:
                 gv.actualPage = 3
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonLeader":
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLeader:
                 gv.actualPage = 5
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonConfig":
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonConfig:
                 gv.actualPage = 6
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonExit:
+                pg.quit()
+                quit()
 
             self.manager.process_events(event)
 
