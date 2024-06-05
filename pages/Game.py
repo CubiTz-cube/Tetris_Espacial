@@ -42,6 +42,7 @@ class Game():
         self.tickKey = 0
         self.move = [0,0]
 
+        self.textRenderNumber = [pg.font.Font(gv.fontLekton, 30).render(f"{i-2}", True, (0,0,0)) for i in range(2,15)]
         self.textRenderModeInactive = pg.font.Font(gv.fontLekton, 30).render(f"Sin modo de juego", True, (255,255,255))
         self.textRenderModeTime = pg.font.Font(gv.fontLekton, 30).render(f"Tiempo restante:", True, (255,255,255))
         self.textRenderModePiece = pg.font.Font(gv.fontLekton, 30).render(f"Piezas restantes:", True, (255,255,255))
@@ -110,6 +111,7 @@ class Game():
             for X in range(self.dimX):
                 if self.board[Y,X][0] != 0:
                     pg.draw.rect(self.screen, (self.board[Y,X][1],self.board[Y,X][2],self.board[Y,X][3]), (X * 30, (Y-3) * 30, 30, 30))
+                    self.screen.blit(self.textRenderNumber[self.board[Y,X][0]], (X * 30, (Y-3) * 30))
                 elif self.pieceInGame[0].x in [X,X-1,X-2]:
                     pg.draw.rect(self.screen, (240,240,240), (X * 30, (Y-3) * 30, 30, 30))
 
