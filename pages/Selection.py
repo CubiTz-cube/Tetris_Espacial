@@ -28,13 +28,13 @@ class Selection():
         initial_text="0",
         manager=self.manager)
 
-        self.inputLimit = pgu.elements.UITextEntryLine(
-        relative_rect=pg.Rect((350, 200), (150, 30)),
+        self.inputDimX = pgu.elements.UITextEntryLine(
+        relative_rect=pg.Rect((350, 200), (100, 30)),
         initial_text="12",
         manager=self.manager)
 
-        self.inputLimit = pgu.elements.UITextEntryLine(
-        relative_rect=pg.Rect((250, 200), (150, 30)),
+        self.inputDimY = pgu.elements.UITextEntryLine(
+        relative_rect=pg.Rect((250, 200), (100, 30)),
         initial_text="21",
         manager=self.manager)
 
@@ -61,6 +61,20 @@ class Selection():
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputLimit:
                 try:
                     gv.limit = int(self.inputLimit.get_text())
+                except:
+                    pass
+            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputDimX:
+                try:
+                    change = int(self.inputDimX.get_text())
+                    if change % 3 == 0 and change > 9: gv.dimX = change
+                    else: print("dimX no es multiplo de 3 mayor que 9")
+                except:
+                    pass
+            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputDimY:
+                try:
+                    change = int(self.inputDimY.get_text())
+                    if change % 3 == 0 and change > 9: gv.dimX = change
+                    else: print("dimY no es multiplo de 3 mayor que 9")
                 except:
                     pass
 

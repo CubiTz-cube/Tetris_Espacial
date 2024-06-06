@@ -22,9 +22,7 @@ piezaImax = Piece(shape_Imax, 12)
 
 class Game():
     def __init__(self):
-        N = 21
-        M = 12
-        self.board = np.full([N,M,4], [0, 0, 0, 0])
+        self.board = np.full([gv.dimY,gv.dimX,4], [0, 0, 0, 0])
 
         self.pieces = [piezaImax, piezaTmin, piezaO, piezaS, piezaSI, piezaL, piezaLI]#[piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar] piezas que pode franklin
 
@@ -32,6 +30,7 @@ class Game():
         self.screen = pg.display.get_surface()
         self.dimY = self.board.shape[0]
         self.dimX = self.board.shape[1]
+        self.isLoad = False
 
         self.gameOverScene = False
  
@@ -47,25 +46,6 @@ class Game():
         self.textRenderModeTime = pg.font.Font(gv.fontLekton, 30).render(f"Tiempo restante:", True, (255,255,255))
         self.textRenderModePiece = pg.font.Font(gv.fontLekton, 30).render(f"Piezas restantes:", True, (255,255,255))
         self.scoreTextRender = pg.font.Font(gv.fontLekton, 30).render(f"Score: {self.score}", True, (255,255,255))
-
-    def changeSize(self, height:int, width:int):
-        self.board.resize([height,width,4])
-        self.dimY = self.board.shape[0]
-        self.dimX = self.board.shape[1]
-
-    def checkMode(self):
-        if gv.limit <= 0: self.gameOver()
-        #Juan david separa esto en dos partes y usa solo la varialbes limit
-        if gv.mode == 1:
-            gv.limit -= 1
-        elif gv.mode == 2:  
-            gv.limit -=1
-            if gv.limit <= 0:
-                self.gameOver()
-              
-    def gameOver(self):
-        #self.gameOverScene = True
-        exit()
 
     def events(self):
         for event in pg.event.get():
@@ -93,8 +73,31 @@ class Game():
                     self.tickKey = 0
                 elif event.key == pg.K_UP or event.key == pg.K_w:
                     self.pieceInGame[0].rotateR(self.board)
+                elif event.key == pg.K_ESCAPE:
+                    self.isLoad = False
+                    gv.actualPage = 2
             if event.type == pg.KEYUP:
                 self.move = [0,0]
+
+    def resetGame(self):
+        self.board = np.full([gv.dimY,gv.dimX,4], [0, 0, 0, 0])
+        self.dimY = self.board.shape[0]
+        self.dimX = self.board.shape[1]
+        self.pieceInGame = [copy(choice(self.pieces)) for _ in range(2)]
+
+    def checkMode(self):
+        if gv.limit <= 0: self.gameOver()
+        #Juan david separa esto en dos partes y usa solo la varialbes limit
+        if gv.mode == 1:
+            gv.limit -= 1
+        elif gv.mode == 2:  
+            gv.limit -=1
+            if gv.limit <= 0:
+                self.gameOver()
+              
+    def gameOver(self):
+        #self.gameOverScene = True
+        exit()
 
     def drawBackground(self):
         self.screen.fill((0,0,0))
@@ -120,22 +123,24 @@ class Game():
                 if self.pieceInGame[1].shape[Y,X] != 0:
                     pg.draw.rect(self.screen, self.pieceInGame[1].color, (400 + X * 30, Y * 30, 30, 30))
 
-    def clearCompleteLines(self, Y = 0):
+    def clearCompleteLines(self, Y = 0, score = 0):
         if Y >= self.dimY:
+            self.score =  score * 100
+            self.scoreTextRender = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
             return
 
         completeLine = True
-        for X in range(self.dimX):
-            if self.board[Y,X][0] == 0:
-                completeLine = False
+        if completeLine:
+            for X in range(self.dimX):
+                if self.board[Y,X][0] == 0:
+                    completeLine = False
 
         if completeLine:
-            self.score += (self.board[Y][X][0]) * (100)
-            self.scoreTextRender = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
+            score += (self.board[Y][X][0])
             self.board[Y] = np.full([self.dimX,4], [0,0,0,0])
             self.board[3:Y+1] = np.roll(self.board[3:Y+1], shift=1, axis=0)
 
-        self.clearCompleteLines(Y+1)
+        self.clearCompleteLines(Y+1, score)
                 
     def backEnd(self, deltaTime:int):
         #self.checkMode() se cierra el juego
@@ -163,10 +168,12 @@ class Game():
         deltaTime = currentTime - self.lastTime
         self.lastTime = currentTime
 
-        self.events()
+        if not self.isLoad:
+            self.isLoad = True
+            self.resetGame()
+
         self.drawBackground()
         self.drawBoard()
         self.drawText()
-
         self.backEnd(deltaTime)
-        actualPlayer = self.score
+        self.events()
