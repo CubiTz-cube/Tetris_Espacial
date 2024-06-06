@@ -17,6 +17,11 @@ class Selection():
         text="Iniciar",
         manager=self.manager)
 
+        self.buttonBack = pgu.elements.UIButton(
+        relative_rect=pg.Rect((100, 50), (150, 50)),
+        text="Regresar",
+        manager=self.manager)
+
         self.inputMode = pgu.elements.UIDropDownMenu(
         relative_rect=pg.Rect((300, 100), (150, 30)),
         starting_option="Desactivado",
@@ -48,6 +53,8 @@ class Selection():
                 pass
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay:
                 gv.actualPage = 4
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonBack:
+                gv.actualPage = 2
             if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputMode:
                 if self.inputMode.selected_option[0] == "Desactivado": 
                     gv.limit = 0
