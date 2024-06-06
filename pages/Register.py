@@ -23,8 +23,8 @@ class Register():
 
         self.inputState = pgu.elements.UIDropDownMenu(
         relative_rect=pg.Rect((250, 100), (500, 30)),
-        starting_option="Bolivar",
-        options_list=["Bolivar", "Anzoategui", "Carabobo"],
+        starting_option="Bolívar",
+        options_list=gv.states,
         manager=self.manager)
 
         self.inputPassword = pgu.elements.UITextEntryLine(

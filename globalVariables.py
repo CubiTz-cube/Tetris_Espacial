@@ -7,6 +7,9 @@ actualPage = 2
 mode = 0
 limit = 0
 
+#data
+states = ["Amazonas", "Anzoátegui", "Apure", "Aragua", "Barinas", "Bolívar", "Carabobo", "Cojedes", "Delta Amacuro", "Dependencias Federales", "Distrito Federal", "Falcón", "Guárico", "Lara", "Mérida", "Miranda", "Monagas", "Nueva Esparta", "Portuguesa", "Sucre", "Táchira", "Trujillo", "Vargas", "Yaracuy", "Zulia"]
+
 #fonts
 fontLekton = "./public/fonts/Lekton-Regular.ttf"
 fontAldrich = "./public/fonts/Aldrich-Regular.ttf"
