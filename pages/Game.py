@@ -35,7 +35,6 @@ class Game():
         self.gameOverScene = False
  
         self.pieceInGame = [copy(choice(self.pieces)) for _ in range(2)]
-        self.pieceSaved = None
         self.score = 0
         self.tickPiece = 0
         self.tickKey = 0

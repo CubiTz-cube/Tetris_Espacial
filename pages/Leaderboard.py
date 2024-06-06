@@ -44,17 +44,17 @@ class Leaderboard():
                 self.showState = self.inputState.selected_option[0]
 
             self.manager.process_events(event)
-    def showLeaderboard(self, estado:str = "", fecha:list[int] = []	):
+    def showLeaderboard(self, estado:str = None, fecha:list[int] = None	):
         if not self.isLoad:
             self.textRenderDataLeader = []
             for user in getAllUsers(gv.fileUsers):
                 for score in user[4]:
                     text = f"{user[3]} - {user[2]} - {score[0]}"
-                    if estado == "" and fecha == "":
+                    if estado == None and fecha == None:
                         self.textRenderDataLeader.append(pg.font.Font(gv.fontLekton, 32).render(text, True, (255,255,255)))
-                    elif estado == "":
+                    elif estado == None:
                         pass
-                    elif fecha == []:
+                    elif fecha == None:
                         if user[3] == estado:
                             self.textRenderDataLeader.append(pg.font.Font(gv.fontLekton, 32).render(text, True, (255,255,255)))
                     else:
