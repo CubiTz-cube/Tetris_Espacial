@@ -1,5 +1,6 @@
 import numpy as np
 from random import choice
+import pygame as pg
 from time import sleep
 
 colors = [(100, 100, 200), (200, 100, 100), (100, 200, 100), (200, 200, 100), (100, 100, 200), (200, 100, 200), (100, 200, 200)]
@@ -59,7 +60,7 @@ shape_Imax[2, 1] = 1
 shape_Imax[3, 1] = 1
 
 class Piece:
-    def __init__(self, shape:np.ndarray[any], value:int, rotate = True) -> None:
+    def __init__(self, shape:np.ndarray[any], value:int, imagePath:str = "public\\images\\pieces\\pieceYellow.png", rotate = True) -> None:
         self.shape = shape
         self.value = value
         self.canRotate = rotate
@@ -68,6 +69,8 @@ class Piece:
         self.y = 0
         self.color = choice(colors)
         self.static = False
+
+        self.image = pg.image.load(imagePath)
 
     def erase(self, board:np.ndarray[any]):
         for Y in range(self.shape.shape[0]):
