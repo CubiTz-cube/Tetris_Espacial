@@ -25,18 +25,22 @@
             "unfilled_bar":"#CCCCCC"
         }
     },
-    "#select":
+    "@transparent":
     {
         "colours":
         {
-            "normal_bg":"green"
-        }
-    },
-    "#unSelect":
-    {
-        "colours":
-        {
-            "normal_bg":"red"
+            "normal_bg": "rgba(20, 50, 89, 0)",
+            "hovered_bg": "rgba(20, 50, 89, 0)",
+            "selected_bg": "rgba(20, 50, 89, 0)",
+            "dark_bg": "rgba(20, 50, 89, 0)",
+            "normal_border": "rgba(20, 50, 89, 0)",
+            "hovered_border": "rgba(20, 50, 89, 0)",
+            "disabled_bg":"rgba(20, 50, 89, 0)",
+            "link_selected": "rgba(20, 50, 89, 0)",
+            "active_bg":"rgba(20, 50, 89, 0)",
+            "disabled_border": "rgba(20, 50, 89, 0)",
+            "selected_border": "rgba(20, 50, 89, 0)",
+            "active_border": "rgba(20, 50, 89, 0)"
         }
     }
 }

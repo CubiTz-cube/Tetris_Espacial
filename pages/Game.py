@@ -10,11 +10,11 @@ from random import choice
 from copy import copy
 
 piezaIvar = Piece(shape_I, 1 , img.pieceOrangeRed)
-piezaI = Piece(shape_I, 2, img.pieceRed)
+piezaI = Piece(shape_I, 2, img.pieceOrangeRed)
 piezaL = Piece(shape_L, 3, img.pieceGreen)
 piezaLI = Piece(shape_LI, 4, img.pieceRed)
-piezaSI = Piece(shape_SI, 5, img.pieceOrange)
 piezaLvar = Piece(shape_L, 6, img.pieceGreen)
+piezaSI = Piece(shape_SI, 5, img.pieceOrange)
 piezaO = Piece(shape_O, 7, img.pieceYellow, False)
 piezaT = Piece(shape_T, 8, img.pieceGreenBlue)
 piezaTvar = Piece(shape_T, 9, img.pieceGreenBlue)
@@ -30,8 +30,10 @@ class Game():
         for index,active in enumerate(gv.activePieces):
             if active:
                 self.pieces.append(self.allPieces[index])
+                
         #[piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar] piezas que pode franklin
         #[piezaImax, piezaTmin, piezaO, piezaS, piezaSI, piezaL, piezaLI] Piezas clasicas de tetris
+
         self.piecesImg = {pieza.value:pieza.image for pieza in self.pieces}
 
         self.lastTime = pg.time.get_ticks()
