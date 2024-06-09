@@ -1,21 +1,15 @@
+import os
 from pygame import image
 
-piecePurple = image.load("public\\images\\pieces\\purple.png")
-pieceBlue = image.load("public\\images\\pieces\\blue.png")
-pieceGreen = image.load("public\\images\\pieces\\green.png")
-pieceGreenBlue = image.load("public\\images\\pieces\\greenBlue.png")
-pieceOrange = image.load("public\\images\\pieces\\orange.png")
-pieceOrangeRed = image.load("public\\images\\pieces\\orangeRed.png")
-piecePink = image.load("public\\images\\pieces\\pink.png")
-pieceRed = image.load("public\\images\\pieces\\red.png")
-pieceYellow = image.load("public\\images\\pieces\\yellow.png")
+def loadImagesDict(directorio:str):
+    images = {}
+    for file in os.listdir(directorio):
+        if file.endswith(".png"):  # Filtrar por files .png
+            completePath = os.path.join(directorio, file)
+            nombre_sin_extension = os.path.splitext(file)[0]
+            images[nombre_sin_extension] = image.load(completePath)
+    return images
 
-completePiecePurple = image.load("public\\images\\completePieces\\purple.png")
-completePieceBlue = image.load("public\\images\\completePieces\\blue.png")
-completePieceGreen = image.load("public\\images\\completePieces\\green.png")
-completePieceGreenBlue = image.load("public\\images\\completePieces\\greenBlue.png")
-completePieceOrange = image.load("public\\images\\completePieces\\orange.png")
-completePieceOrangeRed = image.load("public\\images\\completePieces\\orangeRed.png")
-completePiecePink = image.load("public\\images\\completePieces\\pink.png")
-completePieceRed = image.load("public\\images\\completePieces\\red.png")
-completePieceYellow = image.load("public\\images\\completePieces\\yellow.png")
+pieces = loadImagesDict("public\\images\\pieces")
+completePieces = loadImagesDict("public\\images\\completePieces")
+completePiecesNum = loadImagesDict("public\\images\\completePiecesNum")

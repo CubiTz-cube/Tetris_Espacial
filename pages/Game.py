@@ -1,7 +1,7 @@
 import pygame as pg
 import numpy as np
 
-from library.piece import *
+import library.piece as piece
 import public.images.loadImages as img
 from library.startBack import StartMaker
 import globalVariables as gv
@@ -9,27 +9,15 @@ import globalVariables as gv
 from random import choice
 from copy import copy
 
-piezaIvar = Piece(shape_I, 1 , img.pieceOrangeRed)
-piezaI = Piece(shape_I, 2, img.pieceOrangeRed)
-piezaL = Piece(shape_L, 3, img.pieceGreen)
-piezaLI = Piece(shape_LI, 4, img.pieceRed)
-piezaLvar = Piece(shape_L, 6, img.pieceGreen)
-piezaSI = Piece(shape_SI, 5, img.pieceOrange)
-piezaO = Piece(shape_O, 7, img.pieceYellow, False)
-piezaT = Piece(shape_T, 8, img.pieceGreenBlue)
-piezaTvar = Piece(shape_T, 9, img.pieceGreenBlue)
-piezaS = Piece(shape_S, 10, img.pieceBlue)
-piezaTmin = Piece(shape_Tmin, 11, img.piecePurple)
-piezaImax = Piece(shape_Imax, 12, img.piecePink)
+
 
 class Game():
     def __init__(self):
         self.board = np.full([gv.dimY,gv.dimX], 0)
-        self.allPieces = [piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar, piezaS, piezaTmin, piezaImax]
         self.pieces = []
         for index,active in enumerate(gv.activePieces):
             if active:
-                self.pieces.append(self.allPieces[index])
+                self.pieces.append(piece.allPieces[index])
                 
         #[piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar] piezas que pode franklin
         #[piezaImax, piezaTmin, piezaO, piezaS, piezaSI, piezaL, piezaLI] Piezas clasicas de tetris
@@ -99,7 +87,7 @@ class Game():
         self.pieces = []
         for index,active in enumerate(gv.activePieces):
             if active:
-                self.pieces.append(self.allPieces[index])
+                self.pieces.append(piece.allPieces[index])
         self.pieceInGame = [copy(choice(self.pieces)) for _ in range(2)]
 
     def checkMode(self):

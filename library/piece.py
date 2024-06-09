@@ -1,7 +1,6 @@
 import numpy as np
-from random import choice
-import pygame as pg
-from time import sleep
+import globalVariables as gv
+import public.images.loadImages as img
 
 shape_I = np.zeros((3, 3), dtype=int)
 shape_I[0, 1] = 1
@@ -139,3 +138,22 @@ class Piece:
                         if self.x + X < 0 or self.x + X >= board.shape[1] or board[self.y + Y, self.x + X][0] != 0:
                             return True
         return False
+
+piezaIvar = Piece(shape_I, 1 , img.pieces["orangeRed"]) 
+piezaI = Piece(shape_I, 2,  img.pieces["orangeRed"])
+piezaL = Piece(shape_L, 3, img.pieces["green"])  
+piezaLI = Piece(shape_LI, 4, img.pieces["red"])
+piezaLvar = Piece(shape_L, 6, img.pieces["green"])
+piezaSI = Piece(shape_SI, 5, img.pieces["orange"])
+piezaO = Piece(shape_O, 7, img.pieces["yellow"], False)
+piezaT = Piece(shape_T, 8, img.pieces["greenBlue"])
+piezaTvar = Piece(shape_T, 9, img.pieces["greenBlue"])
+piezaS = Piece(shape_S, 10, img.pieces["blue"])
+piezaTmin = Piece(shape_Tmin, 11, img.pieces["purple"])
+piezaImax = Piece(shape_Imax, 12, img.pieces["pink"])
+
+allPieces = [piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar, piezaS, piezaTmin, piezaImax]
+imgCompletePieces = [img.completePieces["orangeRed"], img.completePieces["orangeRed"], img.completePieces["green"], img.completePieces["red"], img.completePieces["orange"], img.completePieces["green"], img.completePieces["yellow"], img.completePieces["greenBlue"], img.completePieces["greenBlue"], img.completePieces["blue"], img.completePieces["purple"], img.completePieces["pink"]]
+imgCompletePiecesNum = [img.completePiecesNum[str(i)] for i in range(1,13)]
+
+gv.activePieces = [True for _ in range(len(allPieces))]

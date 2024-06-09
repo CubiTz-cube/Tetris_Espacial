@@ -4,6 +4,8 @@ from pygame_gui.core import ObjectID
 
 import globalVariables as gv
 import public.images.loadImages as img
+from library.piece import allPieces, imgCompletePiecesNum
+from library.imageEdit import convertImgToBn
 
 class Selection():
     def __init__(self) -> None:
@@ -46,10 +48,9 @@ class Selection():
         manager=self.manager)
 
         self.pieceButtons:list[pgu.elements.UIButton] = []
-        self.pieceImagesList:list[pg.Surface] = [img.completePieceOrangeRed, img.completePieceOrangeRed, img.completePieceGreen, img.completePieceRed, img.completePieceOrange, img.completePieceGreen, img.completePieceYellow, img.completePieceGreenBlue, img.completePieceGreenBlue, img.completePieceBlue, img.completePiecePurple, img.completePiecePink]
         self.pieceImages:list[pgu.elements.UIImage] = []
-        for i in range(len(self.pieceImagesList)):
-            imageSize = self.pieceImagesList[i].get_size()
+        for i in range(len(imgCompletePiecesNum)):
+            imageSize = imgCompletePiecesNum[i].get_size()
             self.pieceButtons.append(pgu.elements.UIButton(
             relative_rect=pg.Rect((100 + 100 * i, 250), (imageSize[0]//2,imageSize[1]//2)),
             text="",
@@ -58,7 +59,7 @@ class Selection():
             ))
             self.pieceImages.append(pgu.elements.UIImage(
             relative_rect=pg.Rect((100 + 100 * i, 250), (imageSize[0]//2,imageSize[1]//2)),
-            image_surface=self.pieceImagesList[i],
+            image_surface=imgCompletePiecesNum[i],
             manager=self.manager))
 
     def events(self):
@@ -109,11 +110,11 @@ class Selection():
                     if  "#unSelect" in button.get_object_ids():
                         button.change_object_id(ObjectID("#select","@transparent"))
                         gv.activePieces[index] = True
-                        self.pieceImages[index].set_image(self.pieceImagesList[index])
+                        self.pieceImages[index].set_image(imgCompletePiecesNum[index])
                     else:
                         button.change_object_id("#unSelect")
                         gv.activePieces[index] = False
-                        self.pieceImages[index].set_image(img.piecePurple)
+                        self.pieceImages[index].set_image(convertImgToBn(imgCompletePiecesNum[index]))
 
             self.manager.process_events(event)
 
