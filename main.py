@@ -21,10 +21,6 @@ H = pg.display.Info().current_h
 pg.display.set_mode((W-100, H-50), pg.RESIZABLE)
 clock = pg.time.Clock()
 
-N = 21
-M = 12
-board = np.full([N,M,4], [0, 0, 0, 0])
-
 pages = [
     Login(),
     Register(),

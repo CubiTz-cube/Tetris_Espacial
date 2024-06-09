@@ -2,6 +2,7 @@ import pygame as pg
 import pygame_gui as pgu
 
 import globalVariables as gv
+import public.images.loadImages as img
 
 class Selection():
     def __init__(self) -> None:
@@ -10,7 +11,7 @@ class Selection():
         self.clock = pg.Clock()
         self.W = pg.display.Info().current_w
         self.H = pg.display.Info().current_h
-        self.manager = pgu.UIManager((self.W,self.H))
+        self.manager = pgu.UIManager((self.W,self.H), "pages\\css\\selection.json")
 
         self.buttonPlay = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 50), (150, 50)),
@@ -41,6 +42,20 @@ class Selection():
         self.inputDimY = pgu.elements.UITextEntryLine(
         relative_rect=pg.Rect((250, 200), (100, 30)),
         initial_text="21",
+        manager=self.manager)
+
+        self.pieceButtons:list[pgu.elements.UIButton] = []
+        for i in range(11):
+            self.pieceButtons.append(pgu.elements.UIButton(
+            relative_rect=pg.Rect((100 + 50 * i, 250), (50, 50)),
+            text=str(i),
+            manager=self.manager,
+            object_id= "#select",
+            ))
+
+        self.imageButton = pgu.elements.UIImage(
+        relative_rect=pg.Rect((100, 250), (50, 50)),
+        image_surface=img.pieceBlue,
         manager=self.manager)
 
     def events(self):
@@ -84,6 +99,19 @@ class Selection():
                     else: print("dimY no es multiplo de 3 mayor que 9")
                 except:
                     pass
+
+            for index, button in enumerate(self.pieceButtons):
+                if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == button:
+                    if  "#unSelect" in button.get_object_ids():
+                        button.change_object_id("#select")
+                        gv.activePieces[index] = True
+                        self.imageButton.set_image(img.pieceBlue)
+                        print(gv.activePieces)
+                    else:
+                        button.change_object_id("#unSelect")
+                        gv.activePieces[index] = False
+                        self.imageButton.set_image(img.piecePurple)
+                        print(gv.activePieces)
 
             self.manager.process_events(event)
 

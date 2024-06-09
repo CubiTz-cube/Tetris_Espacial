@@ -2,30 +2,36 @@ import pygame as pg
 import numpy as np
 
 from library.piece import *
+import public.images.loadImages as img
 from library.startBack import StartMaker
 import globalVariables as gv
 
 from random import choice
 from copy import copy
 
-piezaIvar = Piece(shape_I, 1 , "public\\images\\pieces\\pieceOrangeRed.png")
-piezaI = Piece(shape_I, 2, "public\\images\\pieces\\pieceOrangeRed.png")
-piezaL = Piece(shape_L, 3, "public\\images\\pieces\\pieceGreen.png")
-piezaLI = Piece(shape_LI, 4, "public\\images\\pieces\\pieceRed.png")
-piezaSI = Piece(shape_SI, 5, "public\\images\\pieces\\pieceOrange.png")
-piezaLvar = Piece(shape_L, 6, "public\\images\\pieces\\pieceGreen.png")
-piezaO = Piece(shape_O, 7, "public\\images\\pieces\\pieceYellow.png", False)
-piezaT = Piece(shape_T, 8, "public\\images\\pieces\\pieceGreenBlue.png")
-piezaTvar = Piece(shape_T, 9, "public\\images\\pieces\\pieceGreenBlue.png")
-piezaS = Piece(shape_S, 10, "public\\images\\pieces\\pieceBlue.png")
-piezaTmin = Piece(shape_Tmin, 11, "public\\images\\pieces\\piecePurple.png")
-piezaImax = Piece(shape_Imax, 12, "public\\images\\pieces\\piecePink.png")
+piezaIvar = Piece(shape_I, 1 , img.pieceOrangeRed)
+piezaI = Piece(shape_I, 2, img.pieceRed)
+piezaL = Piece(shape_L, 3, img.pieceGreen)
+piezaLI = Piece(shape_LI, 4, img.pieceRed)
+piezaSI = Piece(shape_SI, 5, img.pieceOrange)
+piezaLvar = Piece(shape_L, 6, img.pieceGreen)
+piezaO = Piece(shape_O, 7, img.pieceYellow, False)
+piezaT = Piece(shape_T, 8, img.pieceGreenBlue)
+piezaTvar = Piece(shape_T, 9, img.pieceGreenBlue)
+piezaS = Piece(shape_S, 10, img.pieceBlue)
+piezaTmin = Piece(shape_Tmin, 11, img.piecePurple)
+piezaImax = Piece(shape_Imax, 12, img.piecePink)
 
 class Game():
     def __init__(self):
-        self.board = np.full([gv.dimY,gv.dimX,4], [0, 0, 0, 0])
-
-        self.pieces = [piezaImax, piezaTmin, piezaO, piezaS, piezaSI, piezaL, piezaLI]#[piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar] piezas que pode franklin
+        self.board = np.full([gv.dimY,gv.dimX], 0)
+        self.allPieces = [piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar, piezaS, piezaTmin, piezaImax]
+        self.pieces = []
+        for index,active in enumerate(gv.activePieces):
+            if active:
+                self.pieces.append(self.allPieces[index])
+        #[piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar] piezas que pode franklin
+        #[piezaImax, piezaTmin, piezaO, piezaS, piezaSI, piezaL, piezaLI] Piezas clasicas de tetris
         self.piecesImg = {pieza.value:pieza.image for pieza in self.pieces}
 
         self.lastTime = pg.time.get_ticks()
@@ -84,6 +90,14 @@ class Game():
         self.board = np.full([gv.dimY,gv.dimX,4], [0, 0, 0, 0])
         self.dimY = self.board.shape[0]
         self.dimX = self.board.shape[1]
+        self.score = 0
+        self.tickPiece = 0
+        self.tickKey = 0
+        self.move = [0,0]
+        self.pieces = []
+        for index,active in enumerate(gv.activePieces):
+            if active:
+                self.pieces.append(self.allPieces[index])
         self.pieceInGame = [copy(choice(self.pieces)) for _ in range(2)]
 
     def checkMode(self):
@@ -110,7 +124,7 @@ class Game():
         elif gv.mode == 1: self.screen.blit(self.textRenderModeTime, (400, 150))
         else: self.screen.blit(self.textRenderModePiece, (400, 150))
 
-    def drawBoard(self):
+    def drawPieces(self):
         for Y in range(3, self.dimY):
             for X in range(self.dimX):
                 if self.board[Y,X][0] != 0:
@@ -120,6 +134,8 @@ class Game():
                     self.screen.blit(self.textRenderNumber[self.board[Y,X][0]], (X * 30, (Y-3) * 30))
                 elif self.pieceInGame[0].x in [X,X-1,X-2]:
                     pg.draw.rect(self.screen, (240,240,240), (X * 30, (Y-3) * 30, 30, 30))
+
+    def drawUI(self):
 
         for Y in range(3):
             for X in range(3):
@@ -179,7 +195,8 @@ class Game():
             self.resetGame()
 
         self.drawBackground()
-        self.drawBoard()
+        self.drawPieces()
+        self.drawUI()
         self.drawText()
         self.backEnd(deltaTime)
         self.events()
