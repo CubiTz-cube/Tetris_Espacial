@@ -1,0 +1,29 @@
+{
+    "#textWelcome":
+    {
+        "colours":
+        {
+            "normal_text": "#99cb44d8",
+            "dark_bg": "red"
+        },
+        "font":
+         {
+            "size": "100"
+         }
+    },
+    "#textButton":
+    {
+        "colours":
+        {
+            "normal_text": "#99cbd8"
+        }
+    }
+    ,
+    "#textHigh":
+    {
+        "colours":
+        {
+            "normal_text": "#99cbd8"
+        }
+    }
+}
