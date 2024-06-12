@@ -111,7 +111,7 @@ class Selection():
                         button.change_object_id(ObjectID("#select","@transparent"))
                         gv.activePieces[index] = True
                         self.pieceImages[index].set_image(imgCompletePiecesNum[index])
-                    else:
+                    elif gv.activePieces.count(True) > 5:
                         button.change_object_id("#unSelect")
                         gv.activePieces[index] = False
                         self.pieceImages[index].set_image(convertImgToBn(imgCompletePiecesNum[index]))
