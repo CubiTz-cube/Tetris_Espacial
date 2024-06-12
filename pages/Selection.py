@@ -106,7 +106,6 @@ class Selection():
 
             for index, button in enumerate(self.pieceButtons):
                 if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == button:
-                    print(button.get_object_ids())
                     if  "#unSelect" in button.get_object_ids():
                         button.change_object_id(ObjectID("#select","@transparent"))
                         gv.activePieces[index] = True
