@@ -1,29 +1,21 @@
 {
-    "#textWelcome":
+    "text_entry_line":
     {
         "colours":
         {
-            "normal_text": "#99cb44d8",
-            "dark_bg": "red"
+            "dark_bg": "#FFFFFF",
+            "selected_bg": "#55595e",
+            "normal_text": "#000000",
+            "selected_text": "#FFFFFF",
+            "normal_border": "#1C1C1C"
         },
-        "font":
-         {
-            "size": "100"
-         }
-    },
-    "#textButton":
-    {
-        "colours":
+        "misc":
         {
-            "normal_text": "#99cbd8"
-        }
-    }
-    ,
-    "#textHigh":
-    {
-        "colours":
-        {
-            "normal_text": "#99cbd8"
+            "shape": "rounded_rectangle",
+            "shape_corner_radius": 5,
+            "border_width": "2",
+            "shadow_width": "2",
+            "padding": "6,4"
         }
     }
 }

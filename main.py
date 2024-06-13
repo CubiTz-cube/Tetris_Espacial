@@ -18,7 +18,7 @@ except:
 pg.init()
 W = pg.display.Info().current_w
 H = pg.display.Info().current_h
-pg.display.set_mode((W-100, H-50), pg.RESIZABLE)
+pg.display.set_mode((W-100, H-100), pg.RESIZABLE)
 clock = pg.time.Clock()
 
 pages = [
