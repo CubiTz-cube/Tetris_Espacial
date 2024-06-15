@@ -79,10 +79,8 @@ class Selection():
                     gv.limit = 0
                     gv.mode = 0
                 if self.inputMode.selected_option[0] == "Tiempo": 
-                    gv.limit = 60
                     gv.mode = 1
                 if self.inputMode.selected_option[0] == "Pieza": 
-                    gv.limit = 10
                     gv.mode = 2
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputLimit:
                 try:
