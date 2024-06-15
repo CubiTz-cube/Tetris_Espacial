@@ -4,7 +4,9 @@ import numpy as np
 import library.piece as piece
 import public.images.loadImages as img
 from library.startBack import StartMaker
+import library.dataFormating as df
 import globalVariables as gv
+
 
 from random import choice
 from copy import copy
@@ -102,6 +104,7 @@ class Game():
               
     def gameOver(self):
         #self.gameOverScene = True
+        df.addUserScore()
         exit()
 
     def drawBackground(self):
