@@ -1,9 +1,10 @@
 import pygame as pg
 import pygame_gui as pgu
 from library.encrypter import encrypt, decrypt
+from library.dataFormating import getAllUsers 
+import globalVariables as gv
 import re
 
-import globalVariables as gv
 
 class Register():
     def __init__(self) -> None:
@@ -12,11 +13,9 @@ class Register():
         self.W = pg.display.Info().current_w
         self.H = pg.display.Info().current_h
         self.manager = pgu.UIManager((self.W,self.H))
-        self.font = pg.font.Font(gv.fontLekton, 32)
-
-        self.userData = [""]
-        self.renderText = [self.font.render(str(data), True, (255,255,255)) for data in self.userData]
-
+        self.userData = ["correo","password", "name", "state"]
+        gv.font = pg.font.Font(gv.fontLekton, 32)
+        self.renderText = [gv.font.render(str(data), True, (255,255,255)) for data in self.userData]
         self.inputName = pgu.elements.UITextEntryLine(
         relative_rect=pg.Rect((250, 0), (500, 30)),
         manager=self.manager)
@@ -54,20 +53,24 @@ class Register():
                 #Reside screen
                 pass
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputName:
-                self.userData[1] = self.inputName.get_text()
+                self.userData[1] = self.inputMail.get_text()
+                print("Dropping down menu",self.userData[1])
                 self.renderText[1] = self.font.render(self.userData[1], True, (255,255,255))
 
             if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputState:
+                print("Dropping down menu",self.userData[3])
                 self.userData[3] = self.inputState.selected_option[0]
-                self.renderText[3] = self.font.render(self.userData[3], True, (255,255,255))
+                self.renderText[3] = gv.font.render(self.userData[3], True, (255,255,255))
 
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputPassword:
                 self.userData[4] = self.inputPassword.get_text()
-                self.renderText[4] = self.font.render(self.userData[4], True, (255,255,255))
+                print("Dropping down menu",self.userData[4])
+                self.renderText[4] = gv.font.render(self.userData[4], True, (255,255,255))
 
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputMail:
+                print("Dropping down menu",self.userData[5])
                 self.userData[5] = self.inputMail.get_text()
-                self.renderText[5] = self.font.render(self.userData[5], True, (255,255,255))
+                self.renderText[5] = gv.font.render(self.userData[5], True, (255,255,255))
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay:
                 self.saveUser()
@@ -103,7 +106,7 @@ class Register():
         if valid[0] and ".com" in email.split("@")[1]:
             valid = True
 
-        if re.match("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", email):
+        if re.match("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$", email):
             valid = True
 
         if not (email.startswith(".") or email.endswith(".") or email.startswith("@") or email.endswith("@")):
@@ -132,6 +135,7 @@ class Register():
     def saveUser(self):
         with open(gv.fileUsers, "ab") as file:
             for data in self.userData:
+                print("Writing data to file")
                 file.write((encrypt(str(data))+" ").encode())
             file.write(b"\n")
     
