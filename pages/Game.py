@@ -105,10 +105,8 @@ class Game():
 
     def checkModePieza(self):
         if gv.mode == 2:
-            print("el mode funciona :0", gv.mode)
             gv.limit -= 1
             self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
-            print("piezas", gv.limit)
         if gv.limit <= 0: self.gameOver()
     
     def checkModeTiempo(self):
@@ -153,7 +151,6 @@ class Game():
                     self.screen.blit(image, (400 + X * 30, Y * 30))
 
     def clearCompleteLines(self, Y:int = 0):
-        Y:int
         if Y == self.dimY:
             self.scoreTextRender = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255, 255, 255))
             return
@@ -174,8 +171,6 @@ class Game():
         self.clearCompleteLines(Y + 1)
 
     def backEnd(self, deltaTime:int):
-        Y = 0
-        #self.checkMode() se cierra el juego
         if self.tickKey > 100 and self.move != [0,0]: 
             self.tickKey = 0
             self.pieceInGame[0].move(self.board,self.move)
@@ -183,7 +178,6 @@ class Game():
         if self.tickPiece > 350:
             self.tickPiece = 0
             if self.pieceInGame[0].static: 
-                print(f"{gv.limit, gv.mode}")
                 self.checkModePieza()
                 if (self.pieceInGame[0].y <= 3):
                     self.gameOver()
