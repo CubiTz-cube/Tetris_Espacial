@@ -29,6 +29,7 @@ class Game():
         self.dimY = self.board.shape[0]
         self.dimX = self.board.shape[1]
         self.isLoad = False
+        self.start_time = pg.time.get_ticks()
 
         self.gameOverScene = False
  
@@ -43,6 +44,10 @@ class Game():
         self.textRenderModeTime = pg.font.Font(gv.fontLekton, 30).render(f"Tiempo restante:", True, (255,255,255))
         self.textRenderModePiece = pg.font.Font(gv.fontLekton, 30).render(f"Piezas restantes:", True, (255,255,255))
         self.scoreTextRender = pg.font.Font(gv.fontLekton, 30).render(f"Score: {self.score}", True, (255,255,255))
+        self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
+
+        self.TIMEREVENT = pg.USEREVENT + 2
+        pg.time.set_timer(self.TIMEREVENT, 1000)
 
     def events(self):
         for event in pg.event.get():
@@ -75,6 +80,12 @@ class Game():
                     gv.actualPage = 2
             if event.type == pg.KEYUP:
                 self.move = [0,0]
+            if event.type == self.TIMEREVENT:
+                print("timer", gv.limit)
+                gv.limit -= 1
+                self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
+                if gv.limit <= 0: self.gameOver()
+            
 
     def resetGame(self):
         self.board = np.full([gv.dimY,gv.dimX,4], [0, 0, 0, 0])
@@ -85,21 +96,26 @@ class Game():
         self.tickKey = 0
         self.move = [0,0]
         self.pieces = []
-        for index,active in enumerate(gv.activePieces):
+        for index,active in enumerate(gv.activePieces): 
             if active:
                 self.pieces.append(piece.allPieces[index])
         self.pieceInGame = [copy(choice(self.pieces)) for _ in range(2)]
+        self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
+        
 
-    def checkMode(self):
-        if gv.limit <= 0: self.gameOver()
-        #Juan david separa esto en dos partes y usa solo la varialbes limit
-        if gv.mode == 1:
+    def checkModePieza(self):
+        if gv.mode == 2:
+            print("el mode funciona :0", gv.mode)
             gv.limit -= 1
-        elif gv.mode == 2:  
-            gv.limit -=1
-            if gv.limit <= 0:
-                self.gameOver()
-              
+            self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
+            print("piezas", gv.limit)
+        if gv.limit <= 0: self.gameOver()
+    
+    def checkModeTiempo(self):
+        pg.time.set_timer(pg.USEREVENT, 1000)
+        if gv.mode == 1:
+            self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
+
     def gameOver(self):
         #self.gameOverScene = True
         exit()
@@ -109,9 +125,10 @@ class Game():
         pg.draw.rect(self.screen, (255,255,255), (0, 0, self.dimX *30, (self.dimY-3) * 30))
 
     def drawText(self):
+        self.screen.blit(self.textRenderLimit, (670, 150))
         self.screen.blit(self.scoreTextRender, (400, 100))
         if gv.mode == 0: self.screen.blit(self.textRenderModeInactive, (400, 150))
-        elif gv.mode == 1: self.screen.blit(self.textRenderModeTime, (400, 150))
+        elif gv.mode == 1: self.screen.blit(self.textRenderModeTime, (400, 150))  
         else: self.screen.blit(self.textRenderModePiece, (400, 150))
 
     def drawPieces(self):
@@ -159,10 +176,13 @@ class Game():
         if self.tickKey > 100 and self.move != [0,0]: 
             self.tickKey = 0
             self.pieceInGame[0].move(self.board,self.move)
+            
 
         if self.tickPiece > 350:
             self.tickPiece = 0
             if self.pieceInGame[0].static: 
+                print(f"{gv.limit, gv.mode}")
+                self.checkModePieza()
                 if (self.pieceInGame[0].y <= 3):
                     self.gameOver()
                 self.pieceInGame.pop(0)
@@ -179,6 +199,7 @@ class Game():
         currentTime = pg.time.get_ticks()
         deltaTime = currentTime - self.lastTime
         self.lastTime = currentTime
+        self.checkModeTiempo()
 
         if not self.isLoad:
             self.isLoad = True
