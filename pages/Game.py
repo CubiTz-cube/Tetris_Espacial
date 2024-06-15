@@ -152,31 +152,33 @@ class Game():
                     image = pg.transform.scale(image, (31,31))
                     self.screen.blit(image, (400 + X * 30, Y * 30))
 
-    def clearCompleteLines(self, Y = 0, score = 0):
-        if Y >= self.dimY:
-            self.score =  score * 100
-            self.scoreTextRender = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255,255,255))
+    def clearCompleteLines(self, Y:int = 0):
+        Y:int
+        if Y == self.dimY:
+            self.scoreTextRender = pg.font.Font(None, 30).render(f"Score: {self.score}", True, (255, 255, 255))
             return
 
         completeLine = True
-        if completeLine:
-            for X in range(self.dimX):
-                if self.board[Y,X][0] == 0:
-                    completeLine = False
+
+        for X in range(self.dimX):
+            if self.board[Y, X][0] == 0:
+                completeLine = False
 
         if completeLine:
-            score += (self.board[Y][X][0])
-            self.board[Y] = np.full([self.dimX,4], [0,0,0,0])
+            self.score += np.sum(self.board[Y][:, 0]) * 100
+            self.board[Y] = np.full([self.dimX, 4], [0, 0, 0, 0])
             self.board[3:Y+1] = np.roll(self.board[3:Y+1], shift=1, axis=0)
 
-        self.clearCompleteLines(Y+1, score)
-                
+        self.score
+
+        self.clearCompleteLines(Y + 1)
+
     def backEnd(self, deltaTime:int):
+        Y = 0
         #self.checkMode() se cierra el juego
         if self.tickKey > 100 and self.move != [0,0]: 
             self.tickKey = 0
             self.pieceInGame[0].move(self.board,self.move)
-            
 
         if self.tickPiece > 350:
             self.tickPiece = 0
@@ -189,12 +191,12 @@ class Game():
                 self.pieceInGame.append(copy(choice(self.pieces)))
                 
                 self.clearCompleteLines()
-
+    
             self.pieceInGame[0].move(self.board,[0,1])
-
+    
         self.tickPiece += 1 * deltaTime
         self.tickKey += 1 * deltaTime
-
+    
     def bucle(self):
         currentTime = pg.time.get_ticks()
         deltaTime = currentTime - self.lastTime
