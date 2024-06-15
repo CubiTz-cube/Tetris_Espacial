@@ -81,10 +81,10 @@ class Game():
             if event.type == pg.KEYUP:
                 self.move = [0,0]
             if event.type == self.TIMEREVENT:
-                print("timer", gv.limit)
-                gv.limit -= 1
-                self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
-                if gv.limit <= 0: self.gameOver()
+                if gv.mode == 1:
+                    gv.limit -= 1
+                    self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
+                    if gv.limit <= 0: self.gameOver()
             
 
     def resetGame(self):
