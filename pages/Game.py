@@ -3,7 +3,7 @@ import numpy as np
 
 import library.piece as piece
 import public.images.loadImages as img
-from library.startBack import StartMaker
+from library.starsBack import StartMaker
 import library.dataFormating as df
 import globalVariables as gv
 

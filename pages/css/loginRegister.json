@@ -90,7 +90,7 @@
           },
           "font":
           {
-              "size": "18",
+              "size": "20",
               "name": "Lekton",
               "regular_path": "public\\fonts\\Lekton-Regular.ttf"
           },
