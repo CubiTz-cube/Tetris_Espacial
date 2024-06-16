@@ -6,19 +6,19 @@ import math
 class DynamicText():
     def __init__(self, x:float, y:float, text:str, fontPath:str, size:int, color):
         self.screen = pg.display.get_surface()
-        W = 1280
-        H = 720
-        self.relativeX = x / W
-        self.relativeY = y / H
-        self.relativeSize = size / W
+        self.W = 1280
+        self.H = 720
+        self.relativeX = x / self.W
+        self.relativeY = y / self.H
+        self.relativeSize = size / self.W
+        self.fontPath = fontPath
+        self.text = text
+        self.color = color
 
         screenW, screenH = pg.display.get_surface().get_size()
         self.x = self.relativeX  * screenW
         self.y = self.relativeY * screenH
         self.size = int(self.relativeSize * screenW)
-        self.fontPath = fontPath
-        self.text = text
-        self.color = color
 
         self.renderText = pg.font.Font(self.fontPath, self.size).render(self.text, True, self.color)
 
@@ -122,18 +122,20 @@ class DynamicInput():
     def __init__(self, x, y, ObjectW, ObjectH, fontPath:str, size:int, color, manager, defaultText=""):
         self.screen = pg.display.get_surface()
         self.manager = manager
-        W = 1280
-        H = 720
-        self.relativeX = x / W
-        self.relativeY = y / H
-        self.relativeW = ObjectW / W
-        self.relativeH = ObjectH / H
+        self.W = 1280
+        self.H = 720
+        self.relativeX = x / self.W
+        self.relativeY = y / self.H
+        self.relativeW = ObjectW / self.W
+        self.relativeH = ObjectH / self.H
 
         screenW, screenH = pg.display.get_surface().get_size()
         self.x = self.relativeX * screenW
         self.y = self.relativeY * screenH
+        self.ObjectW = self.relativeW * screenW
+        self.ObjectH = self.relativeH * screenH
         self.element = pgu.elements.UITextEntryLine(
-            relative_rect=pg.Rect((self.x, self.y), (ObjectW, ObjectH)),
+            relative_rect=pg.Rect((self.x, self.y), (self.ObjectW, self.ObjectH)),
             manager=self.manager,
             placeholder_text=defaultText
         )

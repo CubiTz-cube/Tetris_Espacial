@@ -34,8 +34,8 @@ class Login():
         self.dynamicObjects = [
             DynamicRect(0, 0, 640, 720, "#FFFFFF"),
             DynamicImage(10, 10, 0.085, img.logos["isotipoNegro"], self.manager),
-            DynamicText((W/2 - pg.font.Font(gv.fontAldrich, 85).size("¡Bienvenido!")[0])/2, H/6,"¡Bienvenido!", gv.fontAldrich, 85, "#000000"),
-            DynamicText(1260 - pg.font.Font(gv.fontAldrich, 65).size("Tetris")[0], H - pg.font.Font(gv.fontAldrich, 65).size("Tetris")[1],"Tetris", gv.fontAldrich, 65, "#FFFFFF"), 
+            DynamicText((640 - pg.font.Font(gv.fontAldrich, 85).size("¡Bienvenido!")[0])/2, 120,"¡Bienvenido!", gv.fontAldrich, 85, "#000000"),
+            DynamicText(1260 - pg.font.Font(gv.fontAldrich, 65).size("Tetris")[0], 720 - pg.font.Font(gv.fontAldrich, 65).size("Tetris")[1],"Tetris", gv.fontAldrich, 65, "#FFFFFF"), 
             self.textError,
             DynamicImage(700, 30, 0.65, img.completePieces["red"], self.manager, rotate = -15),
             DynamicImage(950, 0, 0.65, img.completePieces["purple"], self.manager, rotate = 5),
