@@ -57,7 +57,7 @@ class DynamicRect():
         self.relativeW = ObjectW /self.W
         self.relativeH = ObjectH / self.H
 
-        screenW, screenH = pg.display.get_surface().get_size()
+        screenW, screenH = self.screen.get_size()
         self.x = self.relativeX * screenW
         self.y = self.relativeY * screenH
         self.ObjectW = self.relativeW * screenW
@@ -65,14 +65,14 @@ class DynamicRect():
         self.color = color
 
     def resize(self):
-        screenW, screenH = pg.display.get_surface().get_size()
+        screenW, screenH = self.screen.get_size()
         self.x = self.relativeX * screenW
         self.y = self.relativeY * screenH
-        self.W = self.relativeW * screenW
-        self.H = self.relativeH * screenH
+        self.ObjectW = self.relativeW * screenW
+        self.ObjectH = self.relativeH * screenH
 
     def changeCoord(self, x, y):
-        screenW, screenH = pg.display.get_surface().get_size()
+        screenW, screenH = self.screen.get_size()
         if x != None:
             self.relativeX = x / self.W
             self.x = self.relativeX * screenW

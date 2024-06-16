@@ -123,7 +123,6 @@ class Login():
 
         self.manager.update(self.clock.tick(60)/1000)
         self.manager.draw_ui(self.screen)
-
     
     def bucle(self):
         self.events()
