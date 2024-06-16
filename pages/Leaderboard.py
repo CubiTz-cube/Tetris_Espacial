@@ -41,7 +41,7 @@ class Leaderboard():
                 self.isLoad = False
             if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputState:
                 self.isLoad = False
-                self.showState = self.inputState.selected_option[0]
+                self.showState = self.inputState.selected_option[1]
 
             self.manager.process_events(event)
     def showLeaderboard(self, estado:str = None, fecha:list[int] = None	):
@@ -49,7 +49,7 @@ class Leaderboard():
             self.textRenderDataLeader = []
             for user in getAllUsers(gv.fileUsers):
                 for score in user[4]:
-                    text = f"{user[3]} - {user[2]} - {score[0]}"
+                    text = f"{user[3]} - {user[2]} Puntos: {score[0]} fecha: {score[1]}/{score[2]}/{score[3]} Hora: {score[4]}:{score[5]}"
                     if estado == None and fecha == None:
                         self.textRenderDataLeader.append(pg.font.Font(gv.fontLekton, 32).render(text, True, (255,255,255)))
                     elif estado == None:
@@ -63,7 +63,7 @@ class Leaderboard():
             self.isLoad = True
         
         for index, text in enumerate(self.textRenderDataLeader):
-            self.screen.blit(text, (self.W//2 - text.get_width()//2, 50*index))
+            self.screen.blit(text, (self.W//2 - text.get_width()//2, (50*index)+150))
 
     def frontEnd(self):
         self.screen.fill((0,0,0))
