@@ -7,11 +7,8 @@ from library.starsBack import StartMaker
 import library.dataFormating as df
 import globalVariables as gv
 
-
 from random import choice
 from copy import copy
-
-
 
 class Game():
     def __init__(self):
@@ -88,7 +85,6 @@ class Game():
                     self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
                     if gv.limit <= 0: self.gameOver()
             
-
     def resetGame(self):
         self.board = np.full([gv.dimY,gv.dimX,4], [0, 0, 0, 0])
         self.dimY = self.board.shape[0]
@@ -104,7 +100,6 @@ class Game():
         self.pieceInGame = [copy(choice(self.pieces)) for _ in range(2)]
         self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
         
-
     def checkModePieza(self):
         if gv.mode == 2:
             gv.limit -= 1
