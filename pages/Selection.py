@@ -9,12 +9,12 @@ from library.imageEdit import convertImgToBn
 
 class Selection():
     def __init__(self) -> None:
-
         self.screen = pg.display.get_surface()
         self.clock = pg.Clock()
         self.W = pg.display.Info().current_w
         self.H = pg.display.Info().current_h
         self.manager = pgu.UIManager((self.W,self.H), "pages\\css\\selection.json")
+        self.manager.get_theme().load_theme("pages\\css\\global.json")
 
         self.buttonPlay = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 50), (150, 50)),

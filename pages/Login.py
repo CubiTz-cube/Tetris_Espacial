@@ -63,7 +63,7 @@ class Login():
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonRegister.element:
                 self.changeRegisterAniamtion()
-                #gv.actualPage = 1
+                gv.actualPage = 1
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element:
                 result = self.searchUser()
