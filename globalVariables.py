@@ -1,7 +1,7 @@
 actualUser = []
 
 # Pages
-actualPage = 2
+actualPage = 0
 
 #Game
 mode = 0

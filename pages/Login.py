@@ -62,7 +62,6 @@ class Login():
                 self.user[1] = self.inputPassword.element.get_text()
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonRegister.element:
-                self.changeRegisterAniamtion()
                 gv.actualPage = 1
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element:
@@ -103,7 +102,7 @@ class Login():
 
         return [userFind, passwordFind]
 
-    def changeRegisterAniamtion(self):
+    def changeRegisterAnimation(self):
         self.inputMail.element.visible = False
         self.inputPassword.element.visible = False
         self.buttonPlay.element.visible = False
@@ -115,6 +114,18 @@ class Login():
         self.dynamicObjects[3].changeCoord(20, None)
         self.dynamicObjects[5].changeCoord(480, None)
 
+    def resetScreen(self):
+        self.inputMail.element.visible = True
+        self.inputPassword.element.visible = True
+        self.buttonPlay.element.visible = True
+        self.buttonRegister.element.visible = True
+
+        self.dynamicObjects[0].changeCoord(0, None)
+        self.dynamicObjects[1].changeCoord(10, None)
+        self.dynamicObjects[2].changeText("¡Bienvenido!")
+        self.dynamicObjects[3].changeCoord((640 - pg.font.Font(gv.fontAldrich, 85).size("¡Bienvenido!")[0])/2, None)
+        self.dynamicObjects[5].changeCoord(10, None)
+
     def frontEnd(self):
         self.screen.fill("#050611")
 
@@ -125,5 +136,5 @@ class Login():
         self.manager.draw_ui(self.screen)
     
     def bucle(self):
-        self.events()
         self.frontEnd()
+        self.events()
