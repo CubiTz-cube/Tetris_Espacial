@@ -32,7 +32,7 @@ class Game():
 
         self.gameOverScene = False
  
-        self.pieceInGame = [copy(choice(self.pieces)) for _ in range(2)]
+        self.pieceInGame = [copy(choice(self.pieces)) for _ in range(7)]
         self.score = 0
         self.tickPiece = 0
         self.tickKey = 0
@@ -76,7 +76,7 @@ class Game():
                     self.pieceInGame[0].rotateR(self.board)
                 elif event.key == pg.K_ESCAPE:
                     self.isLoad = False
-                    gv.actualPage = 2
+                    gv.actualPage = 3
             if event.type == pg.KEYUP:
                 self.move = [0,0]
             if event.type == self.TIMEREVENT:
@@ -97,14 +97,14 @@ class Game():
         for index,active in enumerate(gv.activePieces): 
             if active:
                 self.pieces.append(piece.allPieces[index])
-        self.pieceInGame = [copy(choice(self.pieces)) for _ in range(2)]
+        self.pieceInGame = [copy(choice(self.pieces)) for _ in range(7)]
         self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
         
     def checkModePieza(self):
         if gv.mode == 2:
             gv.limit -= 1
             self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
-        if gv.limit <= 0: self.gameOver()
+            if gv.limit <= 0: self.gameOver()
     
     def checkModeTiempo(self):
         pg.time.set_timer(pg.USEREVENT, 1000)
@@ -139,14 +139,14 @@ class Game():
                     pg.draw.rect(self.screen, (240,240,240), (X * 30, (Y-3) * 30, 30, 30))
 
     def drawUI(self):
-
-        for Y in range(3):
-            for X in range(3):
-                if self.pieceInGame[1].shape[Y,X] != 0:
-                    #pg.draw.rect(self.screen, self.pieceInGame[1].color, (400 + X * 30, Y * 30, 30, 30))
-                    image = self.piecesImg[self.pieceInGame[1].value]
-                    image = pg.transform.scale(image, (31,31))
-                    self.screen.blit(image, (400 + X * 30, Y * 30))
+        for pieceIndex, piece in enumerate(self.pieceInGame[1:]):
+            for Y in range(3):
+                for X in range(3):
+                    if piece.shape[Y,X] != 0:
+                        #pg.draw.rect(self.screen, self.pieceInGame[1].color, (400 + X * 30, Y * 30, 30, 30))
+                        image = self.piecesImg[piece.value]
+                        image = pg.transform.scale(image, (31,31))
+                        self.screen.blit(image, ((400 + X * 30)+ 150*pieceIndex, Y * 30))
 
     def clearCompleteLines(self, Y:int = 0):
         if Y == self.dimY:
