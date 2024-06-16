@@ -8,6 +8,7 @@ def getAllUsers(file:str):
         lines:list[str] = file.readlines()
         for line in lines:
             users = (line.decode().replace("\n", "").split("|"))
+            if len(users) < 5: continue
             users[4] = eval(users[4])
             allUsers.append(users)
     return allUsers
