@@ -139,21 +139,21 @@ class Piece:
                             return True
         return False
 
-piezaIvar = Piece(shape_I, 1 , img.pieces["orangeRed"]) 
-piezaI = Piece(shape_I, 2,  img.pieces["orangeRed"])
-piezaL = Piece(shape_L, 3, img.pieces["green"])  
+piezaIvar = Piece(shape_I, 1 , img.pieces["orangeBlack"]) 
+piezaI = Piece(shape_I, 2,  img.pieces["orangeBlack"])
+piezaL = Piece(shape_L, 3, img.pieces["greenBlue"])  
 piezaLI = Piece(shape_LI, 4, img.pieces["red"])
-piezaLvar = Piece(shape_L, 6, img.pieces["green"])
+piezaLvar = Piece(shape_L, 6, img.pieces["greenBlue"])
 piezaSI = Piece(shape_SI, 5, img.pieces["orange"])
 piezaO = Piece(shape_O, 7, img.pieces["yellow"], False)
-piezaT = Piece(shape_T, 8, img.pieces["greenBlue"])
-piezaTvar = Piece(shape_T, 9, img.pieces["greenBlue"])
+piezaT = Piece(shape_T, 8, img.pieces["green"])
+piezaTvar = Piece(shape_T, 9, img.pieces["green"])
 piezaS = Piece(shape_S, 10, img.pieces["blue"])
 piezaTmin = Piece(shape_Tmin, 11, img.pieces["purple"])
-piezaImax = Piece(shape_Imax, 12, img.pieces["pink"])
+piezaImax = Piece(shape_Imax, 12, img.pieces["blueBlack"])
 
 allPieces = [piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar, piezaS, piezaTmin, piezaImax]
-imgCompletePieces = [img.completePieces["orangeRed"], img.completePieces["orangeRed"], img.completePieces["green"], img.completePieces["red"], img.completePieces["orange"], img.completePieces["green"], img.completePieces["yellow"], img.completePieces["greenBlue"], img.completePieces["greenBlue"], img.completePieces["blue"], img.completePieces["purple"], img.completePieces["pink"]]
+imgCompletePieces = [img.completePieces["orangeBlack"], img.completePieces["orangeBlack"], img.completePieces["green"], img.completePieces["red"], img.completePieces["orange"], img.completePieces["green"], img.completePieces["yellow"], img.completePieces["greenBlue"], img.completePieces["greenBlue"], img.completePieces["blue"], img.completePieces["purple"], img.completePieces["blueBlack"]]
 imgCompletePiecesNum = [img.completePiecesNum[str(i)] for i in range(1,13)]
 
 gv.activePieces = [True for _ in range(len(allPieces))]

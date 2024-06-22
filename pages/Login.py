@@ -39,7 +39,7 @@ class Login():
             self.textError,
             DynamicImage(700, 30, 0.65, img.completePieces["red"], self.manager, rotate = -15),
             DynamicImage(950, 0, 0.65, img.completePieces["purple"], self.manager, rotate = 5),
-            DynamicImage(1190, 100, 0.65, img.completePieces["pink"], self.manager, rotate = -78),
+            DynamicImage(1190, 100, 0.65, img.completePieces["blueBlack"], self.manager, rotate = -78),
             DynamicImage(915, 200, 0.65, img.completePieces["orange"], self.manager, rotate = -5),
             DynamicImage(775, 350, 0.65, img.completePieces["green"], self.manager, rotate = -16),
             DynamicImage(1125, 350, 0.65, img.completePieces["blue"], self.manager, rotate = -15),
@@ -64,7 +64,7 @@ class Login():
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonRegister.element:
                 gv.actualPage = 1
 
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element:
+            if (event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element )or (event.type == pg.KEYDOWN and event.key == pg.K_RETURN):
                 result = self.searchUser()
                 if all(result):
                     gv.actualPage = 2
