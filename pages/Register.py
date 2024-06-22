@@ -23,7 +23,7 @@ class Register():
         self.inputState = pgu.elements.UIDropDownMenu(
         relative_rect=pg.Rect((250, 100), (500, 30)),
         starting_option="Bolívar",
-        options_list=gv.states,
+        options_list=gv.states[1:],
         manager=self.manager)
 
         self.inputPassword = pgu.elements.UITextEntryLine(
@@ -59,7 +59,7 @@ class Register():
 
             if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputState:
                 print("Dropping down menu",self.userData[3])
-                self.userData[3] = self.inputState.selected_option[0]
+                self.userData[3] = self.inputState.selected_option[1]
                 self.renderText[3] = gv.font.render(self.userData[3], True, (255,255,255))
 
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputPassword:

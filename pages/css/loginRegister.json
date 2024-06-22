@@ -29,25 +29,11 @@
          "colours":
          {
              "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
              "hovered_bg": "#292929",
-             "disabled_bg": "#25292e",
-             "selected_bg": "#25292e",
-             "active_bg": "#193784",
-             "normal_text": "#c5cbd8",
+             "normal_text": "#FFFFFF",
              "hovered_text": "#FFFFFF",
-             "selected_text": "#FFFFFF",
-             "disabled_text": "#6d736f",
-             "active_text": "#6d736f",
-             "normal_border": "#AAAAAA",
-             "hovered_border": "#B0B0B0",
-             "disabled_border": "#808080",
-             "selected_border": "#8080B0",
-             "active_border": "#8080B0",
-             "normal_text_shadow": "#10101070",
-             "hovered_text_shadow": "#10101070",
-             "disabled_text_shadow": "#10101070",
-             "selected_text_shadow": "#10101070",
-             "active_text_shadow": "#10101070"
+             "active_text": "#FFFFFF"
          },
          "font":
          {
@@ -59,7 +45,7 @@
          {
              "shape": "rounded_rectangle",
              "shape_corner_radius": "30",
-             "border_width": "1",
+             "border_width": "0",
              "text_horiz_alignment": "center",
              "text_vert_alignment": "center",
              "state_transitions":
@@ -73,19 +59,11 @@
       {
           "colours":
           {
-              "normal_bg": "rgba(20, 50, 89, 0)",
-              "hovered_bg": "rgba(20, 50, 89, 0)",
-              "selected_bg": "rgba(20, 50, 89, 0)",
-              "dark_bg": "rgba(20, 50, 89, 0)",
-              "normal_border": "rgba(20, 50, 89, 0)",
-              "hovered_border": "rgba(20, 50, 89, 0)",
-              "disabled_bg":"rgba(20, 50, 89, 0)",
-              "link_selected": "rgba(20, 50, 89, 0)",
-              "active_bg":"rgba(20, 50, 89, 0)",
-              "disabled_border": "rgba(20, 50, 89, 0)",
-              "selected_border": "rgba(20, 50, 89, 0)",
-              "active_border": "rgba(20, 50, 89, 0)",
+              "normal_bg": "rgba(0, 0, 0, 0)",
+              "active_bg":"rgba(0, 0, 0, 0)",
+              "hovered_bg": "rgba(0, 0, 0, 0)",
               "normal_text": "#000000",
+              "active_text": "#000000",
               "hovered_text": "#076CD9"
           },
           "font":
@@ -96,6 +74,8 @@
           },
           "misc":
           {
+              "border_width": "0",
+              "shadow_width": "0",
               "tool_tip_delay": "1.0",
               "text_horiz_alignment": "center",
               "text_vert_alignment": "center",
