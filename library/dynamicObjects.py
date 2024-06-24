@@ -48,7 +48,7 @@ class DynamicText():
         self.screen.blit(self.renderText, (self.x, self.y))
 
 class DynamicRect():
-    def __init__(self, x, y, ObjectW, ObjectH, color):
+    def __init__(self, x, y, ObjectW, ObjectH, color, border = 0, borderColor = "#000000"):
         self.screen = pg.display.get_surface()
         self.W = 1280
         self.H = 720
@@ -63,6 +63,8 @@ class DynamicRect():
         self.ObjectW = self.relativeW * screenW
         self.ObjectH = self.relativeH * screenH
         self.color = color
+        self.border = border
+        self.borderColor = borderColor
 
     def resize(self):
         screenW, screenH = self.screen.get_size()
@@ -82,6 +84,8 @@ class DynamicRect():
 
     def render(self):
         pg.draw.rect(self.screen, self.color, (self.x, self.y,  self.ObjectW, self.ObjectH))
+        if self.border != 0:
+            pg.draw.rect(self.screen, self.borderColor, (self.x-self.border, self.y-self.border,  self.ObjectW+self.border*2, self.ObjectH+self.border*2), self.border)
 
 class DynamicImage():
     def __init__(self, x, y, ObjectScale, image:pg.Surface, manager, rotate = 0):
