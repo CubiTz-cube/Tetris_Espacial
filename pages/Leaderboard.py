@@ -47,7 +47,7 @@ class Leaderboard():
     def showLeaderboard(self, estado:str = None, fecha:list[int] = None	):
         if not self.isLoad:
             self.textRenderDataLeader = []
-            for user in getAllUsers(gv.fileUsers):
+            for user in getAllUsers():
                 for score in user[4]:
                     text = f"{user[3]} - {user[2]} Puntos: {score[0]} fecha: {score[1]}/{score[2]}/{score[3]} Hora: {score[4]}:{score[5]}"
                     if estado == None and fecha == None:

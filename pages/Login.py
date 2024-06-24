@@ -18,7 +18,7 @@ class Login():
         self.manager.get_theme().load_theme("pages\\css\\global.json")
 
         self.user = ["", ""]
-        self.allUsers = getAllUsers(gv.fileUsers)
+        self.allUsers = getAllUsers()
 
         for user in self.allUsers:
             print(user)

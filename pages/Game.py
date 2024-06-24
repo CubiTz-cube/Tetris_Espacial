@@ -122,8 +122,10 @@ class Game():
 
     def gameOver(self):
         #self.gameOverScene = True
-        df.addUserScore(gv.fileUsers, gv.actualUser[0],score=self.score)
-        exit()
+        print(gv.actualUser)
+        df.addUserScore(gv.actualUser[0],[self.score,1,1,1,1,1])
+        gv.actualPage = 3
+        self.isLoad = False
 
     def drawGame(self):
         self.screen.fill("#050611")
