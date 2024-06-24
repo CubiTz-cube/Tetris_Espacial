@@ -122,7 +122,7 @@ class Game():
 
     def gameOver(self):
         #self.gameOverScene = True
-        df.addUserScore()
+        df.addUserScore(gv.fileUsers, gv.actualUser[0],score=self.score)
         exit()
 
     def drawGame(self):

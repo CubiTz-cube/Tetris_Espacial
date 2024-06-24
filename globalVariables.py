@@ -1,7 +1,7 @@
 actualUser = []
 
 # Pages
-actualPage = 4
+actualPage = 0 # 0: Login, 1: Register, 2: Menu, 3: Selection, 4: Game, 5: Leaderboard, 6: Config
 
 #Game
 mode = 0

@@ -13,9 +13,14 @@ def getAllUsers(file:str):
             allUsers.append(users)
     return allUsers
 
-def addUserScore(file:str, user:str):
-    with open(file, "a") as file:
-        file.write(user + "\n")
+def addUserScore(file:str, user:str, score:int):
+    allUsers = getAllUsers(file)
+    print(allUsers)
+    with open(file, "w") as file:
+        for users in allUsers:
+            if users[0] == user:
+                users[4].append(score)
+            file.write("|".join(map(str, users)) + "\n")
 
 def timeDateCompare(dateList:list[int]):
     compareTime = date(*dateList)
