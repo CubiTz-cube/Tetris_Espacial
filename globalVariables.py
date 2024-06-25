@@ -6,6 +6,7 @@ actualPage = 0 # 0: Login, 1: Register, 2: Menu, 3: Selection, 4: Game, 5: Leade
 #Game
 mode = 0
 limit = 0
+speed = 0
 
 dimX = 12
 dimY = 21
