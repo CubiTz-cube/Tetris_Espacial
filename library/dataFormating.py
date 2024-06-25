@@ -1,5 +1,6 @@
 import globalVariables as gv
 from library.encrypter import decrypt
+import datetime
 from datetime import date, timedelta
 
 def getAllUsers():
@@ -13,12 +14,13 @@ def getAllUsers():
             allUsers.append(users)
     return allUsers
 
-def addUserScore(userMail:str, scoreObj:list):
+def addUserScore(userMail:str, score:int):
+    date = datetime.datetime.now()
     allUsers = getAllUsers()
     with open(gv.fileUsers, "w") as file:
         for users in allUsers:
             if users[0] == userMail:
-                users[4].append(scoreObj)
+                users[4].append([score,date.year,date.month,date.day,date.hour])
             file.write("|".join(map(str, users)) + "\n")
 
 def timeDateCompare(dateList:list[int]):

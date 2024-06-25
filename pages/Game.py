@@ -123,7 +123,7 @@ class Game():
     def gameOver(self):
         #self.gameOverScene = True
         print(gv.actualUser)
-        df.addUserScore(gv.actualUser[0],[self.score,1,1,1,1,1])
+        df.addUserScore(gv.actualUser[0],self.score)
         gv.actualPage = 3
         self.isLoad = False
 
