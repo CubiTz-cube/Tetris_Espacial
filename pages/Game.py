@@ -2,7 +2,7 @@ import pygame as pg
 import numpy as np
 
 import library.piece as piece
-from library.dynamicObjects import DynamicText, DynamicRect
+from library.dynamicObjects import DynamicText, DynamicRect, DynamicImage
 import public.images.loadImages as img
 from library.starsBack import StartMaker
 import library.dataFormating as df
@@ -33,11 +33,13 @@ class Game():
 
         self.gameOverScene = False
  
-        self.pieceInGame = [copy(choice(self.pieces)) for _ in range(7)]
+        self.pieceInGame:list[piece.Piece] = []
         self.score = 0
         self.tickPiece = 0
         self.tickKey = 0
         self.move = [0,0]
+
+        self.nextPiecesRender:list[DynamicImage] = []
 
         self.textRenderNumber = [pg.font.Font(gv.fontLekton, 25).render(f"{i-2}", True, (0,0,0)) for i in range(2,15)]
         self.textRenderModeInactive = pg.font.Font(gv.fontLekton, 30).render(f"Sin modo de juego", True, (255,255,255))
@@ -49,6 +51,9 @@ class Game():
         self.TIMEREVENT = pg.USEREVENT + 2
         pg.time.set_timer(self.TIMEREVENT, 1000)
 
+        for i in range(7):
+            self.nextPiecesRender.append(DynamicImage(900, 50+ 90*i, 0.3, img.completePiecesNum["1"]))
+
         self.backTable = DynamicRect(450,60,390,610,"#050611", 4, "#FFFFFF")
         self.dinamyObjets = [
             
@@ -56,6 +61,9 @@ class Game():
 
     def resize(self):
         for obj in self.dinamyObjets:
+            obj.resize()
+
+        for obj in self.nextPiecesRender:
             obj.resize()
 
     def events(self):
@@ -93,7 +101,11 @@ class Game():
                     gv.limit -= 1
                     self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
                     if gv.limit <= 0: self.gameOver()
-            
+    
+    def updateNextPieces(self):
+        for index, nextPiece in enumerate(self.pieceInGame[1:]):
+            self.nextPiecesRender[index].changeImg(img.completePiecesNum[str(nextPiece.value)])
+
     def resetGame(self):
         self.board = np.full([gv.dimY,gv.dimX,4], [0, 0, 0, 0])
         self.dimY = self.board.shape[0]
@@ -108,6 +120,7 @@ class Game():
                 self.pieces.append(piece.allPieces[index])
         self.pieceInGame = [copy(choice(self.pieces)) for _ in range(7)]
         self.textRenderLimit = pg.font.Font(gv.fontLekton, 30).render(f"{gv.limit}", True, (255,255,255))
+        self.updateNextPieces()
         
     def checkModePieza(self):
         if gv.mode == 2:
@@ -137,12 +150,12 @@ class Game():
         BackY = (60/720) * H
         scale = ((390/1280) * W)/self.dimX 
 
-        pg.draw.rect(self.screen, "#FFFFFF", (BackX-4, BackY-4,  scale*self.dimX+8, scale*(self.dimY-3)+8), 4)
-
         for Y in range(self.dimY-3):
             pg.draw.line(self.screen, "#141517", (BackX, Y*scale + BackY), (BackX + scale*self.dimX, Y*scale + BackY), 1)
             for X in range(self.dimX):
                 pg.draw.line(self.screen, "#141517", (X*scale + BackX, BackY), (X*scale + BackX, scale*(self.dimY-3) + BackY), 1)
+
+        pg.draw.rect(self.screen, "#FFFFFF", (BackX-4, BackY-4,  scale*self.dimX+8, scale*(self.dimY-3)+8), 4)
 
         for Y in range(3, self.dimY):
             for X in range(self.dimX):
@@ -162,13 +175,8 @@ class Game():
         else: self.screen.blit(self.textRenderModePiece, (200, 150))
 
     def drawUI(self):
-        for pieceIndex, piece in enumerate(self.pieceInGame[1:]):
-            for Y in range(3):
-                for X in range(3):
-                    if piece.shape[Y,X] != 0:
-                        image = self.piecesImg[piece.value]
-                        image = pg.transform.scale(image, (26,26))
-                        self.screen.blit(image, ((1000 + X * 25), 60+Y * 25+ 100*pieceIndex))
+        for nextPiece in self.nextPiecesRender:
+            nextPiece.render()
 
     def clearCompleteLines(self, Y:int = 0):
         if Y == self.dimY:
@@ -203,6 +211,7 @@ class Game():
                     self.gameOver()
                 self.pieceInGame.pop(0)
                 self.pieceInGame.append(copy(choice(self.pieces)))
+                self.updateNextPieces()
                 
                 self.clearCompleteLines()
     

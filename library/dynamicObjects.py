@@ -88,9 +88,8 @@ class DynamicRect():
             pg.draw.rect(self.screen, self.borderColor, (self.x-self.border, self.y-self.border,  self.ObjectW+self.border*2, self.ObjectH+self.border*2), self.border)
 
 class DynamicImage():
-    def __init__(self, x, y, ObjectScale, image:pg.Surface, manager, rotate = 0):
+    def __init__(self, x, y, ObjectScale, image:pg.Surface, rotate = 0):
         self.screen = pg.display.get_surface()
-        self.manager = manager
         self.W = 1280
         self.H = 720
         self.relativeX = x / self.W
@@ -118,6 +117,10 @@ class DynamicImage():
         if y != None:
             self.relativeY = y / self.H
             self.y = self.relativeY * screenH
+
+    def changeImg(self, image:pg.Surface):
+        self.imageSave = image
+        self.resize()
 
     def render(self):
         self.screen.blit(self.image, (self.x, self.y))

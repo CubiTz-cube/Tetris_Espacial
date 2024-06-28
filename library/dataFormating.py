@@ -20,7 +20,7 @@ def addUserScore(userMail:str, score:int):
     with open(gv.fileUsers, "w") as file:
         for users in allUsers:
             if users[0] == userMail:
-                users[4].append([score,date.year,date.month,date.day,date.hour])
+                users[4].append([score,date.day,date.month,date.year,date.hour,date.minute])
             file.write("|".join(map(str, users)) + "\n")
 
 def timeDateCompare(dateList:list[int]):

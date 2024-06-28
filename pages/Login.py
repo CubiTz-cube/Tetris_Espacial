@@ -33,18 +33,18 @@ class Login():
 
         self.dynamicObjects = [
             DynamicRect(0, 0, 640, 720, "#FFFFFF"),
-            DynamicImage(10, 10, 0.085, img.logos["isotipoNegro"], self.manager),
+            DynamicImage(10, 10, 0.085, img.logos["isotipoNegro"]),
             DynamicText((640 - pg.font.Font(gv.fontAldrich, 85).size("¡Bienvenido!")[0])/2, 120,"¡Bienvenido!", gv.fontAldrich, 85, "#000000"),
             DynamicText(1260 - pg.font.Font(gv.fontAldrich, 65).size("Tetris")[0], 720 - pg.font.Font(gv.fontAldrich, 65).size("Tetris")[1],"Tetris", gv.fontAldrich, 65, "#FFFFFF"), 
             self.textError,
-            DynamicImage(700, 30, 0.65, img.completePieces["red"], self.manager, rotate = -15),
-            DynamicImage(950, 0, 0.65, img.completePieces["purple"], self.manager, rotate = 5),
-            DynamicImage(1190, 100, 0.65, img.completePieces["blueBlack"], self.manager, rotate = -78),
-            DynamicImage(915, 200, 0.65, img.completePieces["orange"], self.manager, rotate = -5),
-            DynamicImage(775, 350, 0.65, img.completePieces["green"], self.manager, rotate = -16),
-            DynamicImage(1125, 350, 0.65, img.completePieces["blue"], self.manager, rotate = -15),
-            DynamicImage(980, 530, 0.65, img.completePieces["yellow"], self.manager, rotate = 23),
-            DynamicImage(650, 600, 0.65, img.completePieces["greenBlue"], self.manager, rotate = -24),
+            DynamicImage(700, 30, 0.65, img.completePieces["red"], rotate = -15),
+            DynamicImage(950, 0, 0.65, img.completePieces["purple"], rotate = 5),
+            DynamicImage(1190, 100, 0.65, img.completePieces["blueBlack"], rotate = -78),
+            DynamicImage(915, 200, 0.65, img.completePieces["orange"], rotate = -5),
+            DynamicImage(775, 350, 0.65, img.completePieces["green"], rotate = -16),
+            DynamicImage(1125, 350, 0.65, img.completePieces["blue"], rotate = -15),
+            DynamicImage(980, 530, 0.65, img.completePieces["yellow"], rotate = 23),
+            DynamicImage(650, 600, 0.65, img.completePieces["greenBlue"], rotate = -24),
         ]
 
     def events(self):
@@ -99,6 +99,7 @@ class Login():
                 if (outer[1] == self.user[1]):
                     passwordFind = True
                     gv.actualUser = outer
+                    print(gv.actualUser)
 
         return [userFind, passwordFind]
 
