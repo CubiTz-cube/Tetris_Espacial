@@ -8,7 +8,7 @@ def getAllUsers():
     with open(gv.fileUsers, "rb") as file:
         lines:list[str] = file.readlines()
         for line in lines:
-            users = (line.decode("latin-1").replace("\n", "").split("|"))
+            users = (line.decode("utf-8").replace("\n", "").split("|"))
             if len(users) < 5: continue
             users[4] = eval(users[4])
             allUsers.append(users)
@@ -17,7 +17,7 @@ def getAllUsers():
 def addUserScore(userMail:str, score:int):
     date = datetime.datetime.now()
     allUsers = getAllUsers()
-    with open(gv.fileUsers, "w") as file:
+    with open(gv.fileUsers, "w", encoding='utf-8') as file:
         for users in allUsers:
             if users[0] == userMail:
                 users[4].append([score,date.day,date.month,date.year,date.hour,date.minute])
