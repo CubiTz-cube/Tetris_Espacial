@@ -23,8 +23,8 @@ class Register():
 
         self.inputName = DynamicInput(740, 250, 460, 75, gv.fontAldrich, 24, "#000000", self.manager, "Nombre y apellido")
         self.inputPassword = DynamicInput(740, 330, 460, 75, gv.fontAldrich, 24, "#000000", self.manager, "Contraseña")
-        self.inputMail = DynamicInput(740, 420, 220, 75, gv.fontAldrich, 24, "#000000", self.manager, "Correo")
-        self.inputState = DynamicInput(980, 420, 220, 75, gv.fontAldrich, 24, "#000000", self.manager, "Estado", options=gv.states[1:])
+        self.inputMail = DynamicInput(740, 410, 220, 75, gv.fontAldrich, 24, "#000000", self.manager, "Correo")
+        self.inputState = DynamicInput(980, 410, 220, 75, gv.fontAldrich, 24, "#000000", self.manager, "Estado", options=gv.states[1:])
         self.buttonPlay = DynamicButton(790, 510, 360, 70, "Iniciar", self.manager, ObjectID("#play"))
         self.buttonLogin = DynamicButton(790, 580, 360, 50, "¿Tienes cuenta? inicia sesion", self.manager, ObjectID("#register"))
         self.textError = DynamicText(640, 460, "",gv.fontLekton, 26, "#AD1106")
@@ -131,6 +131,7 @@ class Register():
     
     def frontEnd(self):
         self.screen.fill("#050611")
+
         for obj in self.dynamicObjects:
             obj.render()
 

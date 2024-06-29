@@ -25,7 +25,7 @@ class Login():
             print(user)
 
         self.inputMail = DynamicInput(100, 250, 460, 85, gv.fontAldrich, 24, "#000000", self.manager, "Correo")
-        self.inputPassword = DynamicInput(100, 360, 460, 85, gv.fontAldrich, 24, "#000000", self.manager, "Contraseña")
+        self.inputPassword = DynamicInput(100, 340, 460, 85, gv.fontAldrich, 24, "#000000", self.manager, "Contraseña")
 
         self.buttonPlay = DynamicButton(150, 510, 360, 70, "Iniciar", self.manager, ObjectID("#play"))
         self.buttonRegister = DynamicButton(150, 580, 360, 50, "¿No tienes cuenta? Registrate", self.manager, ObjectID("#register"))
