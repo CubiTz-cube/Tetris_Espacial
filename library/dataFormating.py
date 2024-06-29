@@ -4,6 +4,8 @@ import datetime
 from datetime import date, timedelta
 
 def getAllUsers():
+    """Devuelve una lista de usuarios. Cada usuario tiene la siguiente estructura:
+    [mail, name, password, state, [scores]]"""
     allUsers = []
     with open(gv.fileUsers, "rb") as file:
         lines:list[str] = file.readlines()
@@ -15,6 +17,7 @@ def getAllUsers():
     return allUsers
 
 def addUserScore(userMail:str, score:int):
+    """Guarda el score de un usario especifico en el archivo de usuarios."""
     date = datetime.datetime.now()
     allUsers = getAllUsers()
     with open(gv.fileUsers, "w", encoding='utf-8') as file:
