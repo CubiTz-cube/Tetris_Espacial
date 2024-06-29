@@ -88,7 +88,7 @@ class DynamicRect():
             pg.draw.rect(self.screen, self.borderColor, (self.x-self.border, self.y-self.border,  self.ObjectW+self.border*2, self.ObjectH+self.border*2), self.border)
 
 class DynamicImage():
-    def __init__(self, x, y, ObjectScale, image:pg.Surface, rotate = 0):
+    def __init__(self, x, y, ObjectScale, image:pg.Surface, rotate = 0, mirror = False):
         self.screen = pg.display.get_surface()
         self.W = 1280
         self.H = 720
@@ -100,8 +100,12 @@ class DynamicImage():
         self.y = self.relativeY * screenH
         self.rotate = rotate
         self.imageSave = image
+        self.mirror = mirror
         self.scale = ObjectScale / self.W
         self.image = pg.transform.rotozoom(self.imageSave, self.rotate, self.scale * screenW)
+        if self.mirror:
+            self.image = pg.transform.flip(self.image, True, False)
+        
 
     def resize(self):
         screenW, screenH = self.screen.get_size()
@@ -126,7 +130,7 @@ class DynamicImage():
         self.screen.blit(self.image, (self.x, self.y))
 
 class DynamicInput():
-    def __init__(self, x, y, ObjectW, ObjectH, fontPath:str, size:int, color, manager, defaultText=""):
+    def __init__(self, x, y, ObjectW, ObjectH, fontPath:str, size:int, color, manager, defaultText="", options = []):
         self.screen = pg.display.get_surface()
         self.manager = manager
         self.W = 1280
@@ -135,21 +139,31 @@ class DynamicInput():
         self.relativeY = y / self.H
         self.relativeW = ObjectW / self.W
         self.relativeH = ObjectH / self.H
+        
 
         screenW, screenH = pg.display.get_surface().get_size()
         self.x = self.relativeX * screenW
         self.y = self.relativeY * screenH
         self.ObjectW = self.relativeW * screenW
         self.ObjectH = self.relativeH * screenH
-        self.element = pgu.elements.UITextEntryLine(
-            relative_rect=pg.Rect((self.x, self.y), (self.ObjectW, self.ObjectH)),
-            manager=self.manager,
-            placeholder_text=defaultText
-        )
+        if options:
+            self.element = pgu.elements.UIDropDownMenu(
+                options_list=options,
+                starting_option=options[0] if options else defaultText,
+                relative_rect=pg.Rect((self.x, self.y), (self.ObjectW, self.ObjectH)),
+                manager=self.manager
+            )
+        else:
+            self.element = pgu.elements.UITextEntryLine(
+                relative_rect=pg.Rect((self.x, self.y), (self.ObjectW, self.ObjectH)),
+                manager=self.manager,
+                placeholder_text=defaultText
+            )
     def resize(self):
         screenW, screenH = pg.display.get_surface().get_size()
         self.element.set_dimensions((self.relativeW * screenW, self.relativeH * screenH))
         self.element.set_position((self.relativeX * screenW, self.relativeY * screenH))
+        
 
 class DynamicButton():
     def __init__(self, x, y, ObjectW, ObjectH, text, manager, ids = ObjectID("","")):
