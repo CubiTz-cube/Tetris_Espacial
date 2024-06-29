@@ -17,42 +17,25 @@ class Register():
         self.H = pg.display.Info().current_h
         self.manager = pgu.UIManager((self.W,self.H))
         self.userData = ["correo","password", "name", "state"]
-        gv.font = pg.font.Font(gv.fontLekton, 32)
-        """self.renderText = [gv.font.render(str(data), True, (255,255,255)) for data in self.userData]"""
-        """self.inputName = pgu.elements.UITextEntryLine(
-        relative_rect=pg.Rect((250, 0), (500, 30)),
-        manager=self.manager)"""
         self.manager = pgu.UIManager((self.W,self.H), "pages\\css\\loginRegister.json")
         self.manager.get_theme().load_theme("pages\\css\\global.json")
+        self.isLoad = False
 
-
-        
-
-        """self.inputState = pgu.elements.UIDropDownMenu(
-        relative_rect=pg.Rect((250, 100), (500, 30)),
-        starting_option="Bolívar",
-        options_list=gv.states[1:],
-        manager=self.manager)"""
-
-        """self.inputPassword = pgu.elements.UITextEntryLine(
-        relative_rect=pg.Rect((250, 150), (500, 30)),
-        manager=self.manager)"""
-
-        """self.inputMail = pgu.elements.UITextEntryLine(
-        relative_rect=pg.Rect((250, 200), (500, 30)),
-        manager=self.manager)"""
-
-
-        self.textNombre = DynamicText(500, 500, "hola", gv.fontLekton, 40, "#000000")
         self.inputName = DynamicInput(740, 250, 460, 75, gv.fontAldrich, 24, "#000000", self.manager, "Nombre y apellido")
         self.inputPassword = DynamicInput(740, 330, 460, 75, gv.fontAldrich, 24, "#000000", self.manager, "Contraseña")
-        self.inputMail = DynamicInput(740, 410, 230, 75, gv.fontAldrich, 24, "#000000", self.manager, "Correo")
-        self.inputState = DynamicInput(970, 410, 230, 75, gv.fontAldrich, 24, "#000000", self.manager, "Estado", options=gv.states[1:])
+        self.inputMail = DynamicInput(740, 420, 220, 75, gv.fontAldrich, 24, "#000000", self.manager, "Correo")
+        self.inputState = DynamicInput(980, 420, 220, 75, gv.fontAldrich, 24, "#000000", self.manager, "Estado", options=gv.states[1:])
         self.buttonPlay = DynamicButton(790, 510, 360, 70, "Iniciar", self.manager, ObjectID("#play"))
-        self.buttonLogin = DynamicButton(790, 580, 360, 50, "¿tienes cuenta? inicia sesion", self.manager, ObjectID("#register"))
+        self.buttonLogin = DynamicButton(790, 580, 360, 50, "¿Tienes cuenta? inicia sesion", self.manager, ObjectID("#register"))
         self.textError = DynamicText(640, 460, "",gv.fontLekton, 26, "#AD1106")
 
         self.dynamicObjects = [
+            self.inputName,
+            self.inputPassword,
+            self.inputMail,
+            self.inputState,
+            self.buttonPlay,
+            self.buttonLogin,
             DynamicRect(640, 0, 640, 720, "#FFFFFF"),
             DynamicImage(650, 10, 0.085, img.logos["isotipoNegro"]),
             DynamicText((1988 - pg.font.Font(gv.fontAldrich, 85).size("Registrate  ")[0])/2, 120,"Registrate", gv.fontAldrich, 85, "#000000"),
@@ -67,7 +50,6 @@ class Register():
             DynamicImage(215, 530, 0.65, img.completePieces["yellow"], rotate = 23, mirror=True),
             DynamicImage(500, 600, 0.65, img.completePieces["greenBlue"], rotate = -24, mirror=True),
         ]
-        
 
     def resize(self):
         for obj in self.dynamicObjects:
@@ -84,7 +66,6 @@ class Register():
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputName.element:
                 self.userData[1] = self.inputMail.element.get_text() #le coloco element porque ya le puse element a lo demas tomces mi logica me dice que esto tambien
                 print("Dropping down menu",self.userData[1])
-                """self.renderText[1] = self.font.render(self.userData[1], True, (255,255,255))"""
 
             if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputState.element:
                 print("Dropping down menu",self.userData[3])
@@ -94,12 +75,10 @@ class Register():
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputPassword.element:
                 self.userData[4] = self.inputPassword.element.get_text()
                 print("Dropping down menu",self.userData[4])
-                """self.renderText[4] = gv.font.render(self.userData[4], True, (255,255,255))"""
 
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputMail.element:
                 print("Dropping down menu",self.userData[5])
                 self.userData[5] = self.inputMail.element.get_text()
-                """self.renderText[5] = gv.font.render(self.userData[5], True, (255,255,255))"""
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element:
                 self.saveUser()
@@ -107,6 +86,7 @@ class Register():
             
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLogin.element:
                 gv.actualPage = 0
+                self.isLoad = False
 
             self.manager.process_events(event)
 
@@ -157,11 +137,6 @@ class Register():
         self.manager.update(self.clock.tick(60)/1000)
         self.manager.draw_ui(self.screen)
 
-        """for index, text in enumerate(self.renderText[1:-1]):
-            self.screen.blit(text, (0, 50*index))
-"""
-        
-
     def backEnd(self):
         pass
 
@@ -173,6 +148,10 @@ class Register():
             file.write(b"\n")
     
     def bucle(self):
+        if not self.isLoad:
+            self.resize()
+            self.isLoad = True
+
         self.events()
         self.frontEnd()
         self.backEnd()

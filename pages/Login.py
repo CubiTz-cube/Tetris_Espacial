@@ -16,6 +16,7 @@ class Login():
         H = pg.display.Info().current_h
         self.manager = pgu.UIManager((W,H), "pages\\css\\loginRegister.json")
         self.manager.get_theme().load_theme("pages\\css\\global.json")
+        self.isLoad = False
 
         self.user = ["", ""]
         self.allUsers = getAllUsers()
@@ -65,7 +66,7 @@ class Login():
                 pg.quit()
                 quit()
             if event.type == pg.VIDEORESIZE:
-                self.resizeUI()
+                self.resize()
 
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputMail.element:
                 self.user[0] = self.inputMail.element.get_text()
@@ -75,6 +76,7 @@ class Login():
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonRegister.element:
                 gv.actualPage = 1
+                self.isLoad = False
 
             if (event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element )or (event.type == pg.KEYDOWN and event.key == pg.K_RETURN):
                 result = self.searchUser()
@@ -91,7 +93,7 @@ class Login():
 
             self.manager.process_events(event)
 
-    def resizeUI(self):
+    def resize(self):
         self.inputMail.resize()
         self.inputPassword.resize()
 
@@ -140,5 +142,9 @@ class Login():
         self.manager.draw_ui(self.screen)
     
     def bucle(self):
+        if not self.isLoad:
+            self.resize()
+            self.isLoad = True
+
         self.frontEnd()
         self.events()

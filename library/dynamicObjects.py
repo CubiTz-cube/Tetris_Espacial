@@ -163,6 +163,9 @@ class DynamicInput():
         screenW, screenH = pg.display.get_surface().get_size()
         self.element.set_dimensions((self.relativeW * screenW, self.relativeH * screenH))
         self.element.set_position((self.relativeX * screenW, self.relativeY * screenH))
+
+    def render(self):
+        pass
         
 class DynamicDropDown():
     def __init__(self, x, y, ObjectW, ObjectH, manager, options = [], defaultText=None):
@@ -194,6 +197,9 @@ class DynamicDropDown():
         self.element.set_dimensions((self.relativeW * screenW, self.relativeH * screenH))
         self.element.set_position((self.relativeX * screenW, self.relativeY * screenH))
 
+    def render(self):
+        pass
+
 class DynamicButton():
     def __init__(self, x, y, ObjectW, ObjectH, text, manager, ids = ObjectID("","")):
         self.screen = pg.display.get_surface()
@@ -217,3 +223,6 @@ class DynamicButton():
         screenW, screenH = pg.display.get_surface().get_size()
         self.element.set_relative_position((self.relativeX * screenW, self.relativeY * screenH))
         self.element.set_dimensions((self.relativeW * screenW, self.relativeH * screenH))
+
+    def render(self):
+        pass
