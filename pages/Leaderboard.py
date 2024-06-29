@@ -2,7 +2,7 @@ import pygame as pg
 import pygame_gui as pgu
 
 import globalVariables as gv
-
+from library.dynamicObjects import *
 from library.dataFormating import getAllUsers
 
 class Leaderboard():
@@ -18,16 +18,19 @@ class Leaderboard():
         self.textRenderDataLeader:list[pg.font.Font] = []
         self.updateLeaderboard()
 
-        self.buttonBack = pgu.elements.UIButton(
-            relative_rect=pg.Rect((300, 50), (150, 50)),
-            text="Regresar al menu",
-            manager=self.manager)
+        self.buttonBack = DynamicButton(300, 50, 150, 50, "Regresar al menu", self.manager)
+        self.inputState = DynamicDropDown(250, 100, 500, 30, self.manager, gv.states)
+        self.inputUser = DynamicDropDown(250, 150, 500, 30, self.manager, [("No seleccionado", None)]+[user[0] for user in getAllUsers()])
 
-        self.inputState = pgu.elements.UIDropDownMenu(
-            relative_rect=pg.Rect((250, 100), (500, 30)),
-            starting_option=("Ninguno", None),
-            options_list=gv.states,
-            manager=self.manager)
+        self.dynamicObjects = [
+            self.buttonBack,
+            self.inputState,
+            self.inputUser
+        ]
+
+    def resize(self):
+        for obj in self.dynamicObjects:
+            obj.resize()
 
     def events(self):
         for event in pg.event.get():
@@ -35,12 +38,15 @@ class Leaderboard():
                 pg.quit()
                 quit()
             if event.type == pg.VIDEORESIZE:
-                #Reside screen
+                self.resize()
                 pass
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonBack:
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonBack.element:
                 gv.actualPage = 2
-            if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputState:
-                self.showState = self.inputState.selected_option[1]
+            if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputState.element:
+                self.showState = self.inputState.element.selected_option[1]
+                self.updateLeaderboard()
+            if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputUser.element:
+                self.showUser = self.inputUser.element.selected_option[1]
                 self.updateLeaderboard()
 
             self.manager.process_events(event)

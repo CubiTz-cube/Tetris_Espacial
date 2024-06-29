@@ -164,6 +164,35 @@ class DynamicInput():
         self.element.set_dimensions((self.relativeW * screenW, self.relativeH * screenH))
         self.element.set_position((self.relativeX * screenW, self.relativeY * screenH))
         
+class DynamicDropDown():
+    def __init__(self, x, y, ObjectW, ObjectH, manager, options = [], defaultText=None):
+        self.screen = pg.display.get_surface()
+        self.manager = manager
+        self.W = 1280
+        self.H = 720
+        self.relativeX = x / self.W
+        self.relativeY = y / self.H
+        self.relativeW = ObjectW / self.W
+        self.relativeH = ObjectH / self.H
+        
+
+        screenW, screenH = pg.display.get_surface().get_size()
+        self.x = self.relativeX * screenW
+        self.y = self.relativeY * screenH
+        self.ObjectW = self.relativeW * screenW
+        self.ObjectH = self.relativeH * screenH
+
+        self.element = pgu.elements.UIDropDownMenu(
+            options_list=options,
+            starting_option=defaultText if defaultText else options[0],
+            relative_rect=pg.Rect((self.x, self.y), (self.ObjectW, self.ObjectH)),
+            manager=self.manager
+        )
+
+    def resize(self):
+        screenW, screenH = pg.display.get_surface().get_size()
+        self.element.set_dimensions((self.relativeW * screenW, self.relativeH * screenH))
+        self.element.set_position((self.relativeX * screenW, self.relativeY * screenH))
 
 class DynamicButton():
     def __init__(self, x, y, ObjectW, ObjectH, text, manager, ids = ObjectID("","")):
