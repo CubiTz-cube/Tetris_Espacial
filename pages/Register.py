@@ -16,7 +16,7 @@ class Register():
         self.W = pg.display.Info().current_w
         self.H = pg.display.Info().current_h
         self.manager = pgu.UIManager((self.W,self.H))
-        """self.userData = ["correo","password", "name", "state"]"""
+        self.userData = ["correo","password", "name", "state"]
         gv.font = pg.font.Font(gv.fontLekton, 32)
         """self.renderText = [gv.font.render(str(data), True, (255,255,255)) for data in self.userData]"""
         """self.inputName = pgu.elements.UITextEntryLine(
@@ -24,11 +24,9 @@ class Register():
         manager=self.manager)"""
         self.manager = pgu.UIManager((self.W,self.H), "pages\\css\\loginRegister.json")
         self.manager.get_theme().load_theme("pages\\css\\global.json")
-        self.user = ["", "","",""]
-        self.allUsers = getAllUsers()
 
-        for user in self.allUsers:
-            print(user)
+
+        
 
         """self.inputState = pgu.elements.UIDropDownMenu(
         relative_rect=pg.Rect((250, 100), (500, 30)),
@@ -84,22 +82,24 @@ class Register():
                 self.resize()
                 pass
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputName.element:
-                self.userData[1] = self.inputMail.get_text()
+                self.userData[1] = self.inputMail.element.get_text() #le coloco element porque ya le puse element a lo demas tomces mi logica me dice que esto tambien
                 print("Dropping down menu",self.userData[1])
-                self.renderText[1] = self.font.render(self.userData[1], True, (255,255,255))
+                """self.renderText[1] = self.font.render(self.userData[1], True, (255,255,255))"""
 
             if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputState.element:
-                self.user[3] = self.inputState.element.get_text()
+                print("Dropping down menu",self.userData[3])
+                self.userData[3] = self.inputState.element.selected_option[0]
+                self.userData[3] = self.inputState.element.selected_option[1]
 
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputPassword.element:
-                self.userData[4] = self.inputPassword.get_text()
+                self.userData[4] = self.inputPassword.element.get_text()
                 print("Dropping down menu",self.userData[4])
-                self.renderText[4] = gv.font.render(self.userData[4], True, (255,255,255))
+                """self.renderText[4] = gv.font.render(self.userData[4], True, (255,255,255))"""
 
             if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputMail.element:
                 print("Dropping down menu",self.userData[5])
-                self.userData[5] = self.inputMail.get_text()
-                self.renderText[5] = gv.font.render(self.userData[5], True, (255,255,255))
+                self.userData[5] = self.inputMail.element.get_text()
+                """self.renderText[5] = gv.font.render(self.userData[5], True, (255,255,255))"""
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element:
                 self.saveUser()
