@@ -31,20 +31,32 @@ class Login():
 
         self.textError = DynamicText(640, 460, "",gv.fontLekton, 26, "#AD1106")
 
+        self.background = DynamicRect(0, 0, 640, 720, "#FFFFFF")
+        self.imgLogo = DynamicImage(10, 10, 0.085, img.logos["isotipoNegro"])
+        self.textWelcome = DynamicText((640 - pg.font.Font(gv.fontAldrich, 85).size("¡Bienvenido!")[0])/2, 120,"¡Bienvenido!", gv.fontAldrich, 85, "#000000")
+        self.textTetris = DynamicText(1260 - pg.font.Font(gv.fontAldrich, 65).size("Tetris")[0], 720 - pg.font.Font(gv.fontAldrich, 65).size("Tetris")[1],"Tetris", gv.fontAldrich, 65, "#FFFFFF")
+        self.imgRed = DynamicImage(700, 30, 0.65, img.completePieces["red"], rotate = -15)
+        self.imgPurple = DynamicImage(950, 0, 0.65, img.completePieces["purple"], rotate = 5)
+        self.imgBlueBlack = DynamicImage(1190, 100, 0.65, img.completePieces["blueBlack"], rotate = -78)
+        self.imgOrange = DynamicImage(915, 200, 0.65, img.completePieces["orange"], rotate = -5)
+        self.imgGreen = DynamicImage(775, 350, 0.65, img.completePieces["green"], rotate = -16)
+        self.imgBlue = DynamicImage(1125, 350, 0.65, img.completePieces["blue"], rotate = -15)
+        self.imgYellow = DynamicImage(980, 530, 0.65, img.completePieces["yellow"], rotate = 23)
+        self.imgGreenBlue = DynamicImage(650, 600, 0.65, img.completePieces["greenBlue"], rotate = -24)
         self.dynamicObjects = [
-            DynamicRect(0, 0, 640, 720, "#FFFFFF"),
-            DynamicImage(10, 10, 0.085, img.logos["isotipoNegro"]),
-            DynamicText((640 - pg.font.Font(gv.fontAldrich, 85).size("¡Bienvenido!")[0])/2, 120,"¡Bienvenido!", gv.fontAldrich, 85, "#000000"),
-            DynamicText(1260 - pg.font.Font(gv.fontAldrich, 65).size("Tetris")[0], 720 - pg.font.Font(gv.fontAldrich, 65).size("Tetris")[1],"Tetris", gv.fontAldrich, 65, "#FFFFFF"), 
-            self.textError,
-            DynamicImage(700, 30, 0.65, img.completePieces["red"], rotate = -15),
-            DynamicImage(950, 0, 0.65, img.completePieces["purple"], rotate = 5),
-            DynamicImage(1190, 100, 0.65, img.completePieces["blueBlack"], rotate = -78),
-            DynamicImage(915, 200, 0.65, img.completePieces["orange"], rotate = -5),
-            DynamicImage(775, 350, 0.65, img.completePieces["green"], rotate = -16),
-            DynamicImage(1125, 350, 0.65, img.completePieces["blue"], rotate = -15),
-            DynamicImage(980, 530, 0.65, img.completePieces["yellow"], rotate = 23),
-            DynamicImage(650, 600, 0.65, img.completePieces["greenBlue"], rotate = -24),
+            self.background,
+            self.imgLogo,
+            self.textWelcome,
+            self.textTetris,
+            self.imgRed,
+            self.imgPurple,
+            self.imgBlueBlack,
+            self.imgOrange,
+            self.imgGreen,
+            self.imgBlue,
+            self.imgYellow,
+            self.imgGreenBlue,
+            self.textError
         ]
 
     def events(self):
@@ -104,16 +116,7 @@ class Login():
         return [userFind, passwordFind]
 
     def changeRegisterAnimation(self):
-        self.inputMail.element.visible = False
-        self.inputPassword.element.visible = False
-        self.buttonPlay.element.visible = False
-        self.buttonRegister.element.visible = False
-
-        self.dynamicObjects[0].changeCoord(640, None)
-        self.dynamicObjects[1].changeCoord(1180, None)
-        self.dynamicObjects[2].changeText("")
-        self.dynamicObjects[3].changeCoord(20, None)
-        self.dynamicObjects[5].changeCoord(480, None)
+        pass
 
     def resetScreen(self):
         self.inputMail.element.visible = True
