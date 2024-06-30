@@ -35,10 +35,14 @@ class Game():
         self.pieceInGame:list[piece.Piece] = []
         self.score = 0
         self.tickPiece = 0
+        self.speed = gv.speed
+
         self.tickKey = 0
+        self.tickKeyWait = 0
         self.move = [0,0]
         self.moveDown = [0,0]
-        self.speed = gv.speed
+        self.PressLeft = False
+        self.PressRight = False
 
         self.nextPiecesRender:list[DynamicImage] = []
 
@@ -53,7 +57,7 @@ class Game():
         pg.time.set_timer(self.TIMEREVENT, 1000)
 
         for i in range(4):
-            self.nextPiecesRender.append(DynamicImage(900, 80+ ((50/720)*pg.display.Info().current_w)*i, 0.3, img.completePiecesNum["1"]))
+            self.nextPiecesRender.append(DynamicImage(900, 90+ ((50/720)*pg.display.Info().current_w)*i, 0.3, img.completePiecesNum["1"]))
 
         self.odsnumber = randint(1,17)
 
@@ -71,15 +75,33 @@ class Game():
                 quit()
             if event.type == pg.VIDEORESIZE:
                 self.resize()
+            if event.type == pg.KEYUP:
+                if event.key == pg.K_LEFT or event.key == pg.K_a: 
+                    self.PressLeft = False
+                if event.key == pg.K_RIGHT or event.key == pg.K_d: 
+                    self.PressRight = False
+                if not self.PressLeft and not self.PressRight:
+                    self.move = [0,0]
+                if event.key == pg.K_DOWN or event.key == pg.K_s: 
+                    self.moveDown = [0,0]
+            if event.type == self.TIMEREVENT:
+                if gv.mode == 1:
+                    gv.limit -= 1
+                    self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{gv.limit}", True, (255,255,255))
+                    if gv.limit <= 0: self.gameOver()
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_LEFT or event.key == pg.K_a:
                     self.pieceInGame[0].move(self.board,[-1,0])
                     self.move = [-1,0]
                     self.tickKey = 0
+                    self.tickKeyWait = 0
+                    self.PressLeft = True
                 if event.key == pg.K_RIGHT or event.key == pg.K_d:
                     self.pieceInGame[0].move(self.board,[1,0])
                     self.move = [1,0]
                     self.tickKey = 0
+                    self.tickKeyWait = 0
+                    self.PressRight = True
                 if event.key == pg.K_SPACE:
                     while not self.pieceInGame[0].static:
                         self.pieceInGame[0].move([0,1])
@@ -92,15 +114,6 @@ class Game():
                 if event.key == pg.K_ESCAPE:
                     self.isLoad = False
                     self.gameOver()
-            if event.type == pg.KEYUP:
-                if event.key != pg.K_DOWN or event.key != pg.K_s:
-                    self.move = [0,0]
-                if event.key == pg.K_DOWN or event.key == pg.K_s: self.moveDown = [0,0]
-            if event.type == self.TIMEREVENT:
-                if gv.mode == 1:
-                    gv.limit -= 1
-                    self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{gv.limit}", True, (255,255,255))
-                    if gv.limit <= 0: self.gameOver()
     
     def updateNextPieces(self):
         for index, nextPiece in enumerate(self.pieceInGame[1:]):
@@ -112,11 +125,15 @@ class Game():
         self.dimY = self.board.shape[0]
         self.dimX = self.board.shape[1]
         self.score = 0
+        self.speed = gv.speed
+
         self.tickPiece = 0
         self.tickKey = 0
         self.move = [0,0]
         self.moveDown = [0,0]
-        self.speed = gv.speed
+        self.PressLeft = False
+        self.PressRight = False
+
         self.pieces = []
         for index,active in enumerate(gv.activePieces): 
             if active:
@@ -158,6 +175,9 @@ class Game():
         coordX = (BackX + (410/1280)*W)-4
 
         pg.draw.rect(self.screen, "#FFFFFF", (coordX, BackY-4,  (150/1280)*W, (scale*(self.dimY-3)+10)*2/3), 4)
+
+        
+
         pg.draw.rect(self.screen, "#FFFFFF", (coordX, BackY-4+(scale*(self.dimY-3)+10)*2/3 + 10,  (150/1280)*W, (scale*(self.dimY-3)+10)/3 - 10), 4)
 
         odsImg = img.ods[str(self.odsnumber)]
@@ -214,9 +234,9 @@ class Game():
         self.clearCompleteLines(Y + 1)
 
     def backEnd(self, deltaTime:int):
-        if self.tickKey > 90 and (self.move != [0,0] or self.moveDown != [0,0]): 
+        if self.tickKey > 70 and (self.move != [0,0] or self.moveDown != [0,0]): 
+            if self.tickKeyWait > 150: self.pieceInGame[0].move(self.board,self.move)
             self.pieceInGame[0].move(self.board,self.moveDown)
-            self.pieceInGame[0].move(self.board,self.move)
             self.tickKey = 0
 
         if self.tickPiece > 350:
@@ -237,6 +257,7 @@ class Game():
     
         self.tickPiece += (1 * deltaTime) * self.speed
         self.tickKey += 1 * deltaTime
+        self.tickKeyWait += 1 * deltaTime
     
     def bucle(self):
         currentTime = pg.time.get_ticks()
