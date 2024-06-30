@@ -2,6 +2,8 @@ import numpy as np
 import pygame as pg
 
 import globalVariables as gv
+import public.sonds.loadSonds as sonds
+
 from pages.Login import Login
 from pages.Register import Register
 from pages.Menu import Menu
@@ -21,6 +23,15 @@ W = pg.display.Info().current_w
 H = pg.display.Info().current_h
 pg.display.set_mode((W-100, H-100), pg.RESIZABLE)
 clock = pg.time.Clock()
+
+try:
+    pg.mixer.init()
+    gv.activeSond = True
+except:
+    gv.activeSond = False
+
+
+sonds.playMusic(sonds.music["menu"])
 
 pages = [
     Login(),

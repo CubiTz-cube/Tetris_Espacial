@@ -4,7 +4,7 @@ from pygame import image
 def loadImagesDict(directorio:str, end:str=".png"):
     images = {}
     for file in os.listdir(directorio):
-        if file.endswith(end):  # Filtrar por files .png
+        if file.endswith(end):
             completePath = os.path.join(directorio, file)
             nombre_sin_extension = os.path.splitext(file)[0]
             images[nombre_sin_extension] = image.load(completePath)

@@ -1,8 +1,9 @@
 import pygame as pg
 import pygame_gui as pgu
+from pygame_gui.core import ObjectID
 
 import globalVariables as gv
-from library.dynamicObjects import DynamicInput
+from library.dynamicObjects import DynamicInput, DynamicButton
 
 class Config():
     def __init__(self) -> None:
@@ -12,13 +13,10 @@ class Config():
         self.H = pg.display.Info().current_h
         self.manager = pgu.UIManager((self.W,self.H))
 
-        self.buttonPlay = pgu.elements.UIButton(
-        relative_rect=pg.Rect((300, 50), (150, 50)),
-        text="Regresar al menu",
-        manager=self.manager,
-        object_id="#buttonPlay")
+        self.buttonBack = DynamicButton(300, 50, 150, 50, "Regresar al menu", self.manager)
 
         self.InputSpeed = DynamicInput(300, 150, 150, 30, self.manager, str(gv.speed*100))
+        self.buttonMusic = DynamicButton(500, 150, 150, 30, "Mutear Musica", self.manager)
 
     def events(self):
         for event in pg.event.get():
@@ -30,8 +28,16 @@ class Config():
                 #Resize screen
                 pass
 
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonBack.element:
                 gv.actualPage = 2
+
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonMusic.element:
+                if gv.music:
+                    self.buttonMusic.element.set_text("Activar Musica")
+                    gv.music = False
+                else:
+                    self.buttonMusic.element.set_text("Mutear Musica")
+                    gv.music = True
 
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.InputSpeed.element:
                 newSpeed = self.InputSpeed.element.get_text()

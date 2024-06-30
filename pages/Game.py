@@ -7,6 +7,7 @@ import public.images.loadImages as img
 from library.starsBack import StartMaker
 import library.dataFormating as df
 import globalVariables as gv
+import public.sonds.loadSonds as sonds
 
 from random import choice, randint
 from copy import copy
@@ -103,6 +104,7 @@ class Game():
             self.nextPiecesRender[index].changeImg(img.completePiecesNum[str(nextPiece.value)])
 
     def resetGame(self):
+        sonds.playMusic(sonds.music["eduardo"])
         self.board = np.full([gv.dimY,gv.dimX,4], [0, 0, 0, 0])
         self.dimY = self.board.shape[0]
         self.dimX = self.board.shape[1]

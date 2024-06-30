@@ -2,6 +2,7 @@ import pygame as pg
 import pygame_gui as pgu
 
 import globalVariables as gv
+from library.dynamicObjects import DynamicButton
 
 class Menu():
     def __init__(self) -> None:
@@ -12,25 +13,11 @@ class Menu():
         self.manager = pgu.UIManager((W,H))
         self.isLoad = False
 
-        self.buttonPlay = pgu.elements.UIButton(
-        relative_rect=pg.Rect((300, 50), (150, 50)),
-        text="Jugar",
-        manager=self.manager)
+        self.buttonPlay = DynamicButton(300, 50, 150, 50, "Jugar", self.manager)
+        self.buttonLeader = DynamicButton(300, 100, 150, 50, "Estadisticas", self.manager)
+        self.buttonConfig = DynamicButton(300, 150, 150, 50, "Configuracion", self.manager)
+        self.buttonExit = DynamicButton(300, 200, 150, 50, "Salir", self.manager)
 
-        self.buttonLeader = pgu.elements.UIButton(
-        relative_rect=pg.Rect((300, 100), (150, 50)),
-        text="Estadisticas",
-        manager=self.manager)
-
-        self.buttonConfig = pgu.elements.UIButton(
-        relative_rect=pg.Rect((300, 150), (150, 50)),
-        text="Configuracion",
-        manager=self.manager)
-
-        self.buttonExit = pgu.elements.UIButton(
-        relative_rect=pg.Rect((300, 200), (150, 50)),
-        text="Salir",
-        manager=self.manager)
     def resize(self):
         pass
 
@@ -46,16 +33,16 @@ class Menu():
             if event.type == pg.VIDEORESIZE:
                 self.resize()
                 pass
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay:
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element:
                 gv.actualPage = 3
                 self.isLoad = False
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLeader:
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLeader.element:
                 gv.actualPage = 5
                 self.isLoad = False
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonConfig:
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonConfig.element:
                 gv.actualPage = 6
                 self.isLoad = False
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonExit:
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonExit.element:
                 pg.quit()
                 quit()
 
