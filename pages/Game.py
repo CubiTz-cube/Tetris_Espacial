@@ -37,6 +37,7 @@ class Game():
         self.tickPiece = 0
         self.tickKey = 0
         self.move = [0,0]
+        self.moveDown = [0,0]
         self.speed = gv.speed
 
         self.nextPiecesRender:list[DynamicImage] = []
@@ -75,24 +76,26 @@ class Game():
                     self.pieceInGame[0].move(self.board,[-1,0])
                     self.move = [-1,0]
                     self.tickKey = 0
-                elif event.key == pg.K_RIGHT or event.key == pg.K_d:
+                if event.key == pg.K_RIGHT or event.key == pg.K_d:
                     self.pieceInGame[0].move(self.board,[1,0])
                     self.move = [1,0]
                     self.tickKey = 0
-                elif event.key == pg.K_SPACE:
+                if event.key == pg.K_SPACE:
                     while not self.pieceInGame[0].static:
                         self.pieceInGame[0].move([0,1])
-                elif event.key == pg.K_DOWN or event.key == pg.K_s:
+                if event.key == pg.K_DOWN or event.key == pg.K_s:
                     self.pieceInGame[0].move(self.board,[0,1])
-                    self.move = [0,1]
+                    self.moveDown = [0,1]
                     self.tickKey = 0
-                elif event.key == pg.K_UP or event.key == pg.K_w:
+                if event.key == pg.K_UP or event.key == pg.K_w:
                     self.pieceInGame[0].rotateR(self.board)
-                elif event.key == pg.K_ESCAPE:
+                if event.key == pg.K_ESCAPE:
                     self.isLoad = False
                     self.gameOver()
             if event.type == pg.KEYUP:
-                self.move = [0,0]
+                if event.key != pg.K_DOWN or event.key != pg.K_s:
+                    self.move = [0,0]
+                if event.key == pg.K_DOWN or event.key == pg.K_s: self.moveDown = [0,0]
             if event.type == self.TIMEREVENT:
                 if gv.mode == 1:
                     gv.limit -= 1
@@ -112,6 +115,7 @@ class Game():
         self.tickPiece = 0
         self.tickKey = 0
         self.move = [0,0]
+        self.moveDown = [0,0]
         self.speed = gv.speed
         self.pieces = []
         for index,active in enumerate(gv.activePieces): 
@@ -210,9 +214,10 @@ class Game():
         self.clearCompleteLines(Y + 1)
 
     def backEnd(self, deltaTime:int):
-        if self.tickKey > 90 and self.move != [0,0]: 
-            self.tickKey = 0
+        if self.tickKey > 90 and (self.move != [0,0] or self.moveDown != [0,0]): 
+            self.pieceInGame[0].move(self.board,self.moveDown)
             self.pieceInGame[0].move(self.board,self.move)
+            self.tickKey = 0
 
         if self.tickPiece > 350:
             self.tickPiece = 0
@@ -228,7 +233,7 @@ class Game():
                 self.odsnumber = randint(1,17)
                 self.speed += 0.01
     
-            self.pieceInGame[0].move(self.board,[0,1])
+            if self.moveDown == [0,0]: self.pieceInGame[0].move(self.board,[0,1])
     
         self.tickPiece += (1 * deltaTime) * self.speed
         self.tickKey += 1 * deltaTime
