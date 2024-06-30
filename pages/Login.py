@@ -24,8 +24,8 @@ class Login():
         for user in self.allUsers:
             print(user)
 
-        self.inputMail = DynamicInput(100, 250, 460, 85, gv.fontAldrich, 24, "#000000", self.manager, "Correo")
-        self.inputPassword = DynamicInput(100, 340, 460, 85, gv.fontAldrich, 24, "#000000", self.manager, "Contraseña")
+        self.inputMail = DynamicInput(100, 250, 460, 85, self.manager, "Correo")
+        self.inputPassword = DynamicInput(100, 340, 460, 85, self.manager, "Contraseña")
 
         self.buttonPlay = DynamicButton(150, 510, 360, 70, "Iniciar", self.manager, ObjectID("#play"))
         self.buttonRegister = DynamicButton(150, 580, 360, 50, "¿No tienes cuenta? Registrate", self.manager, ObjectID("#register"))
@@ -116,21 +116,6 @@ class Login():
                     print(gv.actualUser)
 
         return [userFind, passwordFind]
-
-    def changeRegisterAnimation(self):
-        pass
-
-    def resetScreen(self):
-        self.inputMail.element.visible = True
-        self.inputPassword.element.visible = True
-        self.buttonPlay.element.visible = True
-        self.buttonRegister.element.visible = True
-
-        self.dynamicObjects[0].changeCoord(0, None)
-        self.dynamicObjects[1].changeCoord(10, None)
-        self.dynamicObjects[2].changeText("¡Bienvenido!")
-        self.dynamicObjects[3].changeCoord((640 - pg.font.Font(gv.fontAldrich, 85).size("¡Bienvenido!")[0])/2, None)
-        self.dynamicObjects[5].changeCoord(10, None)
 
     def frontEnd(self):
         self.screen.fill("#050611")

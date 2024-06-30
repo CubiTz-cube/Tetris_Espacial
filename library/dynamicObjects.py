@@ -132,7 +132,7 @@ class DynamicImage():
         self.screen.blit(self.image, (self.x, self.y))
 
 class DynamicInput():
-    def __init__(self, x, y, ObjectW, ObjectH, fontPath:str, size:int, color, manager, defaultText="", options = []):
+    def __init__(self, x, y, ObjectW, ObjectH, manager, defaultText="", options = []):
         self.screen = pg.display.get_surface()
         self.manager = manager
         self.W = 1280

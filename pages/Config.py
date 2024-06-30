@@ -2,6 +2,7 @@ import pygame as pg
 import pygame_gui as pgu
 
 import globalVariables as gv
+from library.dynamicObjects import DynamicInput
 
 class Config():
     def __init__(self) -> None:
@@ -17,10 +18,7 @@ class Config():
         manager=self.manager,
         object_id="#buttonPlay")
 
-        self.selectedSpeed = pgu.elements.UITextEntryLine(
-        relative_rect=pg.Rect((300, 150), (150, 30)),
-        initial_text="0",
-        manager=self.manager)
+        self.InputSpeed = DynamicInput(300, 150, 150, 30, self.manager, str(gv.speed*100))
 
     def events(self):
         for event in pg.event.get():
@@ -35,14 +33,14 @@ class Config():
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
                 gv.actualPage = 2
 
-            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.selectedSpeed:
-                new_speed_str = self.selectedSpeed.get_text()
-                if new_speed_str:
-                    gv.speed = int(new_speed_str)
-                else:
-                    gv.speed = 1   
-                #Recomiendo hacer que los valores sean entre 1 y 10
-                    
+            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.InputSpeed.element:
+                newSpeed = self.InputSpeed.element.get_text()
+                try:
+                    newSpeed = int(newSpeed)
+                    gv.speed = 1 * (newSpeed/100)
+                    print(f"nueva velocidad {gv.speed}")
+                except:
+                    pass
 
 
             self.manager.process_events(event)

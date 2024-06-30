@@ -7,9 +7,10 @@ class Menu():
     def __init__(self) -> None:
         self.screen = pg.display.get_surface()
         self.clock = pg.Clock()
-        self.W = pg.display.Info().current_w
-        self.H = pg.display.Info().current_h
-        self.manager = pgu.UIManager((self.W,self.H))
+        W = pg.display.Info().current_w
+        H = pg.display.Info().current_h
+        self.manager = pgu.UIManager((W,H))
+        self.isLoad = False
 
         self.buttonPlay = pgu.elements.UIButton(
         relative_rect=pg.Rect((300, 50), (150, 50)),
@@ -30,6 +31,12 @@ class Menu():
         relative_rect=pg.Rect((300, 200), (150, 50)),
         text="Salir",
         manager=self.manager)
+    def resize(self):
+        pass
+
+    def resetScreen(self):
+        pg.mouse.set_cursor(*pg.cursors.arrow)
+        self.resize()
 
     def events(self):
         for event in pg.event.get():
@@ -37,14 +44,17 @@ class Menu():
                 pg.quit()
                 quit()
             if event.type == pg.VIDEORESIZE:
-                #Reside screen
+                self.resize()
                 pass
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay:
                 gv.actualPage = 3
+                self.isLoad = False
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLeader:
                 gv.actualPage = 5
+                self.isLoad = False
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonConfig:
                 gv.actualPage = 6
+                self.isLoad = False
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonExit:
                 pg.quit()
                 quit()
@@ -60,6 +70,10 @@ class Menu():
         pass
 
     def bucle(self):
+        if not self.isLoad:
+            self.resetScreen()
+            self.isLoad = True
+
         self.events()
         self.frontEnd()
         self.backEnd()

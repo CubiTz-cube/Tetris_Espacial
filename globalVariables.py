@@ -1,12 +1,13 @@
 actualUser = ['correo', 'password', 'nombreApellido', 'BolÃ\xadvar', [[300, 5, 6, 2024, 8, 44], [300, 5, 6, 2024, 8, 43]]]
 
 # Pages
-actualPage = 0 # 0: Login, 1: Register, 2: Menu, 3: Selection, 4: Game, 5: Leaderboard, 6: Config
+actualPage = 0 # 0: Login 1: Register 2: Menu 3: Selection 4: Game 5: Leaderboard 6: Config 7: GameOver
 
 #Game
-mode = 0
-limit = 0
-speed = 0
+mode = 0 # 0: Ninguno 1: Tiempo 2: Pieza
+limit = 60
+speed = 1
+viewScore = 0
 
 dimX = 12
 dimY = 21
@@ -18,6 +19,7 @@ states = [("No seleccionado", None),"Amazonas", "Anzoátegui", "Apure", "Aragua"
 
 #fonts
 fontLekton = "./public/fonts/Lekton-Regular.ttf"
+fontLektonBold = "./public/fonts/Lekton-Bold.ttf"
 fontAldrich = "./public/fonts/Aldrich-Regular.ttf"
 
 #Archives

@@ -16,15 +16,15 @@ class Register():
         self.W = pg.display.Info().current_w
         self.H = pg.display.Info().current_h
         self.manager = pgu.UIManager((self.W,self.H))
-        self.userData = ["correo","password", "name", "state"]
+        self.userData = ["","", "", gv.states[1], []]
         self.manager = pgu.UIManager((self.W,self.H), "pages\\css\\loginRegister.json")
         self.manager.get_theme().load_theme("pages\\css\\global.json")
         self.isLoad = False
 
-        self.inputName = DynamicInput(740, 250, 460, 75, gv.fontAldrich, 24, "#000000", self.manager, "Nombre y apellido")
-        self.inputPassword = DynamicInput(740, 330, 460, 75, gv.fontAldrich, 24, "#000000", self.manager, "Contraseña")
-        self.inputMail = DynamicInput(740, 410, 220, 75, gv.fontAldrich, 24, "#000000", self.manager, "Correo")
-        self.inputState = DynamicInput(980, 410, 220, 75, gv.fontAldrich, 24, "#000000", self.manager, "Estado", options=gv.states[1:])
+        self.inputName = DynamicInput(740, 250, 460, 75, self.manager, "Nombre y apellido")
+        self.inputPassword = DynamicInput(740, 330, 460, 75, self.manager, "Contraseña")
+        self.inputMail = DynamicInput(740, 410, 220, 75, self.manager, "Correo")
+        self.inputState = DynamicInput(980, 410, 220, 75, self.manager, "Estado", options=gv.states[1:])
         self.buttonPlay = DynamicButton(790, 510, 360, 70, "Iniciar", self.manager, ObjectID("#play"))
         self.buttonLogin = DynamicButton(790, 580, 360, 50, "¿Tienes cuenta? inicia sesion", self.manager, ObjectID("#register"))
         self.textError = DynamicText(640, 460, "",gv.fontLekton, 26, "#AD1106")
@@ -142,10 +142,18 @@ class Register():
         pass
 
     def saveUser(self):
+        for i in self.userData:
+            if i == "":
+                return
         with open(gv.fileUsers, "ab") as file:
-            for data in self.userData:
+            for index, data in enumerate(self.userData):
                 print("Writing data to file")
-                file.write((encrypt(str(data))+" ").encode())
+
+                text  = ""
+                if index != len(self.userData)-1: text = str(data)+"|"
+                else: text = str(data)
+
+                file.write(text.encode())
             file.write(b"\n")
     
     def bucle(self):

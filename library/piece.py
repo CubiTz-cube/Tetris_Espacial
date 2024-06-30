@@ -108,7 +108,15 @@ class Piece:
         self.x += x
         self.y += y
         self.create(board)
-    
+
+    def startEndPieceShape(self):
+        number = []
+        for Y in range(self.shape.shape[0]):
+            for X in range(self.shape.shape[1]):
+                if self.shape[Y,X] == 1:
+                    number.append(X)
+        return min(number), max(number)+1
+
     def _colisionX(self,board:np.ndarray[any], right:bool = True):
         result = False
         for Y in range(self.shape.shape[0]):
