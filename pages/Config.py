@@ -17,16 +17,33 @@ class Config():
         manager=self.manager,
         object_id="#buttonPlay")
 
+        self.selectedSpeed = pgu.elements.UITextEntryLine(
+        relative_rect=pg.Rect((300, 150), (150, 30)),
+        initial_text="0",
+        manager=self.manager)
+
     def events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
                 quit()
+
             if event.type == pg.VIDEORESIZE:
-                #Reside screen
+                #Resize screen
                 pass
+
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_object_id == "#buttonPlay":
                 gv.actualPage = 2
+
+            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.selectedSpeed:
+                new_speed_str = self.selectedSpeed.get_text()
+                if new_speed_str:
+                    gv.speed = int(new_speed_str)
+                else:
+                    gv.speed = 1   
+                #Recomiendo hacer que los valores sean entre 1 y 10
+                    
+
 
             self.manager.process_events(event)
 
