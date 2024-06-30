@@ -63,22 +63,22 @@ class Register():
             if event.type == pg.VIDEORESIZE:
                 self.resize()
                 pass
-            if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputName.element:
-                self.userData[1] = self.inputMail.element.get_text() #le coloco element porque ya le puse element a lo demas tomces mi logica me dice que esto tambien
-                print("Dropping down menu",self.userData[1])
+            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputName.element:
+                self.userData[2] = self.inputName.element.get_text() #le coloco element porque ya le puse element a lo demas tomces mi logica me dice que esto tambien
+                print("Dropping down menu",self.userData)
 
             if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputState.element:
-                print("Dropping down menu",self.userData[3])
+                print("Dropping down menu",self.userData)
                 self.userData[3] = self.inputState.element.selected_option[0]
                 self.userData[3] = self.inputState.element.selected_option[1]
 
-            if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputPassword.element:
-                self.userData[4] = self.inputPassword.element.get_text()
-                print("Dropping down menu",self.userData[4])
+            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputPassword.element:
+                self.userData[1] = self.inputPassword.element.get_text()
+                print("Dropping down menu",self.userData)
 
-            if event.type == pgu.UI_TEXT_ENTRY_FINISHED and event.ui_element == self.inputMail.element:
-                print("Dropping down menu",self.userData[5])
-                self.userData[5] = self.inputMail.element.get_text()
+            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputMail.element:
+                print("Dropping down menu",self.userData)
+                self.userData[0] = self.inputMail.element.get_text()
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element:
                 self.saveUser()
