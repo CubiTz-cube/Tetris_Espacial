@@ -112,6 +112,8 @@ class DynamicImage():
         self.x = self.relativeX * screenW
         self.y = self.relativeY * screenH
         self.image = pg.transform.rotozoom(self.imageSave, self.rotate, self.scale * screenW)
+        if self.mirror:
+            self.image = pg.transform.flip(self.image, True, False)
 
     def changeCoord(self, x, y):
         screenW, screenH = self.screen.get_size()
