@@ -2,9 +2,13 @@ actualUser = ['correo', 'password', 'nombreApellido', 'BolÃ\xadvar', [[300, 5, 
 
 # Pages
 actualPage = 2 # 0: Login 1: Register 2: Menu 3: Selection 4: Game 5: Leaderboard 6: Config 7: GameOver
+
+# Sonds
+actualSong = "menu"
+
 activeSond = True
 music = True
-volumen = 1
+volumen = 2
 
 #Game
 mode = 0 # 0: Ninguno 1: Tiempo 2: Pieza

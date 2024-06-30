@@ -4,6 +4,7 @@ from pygame_gui.core import ObjectID
 
 import globalVariables as gv
 from library.dynamicObjects import DynamicInput, DynamicButton
+import public.sonds.loadSonds as sonds
 
 class Config():
     def __init__(self) -> None:
@@ -35,9 +36,11 @@ class Config():
                 if gv.music:
                     self.buttonMusic.element.set_text("Activar Musica")
                     gv.music = False
+                    sonds.stopMusic()
                 else:
                     self.buttonMusic.element.set_text("Mutear Musica")
                     gv.music = True
+                    sonds.playMusic(sonds.music[gv.actualSong])
 
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.InputSpeed.element:
                 newSpeed = self.InputSpeed.element.get_text()
