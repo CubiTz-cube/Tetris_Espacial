@@ -217,8 +217,8 @@ class Game():
     
             self.pieceInGame[0].move(self.board,[0,1])
     
-        self.tickPiece += 1 * deltaTime
-        self.tickKey += 1 * deltaTime
+        self.tickPiece += 1 * deltaTime * gv.speed
+        self.tickKey += 1 * deltaTime * gv.speed
     
     def bucle(self):
         currentTime = pg.time.get_ticks()
