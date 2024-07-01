@@ -3,6 +3,7 @@ import pygame_gui as pgu
 from library.dynamicObjects import *
 import globalVariables as gv
 from library.dynamicObjects import DynamicButton
+import public.images.loadImages as img
 
 class Menu():
     def __init__(self) -> None:
@@ -13,13 +14,15 @@ class Menu():
         self.manager = pgu.UIManager((W,H))
         self.isLoad = False
 
-        self.buttonPlay = DynamicButton(300, 50, 150, 50, "Jugar", self.manager)
-        self.buttonLeader = DynamicButton(300, 100, 150, 50, "Estadisticas", self.manager)
-        self.buttonConfig = DynamicButton(300, 150, 150, 50, "Configuracion", self.manager)
-        self.buttonExit = DynamicButton(300, 200, 150, 50, "Salir", self.manager)
+        self.buttonPlay = DynamicButton(0, 125, 730, 130, "Jugar", self.manager)
+        self.buttonLeader = DynamicButton(0, 300, 730, 130, "Estadisticas", self.manager)
+        self.buttonConfig = DynamicButton(0, 480, 730, 130, "Configuracion", self.manager)
+        self.buttonExit = DynamicButton(1107, 650, 190, 80, "Salir", self.manager)
 
         self.dynamicObjects = [
-            DynamicRect(640, 0, 640, 720, "#FFFFFF"),
+            DynamicRect(0, -40, 10000, 120, "#FFFFFF"),
+            DynamicRect(655, -40, 10000, 120, "#1C1C1C"),
+             DynamicImage(0, 0, 0.070, img.logos["isotipoNegro"]),
             self.buttonPlay,
             self.buttonLeader,
             self.buttonConfig,
@@ -28,12 +31,12 @@ class Menu():
         ] 
 
     def resize(self):
-        for obj in self.dynamicObjects:
+        for obj in self.dynamicObjects: #no se si es por esto que no me imprime
             obj.resize()
 
     def resetScreen(self):
         pg.mouse.set_cursor(*pg.cursors.arrow)
-        """self.resize()"""
+        self.resize()
 
     def events(self):
         for event in pg.event.get():
@@ -59,11 +62,10 @@ class Menu():
             self.manager.process_events(event)
 
     def frontEnd(self):
-        self.screen.fill("#050611")
 
+        self.screen.fill("#050611")
         for obj in self.dynamicObjects:
             obj.render()
-        self.screen.fill((0,0,0))
         self.manager.update(self.clock.tick(60)/1000)
         self.manager.draw_ui(self.screen)
 
