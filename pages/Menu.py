@@ -1,6 +1,6 @@
 import pygame as pg
 import pygame_gui as pgu
-
+from library.dynamicObjects import *
 import globalVariables as gv
 from library.dynamicObjects import DynamicButton
 
@@ -18,12 +18,22 @@ class Menu():
         self.buttonConfig = DynamicButton(300, 150, 150, 50, "Configuracion", self.manager)
         self.buttonExit = DynamicButton(300, 200, 150, 50, "Salir", self.manager)
 
+        self.dynamicObjects = [
+            DynamicRect(640, 0, 640, 720, "#FFFFFF"),
+            self.buttonPlay,
+            self.buttonLeader,
+            self.buttonConfig,
+            self.buttonExit
+           
+        ] 
+
     def resize(self):
-        pass
+        for obj in self.dynamicObjects:
+            obj.resize()
 
     def resetScreen(self):
         pg.mouse.set_cursor(*pg.cursors.arrow)
-        self.resize()
+        """self.resize()"""
 
     def events(self):
         for event in pg.event.get():
@@ -49,6 +59,10 @@ class Menu():
             self.manager.process_events(event)
 
     def frontEnd(self):
+        self.screen.fill("#050611")
+
+        for obj in self.dynamicObjects:
+            obj.render()
         self.screen.fill((0,0,0))
         self.manager.update(self.clock.tick(60)/1000)
         self.manager.draw_ui(self.screen)
@@ -58,9 +72,9 @@ class Menu():
 
     def bucle(self):
         if not self.isLoad:
+            self.resize()
             self.resetScreen()
             self.isLoad = True
-
         self.events()
         self.frontEnd()
         self.backEnd()
