@@ -90,20 +90,20 @@ class Register():
                     gv.actualUser=self.userData
                     gv.actualPage = 2
                 elif(self.validateGlobal(name)!=True):
-                    print("Nombre no válido, contiene el caracter | .")
-                    #self.textError.element.set_text("Nombre no válido, contiene el caracter | .")
+                    self.textError.changeText("*Nombre no válido, contiene el caracter | .")
+                    self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("*Nombre no válido, contiene el caracter | .")[0])/2, None)
                 elif(validacion[0][0]!=True):
-                    print("contraseña no valida, tiene ñ, no tiene almenos una mayuscula y minuscula o tiene acentos o caracteres especiales aparte de los permitidos (*=.-)")
-                    #self.textError.element.set_text("contraseña no valida, tiene ñ, no tiene almenos una mayuscula y minuscula o tiene acentos o caracteres especiales aparte de los permitidos (*=.-)")
+                    self.textError.changeText("*contraseña no valida, tiene ñ, no tiene almenos una mayuscula y minuscula o tiene acentos o caracteres especiales aparte de los permitidos (*=.-)")
+                    self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("*contraseña no valida, tiene ñ, no tiene almenos una mayuscula y minuscula o tiene acentos o caracteres especiales aparte de los permitidos (*=.-)")[0])/2, None)
                 elif(validacion[0][1]!=True):
-                    print("contrasena no válida, No tiene al menos uno de los caracteres (*=.-)")
-                    #self.textError.element.set_text("contrasena no válida, No tiene al menos uno de los caracteres (*=.-)")
+                    self.textError.changeText("*contrasena no válida, No tiene al menos uno de los caracteres (*=.-)")
+                    self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("*contrasena no válida, No tiene al menos uno de los caracteres (*=.-)")[0])/2, None)
                 elif(validacion[0][2]!=True):
-                    print("contrasena no válida, se repite 3 veces el mismo caracter")
-                    #self.textError.element.set_text("contrasena no válida, se repite 3 veces el mismo caracter")
+                    self.textError.changeText("contrasena no válida, se repite 3 veces el mismo caracter")
+                    self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("contrasena no válida, se repite 3 veces el mismo caracter")[0])/2, None)
                 elif(validacion[1]!=True or self.validateGlobal(mail)):
-                    print("Correo no válido. Debe ser un correo de Gmail.")
-                    #self.textError.element.set_text("Correo no válido. Debe ser un correo de Gmail.")
+                    self.textError.changeText("Correo no válido. Debe ser un correo de Gmail.")
+                    self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("Correo no válido. Debe ser un correo de Gmail.")[0])/2, None)
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLogin.element:
                 gv.actualPage = 0
