@@ -133,7 +133,7 @@ class Register():
         return True
 
     def validateEmail(self, email:str):
-        if not email.endswith("@gmail.com"):
+        if not (email.endswith("@gmail.com") or email.endswith("@hotmail.com")):
             return False
 
         return True
