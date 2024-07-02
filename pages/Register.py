@@ -95,12 +95,12 @@ class Register():
                 elif(validacion[0][0]!=True):
                     self.textError.changeText("*contraseña no valida, tiene ñ, no tiene almenos una mayuscula y minuscula o tiene acentos o caracteres especiales aparte de los permitidos (*=.-)")
                     self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("*contraseña no valida, tiene ñ, no tiene almenos una mayuscula y minuscula o tiene acentos o caracteres especiales aparte de los permitidos (*=.-)")[0])/2, None)
-                elif(validacion[0][1]!=True):
-                    self.textError.changeText("*contrasena no válida, No tiene al menos uno de los caracteres (*=.-)")
-                    self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("*contrasena no válida, No tiene al menos uno de los caracteres (*=.-)")[0])/2, None)
-                elif(validacion[0][2]!=True):
-                    self.textError.changeText("contrasena no válida, se repite 3 veces el mismo caracter")
-                    self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("contrasena no válida, se repite 3 veces el mismo caracter")[0])/2, None)
+                    if(validacion[0][1]!=True):
+                        self.textError.changeText("*contrasena no válida, No tiene al menos uno de los caracteres (*=.-)")
+                        self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("*contrasena no válida, No tiene al menos uno de los caracteres (*=.-)")[0])/2, None)
+                    if(validacion[0][2]!=True):
+                        self.textError.changeText("contrasena no válida, se repite 3 veces el mismo caracter")
+                        self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("contrasena no válida, se repite 3 veces el mismo caracter")[0])/2, None)
                 elif(validacion[1]!=True or self.validateGlobal(mail)):
                     self.textError.changeText("Correo no válido. Debe ser un correo de Gmail.")
                     self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("Correo no válido. Debe ser un correo de Gmail.")[0])/2, None)
