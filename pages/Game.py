@@ -44,6 +44,9 @@ class Game():
         self.PressLeft = False
         self.PressRight = False
 
+        self.TIMEREVENT = pg.USEREVENT + 2
+        pg.time.set_timer(self.TIMEREVENT, 1000)
+
         self.nextPiecesRender:list[DynamicImage] = []
 
         self.textRenderNumber = [pg.font.Font(gv.fontLekton, 25).render(f"{i-2}", True, (0,0,0)) for i in range(2,15)]
@@ -52,16 +55,13 @@ class Game():
         self.textRenderModePiece = pg.font.Font(gv.fontLekton, 25).render(f"Piezas:", True, (255,255,255))
         self.scoreTextRender = pg.font.Font(gv.fontLektonBold, 25).render(f"Score: {self.score}", True, (255,255,255))
         self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{gv.limit}", True, (255,255,255))
-
-        self.TIMEREVENT = pg.USEREVENT + 2
-        pg.time.set_timer(self.TIMEREVENT, 1000)
+        self.textNextPieces = pg.font.Font(gv.fontAldrich, 20).render(f"Siguientes", True, (255,255,255))
+        self.textEscapeTo = DynamicText(540, 10, "Presiona ESC para Terminar el juego", gv.fontLekton, 15, "#FFFFFF")
 
         for i in range(4):
             self.nextPiecesRender.append(DynamicImage(900, 90+ ((50/720)*pg.display.Info().current_w)*i, 0.3, img.completePiecesNum["1"]))
 
         self.odsnumber = randint(1,17)
-
-        self.textEscapeTo = DynamicText(540, 10, "Presiona ESC para Terminar el juego", gv.fontLekton, 15, "#FFFFFF")
 
     def resize(self):
         for index, obj in enumerate(self.nextPiecesRender):
@@ -165,19 +165,22 @@ class Game():
         BackY = (60/720) * H
         scale = ((390/1280) * W)/self.dimX 
 
+        #Lineas del fondo
         for Y in range(self.dimY-3):
             pg.draw.line(self.screen, "#141517", (BackX, Y*scale + BackY), (BackX + scale*self.dimX, Y*scale + BackY), 1)
             for X in range(self.dimX):
                 pg.draw.line(self.screen, "#141517", (X*scale + BackX, BackY), (X*scale + BackX, scale*(self.dimY-3) + BackY), 1)
 
+        #Cuadro del juego principal
         pg.draw.rect(self.screen, "#FFFFFF", (BackX-4, BackY-4,  scale*self.dimX+10, scale*(self.dimY-3)+10), 4)
 
+        
+        #Cuadro de la proximas piezas
         coordX = (BackX + (410/1280)*W)-4
-
+        self.screen.blit(self.textNextPieces, (coordX+4 + ((150/1280)*W+- self.textNextPieces.get_width())/2 , BackY+(5/1280)*W))
         pg.draw.rect(self.screen, "#FFFFFF", (coordX, BackY-4,  (150/1280)*W, (scale*(self.dimY-3)+10)*2/3), 4)
 
-        
-
+        #Cuadro del score y las ods
         pg.draw.rect(self.screen, "#FFFFFF", (coordX, BackY-4+(scale*(self.dimY-3)+10)*2/3 + 10,  (150/1280)*W, (scale*(self.dimY-3)+10)/3 - 10), 4)
 
         odsImg = img.ods[str(self.odsnumber)]
@@ -197,6 +200,7 @@ class Game():
 
         pg.draw.rect(self.screen, "#FFFFFF", ((BackX - (10/1280)*W)-4-(150/1280)*W, BackY-4,  (150/1280)*W, (scale*(self.dimY-3)+10)/4), 4)
 
+        #Piezas
         for Y in range(3, self.dimY):
             for X in range(self.dimX):
                 pieceX = X * scale + BackX
