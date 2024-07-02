@@ -81,16 +81,37 @@ class Register():
                 self.userData[0] = self.inputMail.element.get_text()
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element:
-                self.saveUser()
-                gv.actualPage = 2
-            
+                mail=self.userData[0]
+                password=self.userData[1]
+                name=self.userData[2]
+                validacion=[self.validatePassword(password),self.validateEmail(mail)]
+                if all(validacion) and self.validateGlobal(mail) and self.validateGlobal(password) and self.validateGlobal(name):
+                    self.saveUser()
+                    gv.actualUser=self.userData
+                    gv.actualPage = 2
+                elif(self.validateGlobal(name)!=True):
+                    print("Nombre no válido, contiene el caracter | .")
+                    #self.textError.element.set_text("Nombre no válido, contiene el caracter | .")
+                elif(validacion[0][0]!=True):
+                    print("contraseña no valida, tiene ñ, no tiene almenos una mayuscula y minuscula o tiene acentos o caracteres especiales aparte de los permitidos (*=.-)")
+                    #self.textError.element.set_text("contraseña no valida, tiene ñ, no tiene almenos una mayuscula y minuscula o tiene acentos o caracteres especiales aparte de los permitidos (*=.-)")
+                elif(validacion[0][1]!=True):
+                    print("contrasena no válida, No tiene al menos uno de los caracteres (*=.-)")
+                    #self.textError.element.set_text("contrasena no válida, No tiene al menos uno de los caracteres (*=.-)")
+                elif(validacion[0][2]!=True):
+                    print("contrasena no válida, se repite 3 veces el mismo caracter")
+                    #self.textError.element.set_text("contrasena no válida, se repite 3 veces el mismo caracter")
+                elif(validacion[1]!=True or self.validateGlobal(mail)):
+                    print("Correo no válido. Debe ser un correo de Gmail.")
+                    #self.textError.element.set_text("Correo no válido. Debe ser un correo de Gmail.")
+
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLogin.element:
                 gv.actualPage = 0
                 self.isLoad = False
 
             self.manager.process_events(event)
 
-    def validatePassword(str):
+    def validatePassword(self, str):
         valid = [True, True, True]
         # No tiene ñ, tiene almenos una mayuscula y minuscula no tiene acentos ni caracteres especiales aparte de los permitidos (*=.-)
         if bool(re.search(r'[ñÑ]', str)): valid[0] = False
@@ -103,31 +124,19 @@ class Register():
 
         # No se repite 3 veces el mismo caracter
         if bool(re.search(r'(.)\1\1\1', str)): valid[2] = False
-
+        
         return valid
     
-    def validate_email(email):
-        valid = False
+    def validateGlobal(self, text:str):
+        if "|" in text: 
+            return False
+        return True
 
-        if "@" in email:
-            valid = True
+    def validateEmail(self, email:str):
+        if not email.endswith("@gmail.com"):
+            return False
 
-        if valid[0] and ".com" in email.split("@")[1]:
-            valid = True
-
-        if re.match("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+[a-zA-Z0-9-.]+$", email):
-            valid = True
-
-        if not (email.startswith(".") or email.endswith(".") or email.startswith("@") or email.endswith("@")):
-            valid = True
-
-        if ".." not in email and "@@" not in email and ".@" not in email and "@." not in email:
-            valid = True
-
-        if email.endswith(".com") and email.count(".com") == 1:
-            valid = True
-
-        return valid
+        return True
     
     def frontEnd(self):
         self.screen.fill("#050611")
