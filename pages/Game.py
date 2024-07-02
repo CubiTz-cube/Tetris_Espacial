@@ -138,7 +138,7 @@ class Game():
         for index,active in enumerate(gv.activePieces): 
             if active:
                 self.pieces.append(piece.allPieces[index])
-        self.pieceInGame = [copy(choice(self.pieces)) for _ in range(4)]
+        self.pieceInGame = [copy(choice(self.pieces)) for _ in range(5)]
         self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{gv.limit}", True, (255,255,255))
         self.updateNextPieces()
         
