@@ -103,8 +103,7 @@ class Game():
                     self.tickKeyWait = 0
                     self.PressRight = True
                 if event.key == pg.K_SPACE:
-                    while not self.pieceInGame[0].static:
-                        self.pieceInGame[0].move([0,1])
+                    pass
                 if event.key == pg.K_DOWN or event.key == pg.K_s:
                     self.pieceInGame[0].move(self.board,[0,1])
                     self.moveDown = [0,1]
