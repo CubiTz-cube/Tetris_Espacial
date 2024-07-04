@@ -1,13 +1,12 @@
 actualUser = ['correo', 'password', 'nombreApellido', 'BolÃ\xadvar', [[300, 5, 6, 2024, 8, 44], [300, 5, 6, 2024, 8, 43]]]
 
 # Pages
-actualPage = 0 # 0: Login 1: Register 2: Menu 3: Selection 4: Game 5: Leaderboard 6: Config 7: GameOver
+actualPage = 6 # 0: Login 1: Register 2: Menu 3: Selection 4: Game 5: Leaderboard 6: Config 7: GameOver
 
 # Sonds
-actualSong = "menu"
-
+actualSong = 0
 activeSond = True
-music = True
+music = False
 volumen = 1
 
 #Game

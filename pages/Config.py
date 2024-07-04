@@ -16,8 +16,9 @@ class Config():
 
         self.buttonBack = DynamicButton(300, 50, 150, 50, "Regresar al menu", self.manager)
 
-        self.InputSpeed = DynamicInput(300, 150, 150, 30, self.manager, str(gv.speed*100))
+        self.InputSpeed = DynamicInput(300, 150, 200, 30, self.manager, "Velocidad: "+str(gv.speed*100))
         self.buttonMusic = DynamicButton(500, 150, 150, 30, "Mutear Musica", self.manager)
+        self.buttonMusicChange = DynamicButton(500, 250, 150, 30, "Cambiar Musica", self.manager)
 
     def events(self):
         for event in pg.event.get():
@@ -31,6 +32,10 @@ class Config():
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonBack.element:
                 gv.actualPage = 2
+
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonMusicChange.element:
+                gv.actualSong = (gv.actualSong + 1) % len(sonds.music)
+                sonds.playMusic(sonds.music[gv.actualSong])
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonMusic.element:
                 if gv.music:
