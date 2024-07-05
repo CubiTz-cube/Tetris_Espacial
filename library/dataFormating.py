@@ -43,3 +43,14 @@ def timeDateCompare(dateList:list[int]):
         return "mounth"
     elif year <= compareTime <= today:
         return "year"
+
+def quickSortScoreUser(scores:list[list[int]]):
+    if len(scores) <= 1:
+        return scores
+    pivot = scores[len(scores) // 2][0][0]
+
+    left = [x for x in scores if x[0][0] > pivot]
+    middle = [x for x in scores if x[0][0] == pivot]
+    right = [x for x in scores if x[0][0] < pivot]
+    
+    return quickSortScoreUser(left) + middle + quickSortScoreUser(right)

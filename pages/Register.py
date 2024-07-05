@@ -27,7 +27,7 @@ class Register():
         self.inputState = DynamicInput(980, 410, 220, 75, self.manager, "Estado", options=gv.states[1:])
         self.buttonPlay = DynamicButton(790, 510, 360, 70, "Iniciar", self.manager, ObjectID("#play"))
         self.buttonLogin = DynamicButton(790, 580, 360, 50, "¿Tienes cuenta? inicia sesion", self.manager, ObjectID("#register"))
-        self.textError = DynamicText(640, 460, "",gv.fontLekton, 26, "#AD1106")
+        self.textError = DynamicText(640, 620, "",gv.fontLekton, 18, "#AD1106")
 
         self.dynamicObjects = [
             self.inputName,
@@ -64,20 +64,16 @@ class Register():
                 self.resize()
                 pass
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputName.element:
-                self.userData[2] = self.inputName.element.get_text() #le coloco element porque ya le puse element a lo demas tomces mi logica me dice que esto tambien
-                print("Dropping down menu",self.userData)
+                self.userData[2] = self.inputName.element.get_text()
 
             if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputState.element:
-                print("Dropping down menu",self.userData)
                 self.userData[3] = self.inputState.element.selected_option[0]
                 self.userData[3] = self.inputState.element.selected_option[1]
 
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputPassword.element:
                 self.userData[1] = self.inputPassword.element.get_text()
-                print("Dropping down menu",self.userData)
 
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputMail.element:
-                print("Dropping down menu",self.userData)
                 self.userData[0] = self.inputMail.element.get_text()
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element:
@@ -90,20 +86,15 @@ class Register():
                     gv.actualUser=self.userData
                     gv.actualPage = 2
                 elif(self.validateGlobal(name)!=True):
-                    self.textError.changeText("*Nombre no válido, contiene el caracter | .")
-                    self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("*Nombre no válido, contiene el caracter | .")[0])/2, None)
+                    self.textError.changeText("*El nombre no debe contener | o estar vacio.")
                 elif(validacion[0][0]!=True):
-                    self.textError.changeText("*contraseña no valida, tiene ñ, no tiene almenos una mayuscula y minuscula o tiene acentos o caracteres especiales aparte de los permitidos (*=.-)")
-                    self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("*contraseña no valida, tiene ñ, no tiene almenos una mayuscula y minuscula o tiene acentos o caracteres especiales aparte de los permitidos (*=.-)")[0])/2, None)
-                    if(validacion[0][1]!=True):
-                        self.textError.changeText("*contrasena no válida, No tiene al menos uno de los caracteres (*=.-)")
-                        self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("*contrasena no válida, No tiene al menos uno de los caracteres (*=.-)")[0])/2, None)
-                    if(validacion[0][2]!=True):
-                        self.textError.changeText("contrasena no válida, se repite 3 veces el mismo caracter")
-                        self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("contrasena no válida, se repite 3 veces el mismo caracter")[0])/2, None)
+                    self.textError.changeText("*Contraseña no valida.\nTiene ñ, no tiene al menos una mayuscula y minuscula o\ntiene acentos o caracteres especiales\naparte de los permitidos (*=.-)")
+                elif(validacion[0][1]!=True):
+                    self.textError.changeText("*Contrasena no válida.\nNo tiene al menos uno de los caracteres (*=.-)")
+                elif(validacion[0][2]!=True):
+                    self.textError.changeText("contrasena no válida\nSe repite 3 veces el mismo caracter")
                 elif(validacion[1]!=True or self.validateGlobal(mail)):
-                    self.textError.changeText("Correo no válido. Debe ser un correo de Gmail.")
-                    self.textError.changeCoord((640 - pg.font.Font(gv.fontLekton, 26).size("Correo no válido. Debe ser un correo de Gmail.")[0])/2, None)
+                    self.textError.changeText("Correo no válido.\nDebe ser un correo de Gmail.")
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLogin.element:
                 gv.actualPage = 0
@@ -123,11 +114,12 @@ class Register():
         if not bool(re.search(r'[=*-.]', str)): valid[1] = False
 
         # No se repite 3 veces el mismo caracter
-        if bool(re.search(r'(.)\1\1\1', str)): valid[2] = False
+        if bool(re.search(r'(.)\1\1', str)): valid[2] = False
         
         return valid
     
     def validateGlobal(self, text:str):
+        if text == "": return False
         if "|" in text: 
             return False
         return True
