@@ -60,7 +60,7 @@ class Config():
             self.manager.process_events(event)
 
     def frontEnd(self):
-        self.screen.fill((0,0,0))
+        self.screen.fill("#050611")
         self.manager.update(self.clock.tick(60)/1000)
         self.manager.draw_ui(self.screen)
 

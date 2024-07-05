@@ -17,6 +17,7 @@ class Leaderboard():
         self.showUser = None
         self.pageScore = 0
         self.pageAmount = 5
+        self.isload = False
 
         self.textScores:list[DynamicText] = []
         for i in range(self.pageAmount):
@@ -24,15 +25,19 @@ class Leaderboard():
                 DynamicText(0, 50*i+200, f"Score {i+1}", gv.fontLekton, 24, "#FFFFFF")
             )
 
-        self.updateLeaderboard()
+        self.buttonBack = DynamicButton(980, 650, 305, 80, "Regresar al menu", self.manager)
+        self.buttonNextScore = DynamicButton(1134, 600, 150, 50, "Siguiente", self.manager)
+        self.buttonBackScore = DynamicButton(980, 600, 150, 50, "Anterior", self.manager)
 
-        self.buttonBack = DynamicButton(300, 50, 150, 50, "Regresar al menu", self.manager)
-        self.buttonNextScore = DynamicButton(1130, 670, 150, 50, "Siguiente", self.manager)
-        self.buttonBackScore = DynamicButton(0, 670, 150, 50, "Anterior", self.manager)
-        self.inputState = DynamicDropDown(250, 100, 500, 30, self.manager, gv.states)
-        self.inputUser = DynamicDropDown(250, 150, 500, 30, self.manager, [("No seleccionado", None)]+[user[0] for user in getAllUsers()])
+        self.textFilterUser = DynamicText(100, 150, "Filtrar por usuario:", gv.fontLekton, 24, "#FFFFFF")
+        self.inputState = DynamicDropDown(350, 100, 500, 30, self.manager, gv.states)
 
+        self.textFilterState = DynamicText(100, 100, "Filtrar por estado:", gv.fontLekton, 24, "#FFFFFF")
+        self.inputUser = DynamicDropDown(350, 150, 500, 30, self.manager, [("No seleccionado", None)]+[user[0] for user in getAllUsers()])
+        
         self.dynamicObjects = [
+            self.textFilterUser,
+            self.textFilterState,
             self.buttonBack,
             self.inputState,
             self.inputUser,
@@ -43,6 +48,8 @@ class Leaderboard():
     def resize(self):
         for obj in self.dynamicObjects:
             obj.resize()
+        for text in self.textScores:
+            text.resize()
 
     def events(self):
         for event in pg.event.get():
@@ -54,6 +61,7 @@ class Leaderboard():
                 pass
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonBack.element:
                 gv.actualPage = 2
+                self.isload = False
             if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputState.element:
                 self.showState = self.inputState.element.selected_option[1]
                 self.pageScore = 0
@@ -71,6 +79,12 @@ class Leaderboard():
 
             self.manager.process_events(event)
     
+    def resetScreen(self):
+        self.resize()
+        self.pageScore = 0
+        self.updateLeaderboard()
+        self.isload = True
+
     def updateLeaderboard(self):
         for i in range(self.pageAmount):
             self.textScores[i].changeText("")
@@ -97,6 +111,7 @@ class Leaderboard():
             for user in users:
                 for score in user[4]:
                     scoreList.append((score,user[3],user[2]))
+            scoreList = quickSortScoreUser(scoreList)
 
         for i, score in enumerate(scoreList[startIndex:endIndex]):
             text = f"{score[2]} - {score[1]} Puntos: {score[0][0]} fecha: {score[0][1]}/{score[0][2]}/{score[0][3]} Hora: {score[0][4]}:{score[0][5]}"
@@ -123,14 +138,20 @@ class Leaderboard():
         return newList
 
     def frontEnd(self):
-        self.screen.fill((0,0,0))
+        self.screen.fill("#050611")
 
         for text in self.textScores:
             text.render()
+
+        for obj in self.dynamicObjects:
+            obj.render()
 
         self.manager.update(self.clock.tick(60)/1000)
         self.manager.draw_ui(self.screen)
 
     def bucle(self):
+        if not self.isload:
+            self.resetScreen()
+
         self.frontEnd()
         self.events()

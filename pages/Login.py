@@ -21,8 +21,7 @@ class Login():
         self.user = ["", ""]
         self.allUsers = getAllUsers()
 
-        for user in self.allUsers:
-            print(user)
+        gv.actualUser = self.allUsers[0]
 
         self.inputMail = DynamicInput(100, 250, 460, 85, self.manager, "Correo")
         self.inputPassword = DynamicInput(100, 340, 460, 85, self.manager, "Contraseña")
