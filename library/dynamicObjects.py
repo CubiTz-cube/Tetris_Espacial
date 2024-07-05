@@ -227,6 +227,10 @@ class DynamicButton():
             manager=self.manager
         )
 
+    def changeDimension(self, ObjectW, ObjectH):
+        screenW, screenH = pg.display.get_surface().get_size()
+        self.element.set_dimensions((ObjectW, ObjectH))
+
     def resize(self):
         screenW, screenH = pg.display.get_surface().get_size()
         self.element.set_relative_position((self.relativeX * screenW, self.relativeY * screenH))

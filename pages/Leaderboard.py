@@ -34,13 +34,10 @@ class Leaderboard():
 
         self.textFilterState = DynamicText(100, 100, "Filtrar por estado:", gv.fontLekton, 24, "#FFFFFF")
         self.inputUser = DynamicDropDown(350, 150, 500, 30, self.manager, [("No seleccionado", None)]+[user[0] for user in getAllUsers()])
-
-        self.dynamicObjectsRender = [
-            self.textFilterUser,
-            self.textFilterState
-        ]
-
+        
         self.dynamicObjects = [
+            self.textFilterUser,
+            self.textFilterState,
             self.buttonBack,
             self.inputState,
             self.inputUser,
@@ -53,8 +50,6 @@ class Leaderboard():
             obj.resize()
         for text in self.textScores:
             text.resize()
-        for obj in self.dynamicObjectsRender:
-            obj.resize()
 
     def events(self):
         for event in pg.event.get():
@@ -148,7 +143,7 @@ class Leaderboard():
         for text in self.textScores:
             text.render()
 
-        for obj in self.dynamicObjectsRender:
+        for obj in self.dynamicObjects:
             obj.render()
 
         self.manager.update(self.clock.tick(60)/1000)
