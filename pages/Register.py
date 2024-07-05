@@ -81,24 +81,36 @@ class Register():
                 password=self.userData[1]
                 name=self.userData[2]
                 validacion=[self.validatePassword(password),self.validateEmail(mail)]
-                if all(validacion) and self.validateGlobal(mail) and self.validateGlobal(password) and self.validateGlobal(name):
+                print("------------------------------------RESULTADOS DE LA VALIDACION-----------------------------------")
+                print(f"valores de validacion son: {validacion}")
+                print(f"All validacion: {all(validacion)}, VALIDATE GLOBAL(MAIL):{self.validateGlobal(mail)} ,VALIDATE GLOBAL: PASSWORD:{self.validateGlobal(password)} ,VALIDATE GLOBAL NAME: {self.validateGlobal(name)}, NO DUPLICATE Mail: {self.No_duplicate_mail(mail)}")
+                if all(validacion[0]) and all(validacion) and self.validateGlobal(mail) and self.validateGlobal(password) and self.validateGlobal(name) and self.No_duplicate_mail(mail):
                     self.saveUser()
                     gv.actualUser=self.userData
                     gv.actualPage = 2
                 elif(self.validateGlobal(name)!=True):
+                    print("validando nombre")
                     self.textError.changeText("*El nombre no debe contener | o estar vacio.")
                 elif(validacion[0][0]!=True):
+                    print("validando password 1:  ",validacion[0][0])
                     self.textError.changeText("*Contraseña no valida.\nTiene ñ, no tiene al menos una mayuscula y minuscula o\ntiene acentos o caracteres especiales\naparte de los permitidos (*=.-)")
                 elif(validacion[0][1]!=True):
-                    self.textError.changeText("*Contrasena no válida.\nNo tiene al menos uno de los caracteres (*=.-)")
+                        print("validando password 2:  ", validacion[0][1])
+                        self.textError.changeText("*Contrasena no válida.\nNo tiene al menos uno de los caracteres (*=.-)")
                 elif(validacion[0][2]!=True):
-                    self.textError.changeText("contrasena no válida\nSe repite 3 veces el mismo caracter")
-                elif(validacion[1]!=True or self.validateGlobal(mail)):
-                    self.textError.changeText("Correo no válido.\nDebe ser un correo de Gmail.")
-
+                            print('validando passowrd 3:  ',validacion[0][2])
+                            self.textError.changeText("contrasena no válida\nSe repite 3 veces el mismo caracter")
+                elif(validacion[1]!=True or self.validateGlobal(mail)!=True):
+                    print(f"validacion del mail es:{self.validateEmail(mail)}")
+                    print("validando mail")
+                    self.textError.changeText("Correo no válido.\nDebe ser un correo de Gmail o Hotmail y no debe estar vacio.")
+                elif(self.No_duplicate_mail(mail) !=True):
+                    print("validando email duplicado")
+                    self.textError.changeText("Correo no válido.\nEste correo ya esta registrado")
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLogin.element:
                 gv.actualPage = 0
                 self.isLoad = False
+                
 
             self.manager.process_events(event)
 
@@ -119,15 +131,28 @@ class Register():
         return valid
     
     def validateGlobal(self, text:str):
-        if text == "": return False
-        if "|" in text: 
+        if "@gmail.com" in text or "@hotmail.com" in text:
+            if text.startswith("@gmail.com") or text.startswith("@hotmail.com"):
+                return False
+        if text=="" or "|" in text: 
             return False
-        return True
+        else:
+            return True
 
-    def validateEmail(self, email:str):
+    def validateEmail(self,email:str):
         if not (email.endswith("@gmail.com") or email.endswith("@hotmail.com")):
             return False
 
+        return True
+
+    def No_duplicate_mail(self,email:str):
+        j=0
+        usuarios=getAllUsers()
+        while j<len(usuarios) and usuarios[j][0]!=None:
+            if usuarios[j][0] == email:
+                return False 
+            else:
+                j+=1
         return True
     
     def frontEnd(self):
