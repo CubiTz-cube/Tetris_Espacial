@@ -77,24 +77,30 @@ class Register():
                 self.userData[0] = self.inputMail.element.get_text()
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element:
-                mail=self.userData[0]
-                password=self.userData[1]
-                name=self.userData[2]
-                validacion=[self.validatePassword(password),self.validateEmail(mail)]
-                if all(validacion) and self.validateGlobal(mail) and self.validateGlobal(password) and self.validateGlobal(name):
+                mail = self.userData[0]
+                password = self.userData[1]
+                name = self.userData[2]
+
+                validationPass = self.validatePassword(password)
+                validationMail = self.validateEmail(mail)
+                if all(validationPass) and validationMail and self.validateGlobal(mail) and self.validateGlobal(password) and self.validateGlobal(name):
                     self.saveUser()
                     gv.actualUser=self.userData
                     gv.actualPage = 2
                 elif(self.validateGlobal(name)!=True):
-                    self.textError.changeText("*El nombre no debe contener | o estar vacio.")
-                elif(validacion[0][0]!=True):
-                    self.textError.changeText("*Contraseña no valida.\nTiene ñ, no tiene al menos una mayuscula y minuscula o\ntiene acentos o caracteres especiales\naparte de los permitidos (*=.-)")
-                elif(validacion[0][1]!=True):
-                    self.textError.changeText("*Contrasena no válida.\nNo tiene al menos uno de los caracteres (*=.-)")
-                elif(validacion[0][2]!=True):
-                    self.textError.changeText("contrasena no válida\nSe repite 3 veces el mismo caracter")
-                elif(validacion[1]!=True or self.validateGlobal(mail)):
-                    self.textError.changeText("Correo no válido.\nDebe ser un correo de Gmail.")
+                    self.textError.changeText('*El nombre no debe contener "|" o estar vacio.')
+                elif(validationPass[0]!=True):
+                    self.textError.changeText("*Contraseña no valida.\nNo puede tener ñ.\nDebe tener al menos una mayuscula y minuscul.a\nNo puede tener acentos o caracteres especiales\naparte de los permitidos (*=.-)")
+                elif(validationPass[1]!=True):
+                    self.textError.changeText("*Contraseña no válida.\nDebe tener al menos uno de los caracteres (*=.-)")
+                elif(validationPass[2]!=True):
+                    self.textError.changeText("*Contraseña no válida\nNo se debe repetir 3 veces el mismo caracter.")
+                elif(validationPass[3]!=True):
+                    self.textError.changeText("*Contraseña no válida\nDebe ser una combinacion alfanumerica.")
+                elif(validationPass[4]!=True):
+                    self.textError.changeText(f"*Contraseña no válida\nDebe tener entre 8 y 10 caracteres.\nTiene {len(password)}")
+                elif(validationMail !=True or self.validateGlobal(mail)):
+                    self.textError.changeText("*Correo no válido.")
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLogin.element:
                 gv.actualPage = 0
@@ -103,7 +109,14 @@ class Register():
             self.manager.process_events(event)
 
     def validatePassword(self, str):
-        valid = [True, True, True]
+        valid = [True, True, True, True, True]
+
+        # Longitud de la contraseña
+        if len(str) < 8 or len(str) > 10: valid[4] = False
+
+        #Combinacion de numeros y letras
+        if not (bool(re.search(r'[0-9]', str)) and bool(re.search(r'[a-zA-Z]', str))): valid[3] = False
+
         # No tiene ñ, tiene almenos una mayuscula y minuscula no tiene acentos ni caracteres especiales aparte de los permitidos (*=.-)
         if bool(re.search(r'[ñÑ]', str)): valid[0] = False
         if not (bool(re.search(r'[a-z]', str)) and bool(re.search(r'[A-Z]', str))): valid[0] = False
@@ -125,7 +138,7 @@ class Register():
         return True
 
     def validateEmail(self, email:str):
-        if not (email.endswith("@gmail.com") or email.endswith("@hotmail.com")):
+        if not (email.endswith("@gmail.com") or email.endswith("@hotmail.com") or email.endswith("@est.ucab.edu.ve") or email.endswith("@ucab.edu.ve")):
             return False
 
         return True
