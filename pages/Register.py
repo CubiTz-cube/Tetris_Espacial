@@ -83,7 +83,7 @@ class Register():
 
                 validationPass = self.validatePassword(password)
                 validationMail = self.validateEmail(mail)
-                if all(validationPass) and validationMail and self.validateGlobal(mail) and self.validateGlobal(password) and self.validateGlobal(name):
+                if all(validationPass) and validationMail and self.validateGlobal(mail) and self.validateGlobal(password) and self.validateGlobal(name) and self.No_duplicate_mail(mail):
                     self.saveUser()
                     gv.actualUser=self.userData
                     gv.actualPage = 2
@@ -101,8 +101,9 @@ class Register():
                     self.textError.changeText(f"*Contraseña no válida\nDebe tener entre 8 y 10 caracteres.\nTiene {len(password)}")
                 elif(validationMail !=True or self.validateGlobal(mail)):
                     self.textError.changeText("*Correo no válido.")
-                elif(self.No_duplicate_mail(mail) !=True):
-                    self.textError.changeText("Correo no válido.\nEste correo ya esta registrado")
+                    if(self.No_duplicate_mail(mail) !=True):
+                        self.textError.changeText("*Correo no válido.\nEste correo ya esta registrado")
+
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLogin.element:
                 gv.actualPage = 0
                 self.isLoad = False
