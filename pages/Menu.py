@@ -17,7 +17,6 @@ class Menu():
         self.buttonPlay = DynamicButton(0, 125, 730, 130, "Jugar", self.manager)
         self.buttonLeader = DynamicButton(0, 300, 730, 130, "Estadisticas", self.manager)
         self.buttonConfig = DynamicButton(0, 480, 730, 130, "Configuracion", self.manager)
-        self.buttonExit = DynamicButton(1107, 650, 190, 80, "Salir", self.manager)
 
         self.dynamicObjects = [
             DynamicRect(0, -40, 10000, 120, "#FFFFFF"),
@@ -26,8 +25,6 @@ class Menu():
             self.buttonPlay,
             self.buttonLeader,
             self.buttonConfig,
-            self.buttonExit
-           
         ] 
 
     def resize(self):
@@ -55,15 +52,12 @@ class Menu():
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonConfig.element:
                 gv.actualPage = 6
                 self.isLoad = False
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonExit.element:
-                pg.quit()
-                quit()
 
             self.manager.process_events(event)
 
     def frontEnd(self):
-
         self.screen.fill("#050611")
+
         for obj in self.dynamicObjects:
             obj.render()
         self.manager.update(self.clock.tick(60)/1000)
