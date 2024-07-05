@@ -2,6 +2,7 @@ import pygame as pg
 import numpy as np
 
 import library.piece as piece
+from library.starsBack import StartMaker
 from library.dynamicObjects import DynamicText, DynamicRect, DynamicImage
 import public.images.loadImages as img
 from library.starsBack import StartMaker
@@ -62,11 +63,13 @@ class Game():
             self.nextPiecesRender.append(DynamicImage(900, 90+ ((50/720)*pg.display.Info().current_w)*i, 0.3, img.completePiecesNum["1"]))
 
         self.odsnumber = randint(1,17)
+        self.starts = StartMaker(100, 10, minSpeed = 0.25, maxSpeed = 0.75)
 
     def resize(self):
         for index, obj in enumerate(self.nextPiecesRender):
             obj.changeCoord(None, 80+ ((50/720)*pg.display.Info().current_w)*index)
             obj.resize()
+        self.starts.resize()
 
     def events(self):
         for event in pg.event.get():
@@ -163,6 +166,9 @@ class Game():
         BackX = (450/1280) * W
         BackY = (60/720) * H
         scale = ((390/1280) * W)/self.dimX 
+
+        #Fondo del tablero
+        pg.draw.rect(self.screen, "#050611", (BackX, BackY, scale*self.dimX+4, scale*(self.dimY-3)))
 
         #Lineas del fondo
         for Y in range(self.dimY-3):
@@ -274,6 +280,7 @@ class Game():
 
         self.screen.fill("#050611")
         self.textEscapeTo.render()
+        self.starts.render()
         self.drawGame()
         self.drawPieces()
         self.backEnd(deltaTime)

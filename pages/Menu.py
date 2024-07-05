@@ -1,9 +1,11 @@
 import pygame as pg
 import pygame_gui as pgu
 from pygame_gui.core import ObjectID
-from library.dynamicObjects import *
+
 import globalVariables as gv
-from library.dynamicObjects import DynamicButton
+
+from library.dynamicObjects import *
+from library.starsBack import StartMaker
 import public.images.loadImages as img
 
 class Menu():
@@ -41,6 +43,8 @@ class Menu():
             self.textState,
         ] 
 
+        self.starts = StartMaker(50, 10, minSpeed = 0.5, maxSpeed = 1.5)
+
     def resize(self):
         for obj in self.dynamicObjects:
             obj.resize()
@@ -48,6 +52,8 @@ class Menu():
         self.buttonPlay.changeDimension(self.imageButtonPlay.image.get_width(), self.imageButtonPlay.image.get_height())
         self.buttonLeader.changeDimension(self.imageButtonLeader.image.get_width(), self.imageButtonLeader.image.get_height())
         self.buttonConfig.changeDimension(self.imageButtonConfig.image.get_width(), self.imageButtonConfig.image.get_height())
+
+        self.starts.resize()
 
     def resetScreen(self):
         pg.mouse.set_cursor(*pg.cursors.arrow)
@@ -90,6 +96,8 @@ class Menu():
     def frontEnd(self):
         self.screen.fill("#050611")
 
+        self.starts.render()
+
         self.manager.update(self.clock.tick(60)/1000)
         self.manager.draw_ui(self.screen)
 
@@ -104,6 +112,7 @@ class Menu():
             self.resize()
             self.resetScreen()
             self.isLoad = True
+
         self.events()
         self.frontEnd()
         self.backEnd()
