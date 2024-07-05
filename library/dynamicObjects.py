@@ -102,10 +102,12 @@ class DynamicImage():
         self.imageSave = image
         self.mirror = mirror
         self.scale = ObjectScale / self.W
+        self.alfa = 255
+
         self.image = pg.transform.rotozoom(self.imageSave, self.rotate, self.scale * screenW)
         if self.mirror:
             self.image = pg.transform.flip(self.image, True, False)
-        
+        self.image.set_alpha(self.alfa)
 
     def resize(self):
         screenW, screenH = self.screen.get_size()
@@ -127,6 +129,10 @@ class DynamicImage():
     def changeImg(self, image:pg.Surface):
         self.imageSave = image
         self.resize()
+
+    def changeAlfa(self, alfa):
+        self.alfa = alfa
+        self.image.set_alpha(self.alfa)
 
     def render(self):
         self.screen.blit(self.image, (self.x, self.y))

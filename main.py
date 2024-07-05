@@ -13,6 +13,7 @@ from pages.Game import Game
 from pages.Leaderboard import Leaderboard
 from pages.Config import Config
 from pages.GameOver import GameOver
+from pages.Intro import Intro
 
 try:
     open("./data/JUGADORES.bin", "x")
@@ -44,7 +45,8 @@ pages = [
     Game(),
     Leaderboard(),
     Config(),
-    GameOver()
+    GameOver(),
+    Intro()
 ]
 
 while True:

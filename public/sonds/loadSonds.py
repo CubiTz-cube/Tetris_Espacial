@@ -32,12 +32,12 @@ def upodateVolumen():
     pg.mixer.music.set_volume(gv.volumen)
 
 def loadMusicDict(directorio:str, end:str=".mp3"):
-    sounds = {}
+    sounds = []
     for file in os.listdir(directorio):
         if file.endswith(end):
             completePath = os.path.join(directorio, file)
             nombre_sin_extension = os.path.splitext(file)[0]
-            sounds[nombre_sin_extension] = completePath
+            sounds.append(completePath)
     return sounds
 
 def loadSondDict(directorio:str, end:str=".mp3"):
