@@ -101,10 +101,12 @@ class Register():
                     self.textError.changeText(f"*Contraseña no válida\nDebe tener entre 8 y 10 caracteres.\nTiene {len(password)}")
                 elif(validationMail !=True or self.validateGlobal(mail)):
                     self.textError.changeText("*Correo no válido.")
-
+                elif(self.No_duplicate_mail(mail) !=True):
+                    self.textError.changeText("Correo no válido.\nEste correo ya esta registrado")
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLogin.element:
                 gv.actualPage = 0
                 self.isLoad = False
+                
 
             self.manager.process_events(event)
 
@@ -132,15 +134,28 @@ class Register():
         return valid
     
     def validateGlobal(self, text:str):
-        if text == "": return False
-        if "|" in text: 
+        if "@gmail.com" in text or "@hotmail.com" in text or "@est.ucab.edu.ve" in text or "@ucab.edu.ve" in text:
+            if text.startswith("@gmail.com") or text.startswith("@hotmail.com") or text.startswith("@est.ucab.edu.ve") or text.startswith("@ucab.edu.ve"):
+                return False
+        if text=="" or "|" in text: 
             return False
-        return True
+        else:
+            return True
 
     def validateEmail(self, email:str):
         if not (email.endswith("@gmail.com") or email.endswith("@hotmail.com") or email.endswith("@est.ucab.edu.ve") or email.endswith("@ucab.edu.ve")):
             return False
 
+        return True
+
+    def No_duplicate_mail(self,email:str):
+        j=0
+        usuarios=getAllUsers()
+        while j<len(usuarios) and usuarios[j][0]!=None:
+            if usuarios[j][0] == email:
+                return False 
+            else:
+                j+=1
         return True
     
     def frontEnd(self):
