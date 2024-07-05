@@ -116,6 +116,7 @@ class Leaderboard():
             for user in users:
                 for score in user[4]:
                     scoreList.append((score,user[3],user[2]))
+            scoreList = quickSortScoreUser(scoreList)
 
         for i, score in enumerate(scoreList[startIndex:endIndex]):
             text = f"{score[2]} - {score[1]} Puntos: {score[0][0]} fecha: {score[0][1]}/{score[0][2]}/{score[0][3]} Hora: {score[0][4]}:{score[0][5]}"
