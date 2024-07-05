@@ -101,9 +101,8 @@ class Register():
                     self.textError.changeText(f"*Contraseña no válida\nDebe tener entre 8 y 10 caracteres.\nTiene {len(password)}")
                 elif(validationMail !=True or self.validateGlobal(mail)):
                     self.textError.changeText("*Correo no válido.")
-                    if(self.No_duplicate_mail(mail) !=True):
-                        self.textError.changeText("*Correo no válido.\nEste correo ya esta registrado")
-
+                    if(self.NoDuplicateMail(mail) !=True):
+                        self.textError.changeText("Correo no válido.\nEste correo ya esta registrado")
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLogin.element:
                 gv.actualPage = 0
                 self.isLoad = False
@@ -149,7 +148,7 @@ class Register():
 
         return True
 
-    def No_duplicate_mail(self,email:str):
+    def NoDuplicateMail(self,email:str):
         j=0
         usuarios=getAllUsers()
         while j<len(usuarios) and usuarios[j][0]!=None:
@@ -177,8 +176,6 @@ class Register():
                 return
         with open(gv.fileUsers, "ab") as file:
             for index, data in enumerate(self.userData):
-                print("Writing data to file")
-
                 text  = ""
                 if index != len(self.userData)-1: text = str(data)+"|"
                 else: text = str(data)
