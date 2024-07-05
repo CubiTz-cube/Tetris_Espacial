@@ -49,6 +49,6 @@ class StartMaker():
         for start in self.starts:
             start.draw()
             start.move(0,start.speed)
-            if start.Y > self.H:
+            if start.Y > self.H+5:
                 start.Y = 0
             
