@@ -78,7 +78,7 @@ class Config():
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.InputSpeed.element:
                 newSpeed = self.InputSpeed.element.get_text()
                 try:
-                    newSpeed = int(newSpeed)
+                    newSpeed = abs(int(newSpeed))
                     if newSpeed > 1000:
                         newSpeed = 1000
                         self.InputSpeed.element.set_text("1000")
