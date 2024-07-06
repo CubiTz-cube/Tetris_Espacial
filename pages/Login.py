@@ -14,7 +14,7 @@ class Login():
         self.clock = pg.Clock()
         W = pg.display.Info().current_w
         H = pg.display.Info().current_h
-        self.manager = pgu.UIManager((W,H), "pages\\css\\loginRegister.json")
+        self.manager = pgu.UIManager((gv.W,gv.W), "pages\\css\\loginRegister.json")
         self.manager.get_theme().load_theme("pages\\css\\global.json")
         self.isLoad = False
 

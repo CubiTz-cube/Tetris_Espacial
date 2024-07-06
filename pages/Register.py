@@ -15,7 +15,7 @@ class Register():
         self.clock = pg.Clock()
         self.W = pg.display.Info().current_w
         self.H = pg.display.Info().current_h
-        self.manager = pgu.UIManager((self.W,self.H))
+        self.manager = pgu.UIManager((gv.W,gv.W))
         self.userData = ["","", "", gv.states[1], []]
         self.manager = pgu.UIManager((self.W,self.H), "pages\\css\\loginRegister.json")
         self.manager.get_theme().load_theme("pages\\css\\global.json")

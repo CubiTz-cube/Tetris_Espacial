@@ -3,22 +3,50 @@ import pygame_gui as pgu
 from pygame_gui.core import ObjectID
 
 import globalVariables as gv
-from library.dynamicObjects import DynamicInput, DynamicButton
+from library.dynamicObjects import *
 import public.sonds.loadSonds as sonds
+import public.images.loadImages as img
 
 class Config():
     def __init__(self) -> None:
         self.screen = pg.display.get_surface()
         self.clock = pg.Clock()
-        self.W = pg.display.Info().current_w
-        self.H = pg.display.Info().current_h
-        self.manager = pgu.UIManager((self.W,self.H))
+        self.manager = pgu.UIManager((gv.W,gv.W), "pages\\css\\global.json")
+        self.isload = False
 
-        self.buttonBack = DynamicButton(300, 50, 150, 50, "Regresar al menu", self.manager)
+        self.textName = DynamicText(100, 24, gv.actualUser[2], gv.fontAldrich, 40, "#000000")
+        self.textState = DynamicText(950, 24, gv.actualUser[3], gv.fontAldrich, 40, "#FFFFFF")
 
-        self.InputSpeed = DynamicInput(300, 150, 200, 30, self.manager, "Velocidad: "+str(gv.speed*100))
-        self.buttonMusic = DynamicButton(500, 150, 150, 30, "Mutear Musica", self.manager)
-        self.buttonMusicChange = DynamicButton(500, 250, 150, 30, "Cambiar Musica", self.manager)
+        self.buttonBack = DynamicButton(980, 650, 305, 80, "Regresar al menu", self.manager, ObjectID("#back",""))
+
+        self.textSpeed = DynamicText(200, 260, "Velocidad: ", gv.fontAldrich, 40, "#FFFFFF")
+        self.InputSpeed = DynamicInput(450, 250, 350, 60, self.manager, str(gv.speed*100))
+        self.buttonMusic = DynamicButton(650, 350, 350, 60, "Mutear Musica" if gv.music else "Activar Musica", self.manager)
+        self.buttonMusicChange = DynamicButton(200, 350, 350, 60, "Cambiar Musica", self.manager)
+
+        self.dynamicObjects = [
+            DynamicRect(0, -40, 10000, 120, "#FFFFFF"),
+            DynamicRect(655, -40, 10000, 120, "#1C1C1C"),
+            DynamicImage(0, 0, 0.070, img.logos["isotipoNegro"]),
+            self.textName,
+            self.textState,
+            self.buttonBack,
+            self.textSpeed,
+            self.InputSpeed,
+            self.buttonMusic,
+            self.buttonMusicChange,
+        ]
+
+    def resize(self):
+        for obj in self.dynamicObjects:
+            obj.resize()
+
+    def resetScreen(self):
+        pg.mouse.set_cursor(*pg.cursors.arrow)
+        self.resize()
+        self.textName.changeText(gv.actualUser[2])
+        self.textState.changeText(gv.actualUser[3])
+        self.isload = True
 
     def events(self):
         for event in pg.event.get():
@@ -27,7 +55,7 @@ class Config():
                 quit()
 
             if event.type == pg.VIDEORESIZE:
-                #Resize screen
+                self.resize()
                 pass
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonBack.element:
@@ -50,9 +78,11 @@ class Config():
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.InputSpeed.element:
                 newSpeed = self.InputSpeed.element.get_text()
                 try:
-                    newSpeed = int(newSpeed)
+                    newSpeed = abs(int(newSpeed))
+                    if newSpeed > 1000:
+                        newSpeed = 1000
+                        self.InputSpeed.element.set_text("1000")
                     gv.speed = 1 * (newSpeed/100)
-                    print(f"nueva velocidad {gv.speed}")
                 except:
                     pass
 
@@ -61,13 +91,16 @@ class Config():
 
     def frontEnd(self):
         self.screen.fill("#050611")
+
+        for obj in self.dynamicObjects:
+            obj.render()
+
         self.manager.update(self.clock.tick(60)/1000)
         self.manager.draw_ui(self.screen)
 
-    def backEnd(self):
-        pass
-
     def bucle(self):
+        if not self.isload:
+            self.resetScreen()
+
         self.events()
         self.frontEnd()
-        self.backEnd()

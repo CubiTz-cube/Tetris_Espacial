@@ -21,9 +21,9 @@ except:
     pass
 
 pg.init()
-W = pg.display.Info().current_w
-H = pg.display.Info().current_h
-pg.display.set_mode((W-100, H-100), pg.RESIZABLE)
+gv.W = pg.display.Info().current_w
+gv.H = pg.display.Info().current_h
+pg.display.set_mode((1280, 720), pg.RESIZABLE)
 pg.display.set_caption("Tetris")
 pg.display.set_icon(img.pieces["blue"])
 clock = pg.time.Clock()
