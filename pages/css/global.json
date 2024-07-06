@@ -16,5 +16,36 @@
             "selected_border": "rgba(20, 50, 89, 0)",
             "active_border": "rgba(20, 50, 89, 0)"
         }
-    }
+    },
+    "#back":
+     {
+         "colours":
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF"
+         },
+         "font":
+         {
+             "size": "24",
+             "name": "Aldrich",
+             "regular_path": "public\\fonts\\Aldrich-Regular.ttf"
+         },
+         "misc":
+         {
+             "shape": "rounded_rectangle",
+             "shape_corner_radius": "12,0,0,0",
+             "border_width": "0",
+             "text_horiz_alignment": "center",
+             "text_vert_alignment": "center",
+             "state_transitions":
+             {
+                 "normal_hovered": "0.2",
+                 "hovered_normal": "0.2"
+             }
+         }
+     }
 }

@@ -4,6 +4,8 @@ import pygame_gui as pgu
 import globalVariables as gv
 from library.dynamicObjects import *
 from library.dataFormating import getAllUsers, quickSortScoreUser
+from library.starsBack import StartMaker
+import public.images.loadImages as img
 
 class Leaderboard():
     def __init__(self) -> None:
@@ -16,28 +18,31 @@ class Leaderboard():
         self.showState = None
         self.showUser = None
         self.pageScore = 0
-        self.pageAmount = 5
+        self.pageAmount = 7
         self.isload = False
 
         self.textScores:list[DynamicText] = []
         for i in range(self.pageAmount):
             self.textScores.append(
-                DynamicText(0, 50*i+200, f"Score {i+1}", gv.fontLekton, 24, "#FFFFFF")
+                DynamicText(0, 50*i+200, f"Score {i+1}", gv.fontLekton, 28, "#FFFFFF")
             )
+
+        self.textName = DynamicText(100, 24, gv.actualUser[2], gv.fontAldrich, 40, "#000000")
+        self.textState = DynamicText(950, 24, gv.actualUser[3], gv.fontAldrich, 40, "#FFFFFF")
 
         self.buttonBack = DynamicButton(980, 650, 305, 80, "Regresar al menu", self.manager)
         self.buttonNextScore = DynamicButton(1134, 600, 150, 50, "Siguiente", self.manager)
         self.buttonBackScore = DynamicButton(980, 600, 150, 50, "Anterior", self.manager)
 
-        self.textFilterUser = DynamicText(100, 150, "Filtrar por usuario:", gv.fontLekton, 24, "#FFFFFF")
-        self.inputState = DynamicDropDown(350, 100, 500, 30, self.manager, gv.states)
-
-        self.textFilterState = DynamicText(100, 100, "Filtrar por estado:", gv.fontLekton, 24, "#FFFFFF")
-        self.inputUser = DynamicDropDown(350, 150, 500, 30, self.manager, [("No seleccionado", None)]+[user[0] for user in getAllUsers()])
+        self.inputState = DynamicDropDown(0, 100, 300, 30, self.manager, gv.states)
+        self.inputUser = DynamicDropDown(350, 100, 300, 30, self.manager, [("Usuario no seleccionado", None)]+[user[0] for user in getAllUsers()])
         
         self.dynamicObjects = [
-            self.textFilterUser,
-            self.textFilterState,
+            DynamicRect(0, -40, 10000, 120, "#FFFFFF"),
+            DynamicRect(655, -40, 10000, 120, "#1C1C1C"),
+            DynamicImage(0, 0, 0.070, img.logos["isotipoNegro"]),
+            self.textName,
+            self.textState,
             self.buttonBack,
             self.inputState,
             self.inputUser,
@@ -80,10 +85,12 @@ class Leaderboard():
             self.manager.process_events(event)
     
     def resetScreen(self):
+        self.isload = True
         self.resize()
         self.pageScore = 0
         self.updateLeaderboard()
-        self.isload = True
+        self.textName.changeText(gv.actualUser[2])
+        self.textState.changeText(gv.actualUser[3])
 
     def updateLeaderboard(self):
         for i in range(self.pageAmount):
@@ -114,7 +121,7 @@ class Leaderboard():
             scoreList = quickSortScoreUser(scoreList)
 
         for i, score in enumerate(scoreList[startIndex:endIndex]):
-            text = f"{score[2]} - {score[1]} Puntos: {score[0][0]} fecha: {score[0][1]}/{score[0][2]}/{score[0][3]} Hora: {score[0][4]}:{score[0][5]}"
+            text = f"Puntos: {score[0][0]} | {score[2]} - {score[1]} fecha: {score[0][1]}/{score[0][2]}/{score[0][3]} Hora: {score[0][4]}:{score[0][5]}"
             self.textScores[i].changeText(text)
 
     def filterState(self, users:list[list],state:str):

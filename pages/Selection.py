@@ -17,6 +17,7 @@ class Selection():
         H = pg.display.Info().current_h
         self.manager = pgu.UIManager((W,H), "pages\\css\\selection.json")
         self.manager.get_theme().load_theme("pages\\css\\global.json")
+        self.isLoad = False
 
         self.backGround = DynamicRect(0, 450, 1280, 270, "#FFFFFF")
 
@@ -24,14 +25,14 @@ class Selection():
 
         self.boxDimX = DynamicRect(133, 520, 200, 40, "#FFFFFF", 3, "#1C1C1C")
         self.textValueDimX = DynamicText(220, 526, str(gv.dimX), gv.fontLekton, 28, "#1C1C1C")
-        self.buttonDimXR = DynamicButton(325, 514, 40, 50, "+", self.manager)
-        self.buttonDimXL = DynamicButton(100, 514, 40, 50, "-", self.manager)
+        self.buttonDimXR = DynamicButton(325, 514, 40, 50, "+", self.manager, ObjectID("#plus",""))
+        self.buttonDimXL = DynamicButton(100, 514, 40, 50, "-", self.manager, ObjectID("#less",""))
         self.textX = DynamicText(70, 526, "X", gv.fontLekton, 32, "#1C1C1C")
 
         self.boxDimY = DynamicRect(133, 585, 200, 40, "#FFFFFF", 3, "#1C1C1C")
         self.textValueDimY = DynamicText(220, 592, str(gv.dimY), gv.fontLekton, 28, "#1C1C1C")
-        self.buttonDimYR = DynamicButton(325, 580, 40, 50, "+", self.manager)
-        self.buttonDimYL = DynamicButton(100, 580, 40, 50, "-", self.manager)
+        self.buttonDimYR = DynamicButton(325, 580, 40, 50, "+", self.manager, ObjectID("#plus",""))
+        self.buttonDimYL = DynamicButton(100, 580, 40, 50, "-", self.manager, ObjectID("#less",""))
         self.textY = DynamicText(70, 592, "Y", gv.fontLekton, 32, "#1C1C1C")
 
         self.textMode = DynamicText(920, 470, "Modo", gv.fontLekton, 28, "#1C1C1C")
@@ -40,11 +41,11 @@ class Selection():
         self.textLimit = DynamicText(1120, 470, "Limite", gv.fontLekton, 28, "#000000")
         self.inputLimit = DynamicInput(1085, 514, 150, 40, self.manager, str(gv.limit))
 
-        self.buttonPlay = DynamicButton(460, 590, 360, 120, "Iniciar", self.manager)
-        self.buttonBack = DynamicButton(980, 650, 305, 80, "Regresar al menu", self.manager)
+        self.buttonPlay = DynamicButton(460, 590, 360, 120, "Iniciar", self.manager, ObjectID("#play",""))
+        self.buttonBack = DynamicButton(980, 650, 305, 80, "Regresar al menu", self.manager, ObjectID("#back",""))
 
-        self.buttonClasic = DynamicButton(0, 0, 200, 50, "Clasico", self.manager)
-        self.buttonRequest = DynamicButton(200, 00, 200, 50, "Pedido", self.manager)
+        self.buttonClasic = DynamicButton(0, 0, 200, 50, "Clasico", self.manager, ObjectID("#selectPiece",""))
+        self.buttonRequest = DynamicButton(200, 00, 200, 50, "Pedido", self.manager, ObjectID("#selectPiece",""))
 
         self.dinamicObjects = [
             self.backGround,
@@ -159,6 +160,9 @@ class Selection():
                         self.pieceImages[index].changeImg(convertImgToBn(imgCompletePiecesNum[index]))
 
             self.manager.process_events(event)
+    
+    def resetScreen(self):
+        self.resize()
 
     def resize(self):
         for obj in self.dinamicObjects:
@@ -187,10 +191,10 @@ class Selection():
         for img in self.pieceImages:
             img.render()
 
-    def backEnd(self):
-        pass
-
     def bucle(self):
+        if not self.isLoad:
+            self.resetScreen()
+            self.isLoad = True
+
         self.events()
         self.frontEnd()
-        self.backEnd()

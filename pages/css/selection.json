@@ -1,28 +1,208 @@
 {
-    "defaults":
+    "text_entry_line":
     {
         "colours":
         {
-            "normal_bg":"#454431",
-            "hovered_bg":"#35393e",
-            "disabled_bg":"#25292e",
-            "selected_bg":"#193754",
-            "dark_bg":"#15191e",
-            "normal_text":"#c5cbd8",
-            "hovered_text":"#FFFFFF",
-            "selected_text":"#FFFFFF",
-            "disabled_text":"#6d736f",
-            "link_text": "#0000EE",
-            "link_hover": "#2020FF",
-            "link_selected": "#551A8B",
-            "text_shadow": "#777777",
-            "normal_border": "#DDDDDD",
-            "hovered_border": "#B0B0B0",
-            "disabled_border": "#808080",
-            "selected_border": "#8080B0",
-            "active_border": "#8080B0",
-            "filled_bar":"#f4251b",
-            "unfilled_bar":"#CCCCCC"
+            "dark_bg": "#FFFFFF",
+            "selected_bg": "#1C1C1C",
+            "normal_text": "#000000",
+            "selected_text": "#FFFFFF",
+            "normal_border": "#1C1C1C",
+            "text_cursor": "#000000"
+        },
+        "font":
+         {
+            "size": "24",
+            "name": "Lekton",
+            "regular_path": "public\\fonts\\Lekton-Regular.ttf"
+         },
+        "misc":
+         {
+             "shape": "rounded_rectangle",
+             "shape_corner_radius": "15",
+             "border_width": "3",
+             "padding": "6,4"
+         }
+    },
+    "#play":
+     {
+         "colours":
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF"
+         },
+         "font":
+         {
+             "size": "42",
+             "name": "Aldrich",
+             "regular_path": "public\\fonts\\Aldrich-Regular.ttf"
+         },
+         "misc":
+         {
+             "shape": "rounded_rectangle",
+             "shape_corner_radius": "15",
+             "border_width": "0",
+             "text_horiz_alignment": "center",
+             "text_vert_alignment": "center",
+             "state_transitions":
+             {
+                 "normal_hovered": "0.2",
+                 "hovered_normal": "0.2"
+             }
+         }
+     },
+     "#plus":
+     {
+         "colours":
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF"
+         },
+         "font":
+         {
+             "size": "24",
+             "name": "Aldrich",
+             "regular_path": "public\\fonts\\Aldrich-Regular.ttf"
+         },
+         "misc":
+         {
+             "shape": "rounded_rectangle",
+             "shape_corner_radius": "0,12,0,12",
+             "border_width": "0",
+             "text_horiz_alignment": "center",
+             "text_vert_alignment": "center",
+             "state_transitions":
+             {
+                 "normal_hovered": "0.2",
+                 "hovered_normal": "0.2"
+             }
+         }
+     },
+     "#less":
+     {
+         "colours":
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF"
+         },
+         "font":
+         {
+             "size": "24",
+             "name": "Aldrich",
+             "regular_path": "public\\fonts\\Aldrich-Regular.ttf"
+         },
+         "misc":
+         {
+             "shape": "rounded_rectangle",
+             "shape_corner_radius": "12,0,12,0",
+             "border_width": "0",
+             "text_horiz_alignment": "center",
+             "text_vert_alignment": "center",
+             "state_transitions":
+             {
+                 "normal_hovered": "0.2",
+                 "hovered_normal": "0.2"
+             }
+         }
+     },
+     "#selectPiece":
+     {
+         "colours":
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF",
+             "normal_border": "#FFFFFF",
+             "hovered_border": "#FFFFFF",
+             "disabled_border": "#FFFFFF",
+             "selected_border": "#FFFFFF",
+             "active_border": "#FFFFFF"
+         },
+         "font":
+         {
+             "size": "24",
+             "name": "Aldrich",
+             "regular_path": "public\\fonts\\Aldrich-Regular.ttf"
+         },
+         "misc":
+         {
+             "shape": "rounded_rectangle",
+             "shape_corner_radius": "12",
+             "border_width": "3",
+             "text_horiz_alignment": "center",
+             "text_vert_alignment": "center",
+             "state_transitions":
+             {
+                 "normal_hovered": "0.2",
+                 "hovered_normal": "0.2"
+             }
+         }
+    },
+    "drop_down_menu":
+    {
+        "misc":
+        {
+            "expand_direction": "down"
+        },
+
+        "colours":
+        {
+            "normal_bg": "#1C1C1C",
+            "dark_bg": "#1C1C1C",
+            "disabled_dark_bg": "#1C1C1C",
+            "hovered_bg": "#292929",
+            "disabled_border": "#35393e"
         }
+    },
+    "drop_down_menu.#expand_button":
+    {
+        "colours":
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF"
+         }
+    },
+    "drop_down_menu.#selected_option":
+    {
+        "colours":
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF"
+         }
+    },
+    "drop_down_menu.#drop_down_options_list.button":
+    {
+        "colours":
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF"
+         }
     }
 }
