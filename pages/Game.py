@@ -37,6 +37,7 @@ class Game():
         self.score = 0
         self.tickPiece = 0
         self.speed = gv.speed
+        self.limit = gv.limit
 
         self.tickKey = 0
         self.tickKeyWait = 0
@@ -55,7 +56,7 @@ class Game():
         self.textRenderModeTime = pg.font.Font(gv.fontLekton, 25).render(f"Tiempo:", True, (255,255,255))
         self.textRenderModePiece = pg.font.Font(gv.fontLekton, 25).render(f"Piezas:", True, (255,255,255))
         self.scoreTextRender = pg.font.Font(gv.fontLektonBold, 25).render(f"Score: {self.score}", True, (255,255,255))
-        self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{gv.limit}", True, (255,255,255))
+        self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{self.limit}", True, (255,255,255))
         self.textNextPieces = pg.font.Font(gv.fontAldrich, 20).render(f"Siguientes", True, (255,255,255))
         self.textEscapeTo = DynamicText(540, 10, "Presiona ESC para Terminar el juego", gv.fontLekton, 15, "#FFFFFF")
 
@@ -89,9 +90,9 @@ class Game():
                     self.moveDown = [0,0]
             if event.type == self.TIMEREVENT:
                 if gv.mode == 1:
-                    gv.limit -= 1
-                    self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{gv.limit}", True, (255,255,255))
-                    if gv.limit <= 0: self.gameOver()
+                    self.limit -= 1
+                    self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{self.limit}", True, (255,255,255))
+                    if self.limit <= 0: self.gameOver()
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_LEFT or event.key == pg.K_a:
                     self.pieceInGame[0].move(self.board,[-1,0])
@@ -128,6 +129,7 @@ class Game():
         self.dimX = self.board.shape[1]
         self.score = 0
         self.speed = gv.speed
+        self.limit = gv.limit
 
         self.tickPiece = 0
         self.tickKey = 0
@@ -141,19 +143,19 @@ class Game():
             if active:
                 self.pieces.append(piece.allPieces[index])
         self.pieceInGame = [copy(choice(self.pieces)) for _ in range(5)]
-        self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{gv.limit}", True, (255,255,255))
+        self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{self.limit}", True, (255,255,255))
         self.updateNextPieces()
         
     def checkModePieza(self):
         if gv.mode == 2:
-            gv.limit -= 1
-            self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{gv.limit}", True, (255,255,255))
-            if gv.limit <= 0: self.gameOver()
+            self.limit -= 1
+            self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{self.limit}", True, (255,255,255))
+            if self.limit <= 0: self.gameOver()
     
     def checkModeTiempo(self):
         pg.time.set_timer(pg.USEREVENT, 1000)
         if gv.mode == 1:
-            self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{gv.limit}", True, (255,255,255))
+            self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{self.limit}", True, (255,255,255))
 
     def gameOver(self):
         if self.score > 0: df.addUserScore(gv.actualUser[0],self.score)

@@ -58,6 +58,8 @@ class Menu():
     def resetScreen(self):
         pg.mouse.set_cursor(*pg.cursors.arrow)
         self.resize()
+        self.textName.changeText(gv.actualUser[2])
+        self.textState.changeText(gv.actualUser[3])
 
     def events(self):
         for event in pg.event.get():
