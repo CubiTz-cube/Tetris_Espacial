@@ -13,7 +13,9 @@ class Leaderboard():
         self.clock = pg.Clock()
         W = pg.display.Info().current_w
         H = pg.display.Info().current_h
-        self.manager = pgu.UIManager((gv.W,gv.W))
+        self.manager = pgu.UIManager((gv.W,gv.W), "pages\\css\\global.json")
+        self.manager.get_theme().load_theme("pages\\css\\leaderboard.json")
+        self.isLoad = False
 
         self.showState = None
         self.showUser = None
@@ -30,9 +32,9 @@ class Leaderboard():
         self.textName = DynamicText(100, 24, gv.actualUser[2], gv.fontAldrich, 40, "#000000")
         self.textState = DynamicText(950, 24, gv.actualUser[3], gv.fontAldrich, 40, "#FFFFFF")
 
-        self.buttonBack = DynamicButton(980, 650, 305, 80, "Regresar al menu", self.manager)
-        self.buttonNextScore = DynamicButton(1134, 600, 150, 50, "Siguiente", self.manager)
-        self.buttonBackScore = DynamicButton(980, 600, 150, 50, "Anterior", self.manager)
+        self.buttonBack = DynamicButton(980, 650, 305, 80, "Regresar al menu", self.manager, ObjectID("#back",""))
+        self.buttonNextScore = DynamicButton(1134, 600, 150, 50, "Siguiente", self.manager, ObjectID("#pages",""))
+        self.buttonBackScore = DynamicButton(980, 600, 150, 50, "Anterior", self.manager, ObjectID("#pages",""))
 
         self.inputState = DynamicDropDown(0, 100, 300, 30, self.manager, gv.states)
         self.inputUser = DynamicDropDown(350, 100, 300, 30, self.manager, [("Usuario no seleccionado", None)]+[user[0] for user in getAllUsers()])
