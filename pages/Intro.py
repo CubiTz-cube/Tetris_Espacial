@@ -30,8 +30,8 @@ class Intro():
                 quit()
             if event.type == pg.VIDEORESIZE:
                 self.resize()
-            if event.type == pg.KEYDOWN:
-                pass
+            if event.type == pg.KEYDOWN or event.type == pg.MOUSEBUTTONDOWN:
+                gv.actualPage = 0
 
             self.manager.process_events(event)
 
