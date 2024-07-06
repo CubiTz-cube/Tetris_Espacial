@@ -123,7 +123,7 @@ class Leaderboard():
             scoreList = quickSortScoreUser(scoreList)
 
         for i, score in enumerate(scoreList[startIndex:endIndex]):
-            text = f"Puntos: {score[0][0]} | {score[2]} - {score[1]} fecha: {score[0][1]}/{score[0][2]}/{score[0][3]} Hora: {score[0][4]}:{score[0][5]}"
+            text = f"• {score[0][0]} | {score[2]} - {score[1]} | Fecha: {score[0][1]}/{score[0][2]}/{score[0][3]} | Hora: {score[0][4]}:{score[0][5]}"
             self.textScores[i].changeText(text)
 
     def filterState(self, users:list[list],state:str):
