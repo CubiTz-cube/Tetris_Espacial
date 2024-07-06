@@ -1,0 +1,63 @@
+{
+    "#ButtonConfig":
+     {
+         "colours":
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF",
+             "normal_border": "#FFFFFF",
+             "hovered_border": "#FFFFFF",
+             "disabled_border": "#FFFFFF",
+             "selected_border": "#FFFFFF",
+             "active_border": "#FFFFFF"
+         },
+         "font":
+         {
+             "size": "24",
+             "name": "Aldrich",
+             "regular_path": "public\\fonts\\Aldrich-Regular.ttf"
+         },
+         "misc":
+         {
+             "shape": "rounded_rectangle",
+             "shape_corner_radius": "12",
+             "border_width": "3",
+             "text_horiz_alignment": "center",
+             "text_vert_alignment": "center",
+             "state_transitions":
+             {
+                 "normal_hovered": "0.2",
+                 "hovered_normal": "0.2"
+             }
+         }
+    },
+    "text_entry_line":
+    {
+        "colours":
+        {
+            "dark_bg": "#FFFFFF",
+            "selected_bg": "#1C1C1C",
+            "normal_text": "#000000",
+            "selected_text": "#FFFFFF",
+            "normal_border": "#1C1C1C",
+            "text_cursor": "#000000"
+        },
+        "font":
+         {
+            "size": "24",
+            "name": "Lekton",
+            "regular_path": "public\\fonts\\Lekton-Regular.ttf"
+         },
+        "misc":
+         {
+             "shape": "rounded_rectangle",
+             "shape_corner_radius": "15",
+             "border_width": "3",
+             "padding": "6,4"
+         }
+    }
+}
