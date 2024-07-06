@@ -7,46 +7,86 @@ import public.images.loadImages as img
 from library.dynamicObjects import *
 from library.piece import allPieces, imgCompletePiecesNum
 from library.imageEdit import convertImgToBn
+from library.starsBack import StartMaker
 
 class Selection():
     def __init__(self) -> None:
         self.screen = pg.display.get_surface()
         self.clock = pg.Clock()
-        self.W = pg.display.Info().current_w
-        self.H = pg.display.Info().current_h
-        self.manager = pgu.UIManager((self.W,self.H), "pages\\css\\selection.json")
+        W = pg.display.Info().current_w
+        H = pg.display.Info().current_h
+        self.manager = pgu.UIManager((W,H), "pages\\css\\selection.json")
         self.manager.get_theme().load_theme("pages\\css\\global.json")
 
-        self.buttonPlay = DynamicButton(300, 50, 150, 50, "Iniciar", self.manager)
-        self.buttonBack = DynamicButton(100, 50, 150, 50, "Regresar", self.manager)
-        self.inputMode = DynamicDropDown(450, 150, 150, 30, self.manager, ["Desactivado", "Tiempo", "Pieza"], "Desactivado")
-        self.inputLimit = DynamicInput(300, 150, 150, 30, self.manager, str(gv.limit))
-        self.inputDimX = DynamicInput(350, 200, 100, 30, self.manager, str(gv.dimX))
-        self.inputDimY = DynamicInput(250, 200, 100, 30, self.manager, str(gv.dimY))
+        self.backGround = DynamicRect(0, 450, 1280, 270, "#FFFFFF")
+
+        self.textDimension = DynamicText(155, 470, "Dimensiones", gv.fontLekton, 28, "#1C1C1C")
+
+        self.boxDimX = DynamicRect(133, 520, 200, 40, "#FFFFFF", 3, "#1C1C1C")
+        self.textValueDimX = DynamicText(220, 526, str(gv.dimX), gv.fontLekton, 28, "#1C1C1C")
+        self.buttonDimXR = DynamicButton(325, 514, 40, 50, "+", self.manager)
+        self.buttonDimXL = DynamicButton(100, 514, 40, 50, "-", self.manager)
+        self.textX = DynamicText(70, 526, "X", gv.fontLekton, 32, "#1C1C1C")
+
+        self.boxDimY = DynamicRect(133, 585, 200, 40, "#FFFFFF", 3, "#1C1C1C")
+        self.textValueDimY = DynamicText(220, 592, str(gv.dimY), gv.fontLekton, 28, "#1C1C1C")
+        self.buttonDimYR = DynamicButton(325, 580, 40, 50, "+", self.manager)
+        self.buttonDimYL = DynamicButton(100, 580, 40, 50, "-", self.manager)
+        self.textY = DynamicText(70, 592, "Y", gv.fontLekton, 32, "#1C1C1C")
+
+        self.textMode = DynamicText(920, 470, "Modo", gv.fontLekton, 28, "#1C1C1C")
+        self.inputMode = DynamicDropDown(875, 514, 150, 40, self.manager, ["Desactivado", "Tiempo", "Pieza"], "Desactivado")
+
+        self.textLimit = DynamicText(1120, 470, "Limite", gv.fontLekton, 28, "#000000")
+        self.inputLimit = DynamicInput(1085, 514, 150, 40, self.manager, str(gv.limit))
+
+        self.buttonPlay = DynamicButton(460, 590, 360, 120, "Iniciar", self.manager)
+        self.buttonBack = DynamicButton(980, 650, 305, 80, "Regresar al menu", self.manager)
+
+        self.buttonClasic = DynamicButton(0, 0, 200, 50, "Clasico", self.manager)
+        self.buttonRequest = DynamicButton(200, 00, 200, 50, "Pedido", self.manager)
 
         self.dinamicObjects = [
+            self.backGround,
             self.buttonPlay,
             self.buttonBack, 
+            self.textMode,
             self.inputMode, 
-            self.inputLimit, 
-            self.inputDimX, 
-            self.inputDimY
+            self.textLimit,
+            self.inputLimit,
+
+            self.textDimension,
+
+            self.boxDimX,
+            self.textValueDimX,
+            self.buttonDimXR,
+            self.buttonDimXL,
+            self.textX,
+
+            self.boxDimY,
+            self.textValueDimY, 
+            self.buttonDimYR,
+            self.buttonDimYL,
+            self.textY,
+
+            self.buttonClasic,
+            self.buttonRequest,
         ]
 
-        self.pieceButtons:list[pgu.elements.UIButton] = []
-        self.pieceImages:list[pgu.elements.UIImage] = []
+        self.pieceImages:list[DynamicImage] = []
+        self.pieceButtons:list[DynamicButton] = []
         for i in range(len(imgCompletePiecesNum)):
-            imageSize = imgCompletePiecesNum[i].get_size()
-            self.pieceButtons.append(pgu.elements.UIButton(
-            relative_rect=pg.Rect((100 + 100 * i, 300), (imageSize[0]//2,imageSize[1]//2)),
-            text="",
-            manager=self.manager,
-            object_id= ObjectID("#select","@transparent"),
-            ))
-            self.pieceImages.append(pgu.elements.UIImage(
-            relative_rect=pg.Rect((100 + 100 * i, 300), (imageSize[0]//2,imageSize[1]//2)),
-            image_surface=imgCompletePiecesNum[i],
-            manager=self.manager))
+            self.pieceImages.append(
+                DynamicImage(50+105*i, 200, 0.5, imgCompletePiecesNum[i])
+            )
+            self.pieceButtons.append(
+                DynamicButton(50+105*i, 200, 100, 100, "", self.manager, ObjectID("#select","@transparent"))
+            )
+        
+        for i in range(len(self.pieceImages)):
+            self.pieceButtons[i].changeDimension(self.pieceImages[i].image.get_width(), self.pieceImages[i].image.get_height())
+
+        self.starts = StartMaker(50, 10, minSpeed = 0.5, maxSpeed = 1)
 
     def events(self):
         for event in pg.event.get():
@@ -72,31 +112,51 @@ class Selection():
                     gv.limit = int(self.inputLimit.element.get_text())
                 except:
                     pass
-            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputDimX.element:
-                try:
-                    change = int(self.inputDimX.element.get_text())
-                    if change % 3 == 0 and change > 9: gv.dimX = change
-                    else: print("dimX no es multiplo de 3 mayor que 9")
-                except:
-                    pass
-            if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputDimY.element:
-                try:
-                    change = int(self.inputDimY.element.get_text())
-                    if change % 3 == 0 and change > 9: gv.dimX = change
-                    else: print("dimY no es multiplo de 3 mayor que 9")
-                except:
-                    pass
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonDimXL.element:
+                if gv.dimX > 9:
+                    gv.dimX -= 3
+                    self.textValueDimX.changeText(str(gv.dimX))
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonDimXR.element:
+                if gv.dimX < 30:
+                    gv.dimX += 3
+                    self.textValueDimX.changeText(str(gv.dimX))
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonDimYL.element:
+                if gv.dimY > 9:
+                    gv.dimY -= 3
+                    self.textValueDimY.changeText(str(gv.dimY))
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonDimYR.element:
+                if gv.dimY < 42:
+                    gv.dimY += 3
+                    self.textValueDimY.changeText(str(gv.dimY))
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonClasic.element:
+                gv.activePieces = [False, False, True, True, True, False, True, False, False, True, True, True]
+                for i, active in enumerate(gv.activePieces):
+                    if active:
+                        self.pieceButtons[i].element.change_object_id(ObjectID("#select","@transparent"))
+                        self.pieceImages[i].changeImg(imgCompletePiecesNum[i])
+                    else:
+                        self.pieceButtons[i].element.change_object_id("#unSelect")
+                        self.pieceImages[i].changeImg(convertImgToBn(imgCompletePiecesNum[i]))
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonRequest.element:
+                gv.activePieces = [True, True, True, True, True, True, True, True, True, False, False, False]
+                for i, active in enumerate(gv.activePieces):
+                    if active:
+                        self.pieceButtons[i].element.change_object_id(ObjectID("#select","@transparent"))
+                        self.pieceImages[i].changeImg(imgCompletePiecesNum[i])
+                    else:
+                        self.pieceButtons[i].element.change_object_id("#unSelect")
+                        self.pieceImages[i].changeImg(convertImgToBn(imgCompletePiecesNum[i]))
 
             for index, button in enumerate(self.pieceButtons):
-                if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == button:
-                    if  "#unSelect" in button.get_object_ids():
-                        button.change_object_id(ObjectID("#select","@transparent"))
+                if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == button.element:
+                    if  "#unSelect" in button.element.get_object_ids():
+                        button.element.change_object_id(ObjectID("#select","@transparent"))
                         gv.activePieces[index] = True
-                        self.pieceImages[index].set_image(imgCompletePiecesNum[index])
+                        self.pieceImages[index].changeImg(imgCompletePiecesNum[index])
                     elif gv.activePieces.count(True) > 5:
-                        button.change_object_id("#unSelect")
+                        button.element.change_object_id("#unSelect")
                         gv.activePieces[index] = False
-                        self.pieceImages[index].set_image(convertImgToBn(imgCompletePiecesNum[index]))
+                        self.pieceImages[index].changeImg(convertImgToBn(imgCompletePiecesNum[index]))
 
             self.manager.process_events(event)
 
@@ -104,10 +164,28 @@ class Selection():
         for obj in self.dinamicObjects:
             obj.resize()
 
+        for img in self.pieceImages:
+            img.resize()
+
+        for i in range(len(self.pieceImages)):
+            self.pieceButtons[i].resize()
+            self.pieceButtons[i].changeDimension(self.pieceImages[i].image.get_width(), self.pieceImages[i].image.get_height())
+        
+        self.starts.resize()
+
     def frontEnd(self):
         self.screen.fill("#050611")
+
+        self.starts.render()
+
+        for obj in self.dinamicObjects:
+            obj.render()
+
         self.manager.update(self.clock.tick(60)/1000)
         self.manager.draw_ui(self.screen)
+
+        for img in self.pieceImages:
+            img.render()
 
     def backEnd(self):
         pass

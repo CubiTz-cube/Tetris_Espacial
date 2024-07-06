@@ -48,7 +48,7 @@ class DynamicText():
         self.screen.blit(self.renderText, (self.x, self.y))
 
 class DynamicRect():
-    def __init__(self, x, y, ObjectW, ObjectH, color, border = 0, borderColor = "#000000"):
+    def __init__(self, x, y, ObjectW, ObjectH, color, border = 0, borderColor = "#000000", borderRadius = -1):
         self.screen = pg.display.get_surface()
         self.W = 1280
         self.H = 720
@@ -56,6 +56,7 @@ class DynamicRect():
         self.relativeY = y / self.H
         self.relativeW = ObjectW /self.W
         self.relativeH = ObjectH / self.H
+        self.borderRadius = borderRadius
 
         screenW, screenH = self.screen.get_size()
         self.x = self.relativeX * screenW
@@ -85,7 +86,7 @@ class DynamicRect():
     def render(self):
         pg.draw.rect(self.screen, self.color, (self.x, self.y,  self.ObjectW, self.ObjectH))
         if self.border != 0:
-            pg.draw.rect(self.screen, self.borderColor, (self.x-self.border, self.y-self.border,  self.ObjectW+self.border*2, self.ObjectH+self.border*2), self.border)
+            pg.draw.rect(self.screen, self.borderColor, (self.x-self.border, self.y-self.border,  self.ObjectW+self.border*2, self.ObjectH+self.border*2), self.border, self.borderRadius)
 
 class DynamicImage():
     def __init__(self, x, y, ObjectScale, image:pg.Surface, rotate = 0, mirror = False):
@@ -228,8 +229,16 @@ class DynamicButton():
         )
 
     def changeDimension(self, ObjectW, ObjectH):
-        screenW, screenH = pg.display.get_surface().get_size()
         self.element.set_dimensions((ObjectW, ObjectH))
+
+    def changeCoord(self, x, y):
+        screenW, screenH = pg.display.get_surface().get_size()
+        if x != None:
+            self.relativeX = x / 1280
+            self.element.set_relative_position((self.relativeX * screenW, self.relativeY * screenH))
+        if y != None:
+            self.relativeY = y / 720
+            self.element.set_relative_position((self.relativeX * screenW, self.relativeY * screenH))
 
     def resize(self):
         screenW, screenH = pg.display.get_surface().get_size()
