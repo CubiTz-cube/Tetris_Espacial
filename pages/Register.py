@@ -83,7 +83,7 @@ class Register():
 
                 validationPass = self.validatePassword(password)
                 validationMail = self.validateEmail(mail)
-                if all(validationPass) and validationMail and self.validateGlobal(mail) and self.validateGlobal(password) and self.validateGlobal(name) and self.No_duplicate_mail(mail):
+                if all(validationPass) and validationMail and self.validateGlobal(mail) and self.validateGlobal(password) and self.validateGlobal(name) and self.NoDuplicateMail(mail):
                     self.saveUser()
                     gv.actualUser=self.userData
                     gv.actualPage = 2
