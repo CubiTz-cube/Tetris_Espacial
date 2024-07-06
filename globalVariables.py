@@ -21,7 +21,7 @@ dimY = 21
 activePieces = []
 
 #data
-states = [("No seleccionado", None),"Amazonas", "Anzoátegui", "Apure", "Aragua", "Barinas", "Bolívar", "Carabobo", "Cojedes", "Delta Amacuro", "Dependencias Federales", "Distrito Federal", "Falcón", "Guárico", "Lara", "Mérida", "Miranda", "Monagas", "Nueva Esparta", "Portuguesa", "Santander", "Sucre", "Táchira", "Trujillo", "Vargas", "Yaracuy", "Zulia"]
+states = [("Estado no seleccionado", None),"Amazonas", "Anzoátegui", "Apure", "Aragua", "Barinas", "Bolívar", "Carabobo", "Cojedes", "Delta Amacuro", "Dependencias Federales", "Distrito Federal", "Falcón", "Guárico", "Lara", "Mérida", "Miranda", "Monagas", "Nueva Esparta", "Portuguesa", "Santander", "Sucre", "Táchira", "Trujillo", "Vargas", "Yaracuy", "Zulia"]
 
 #fonts
 fontLekton = "./public/fonts/Lekton-Regular.ttf"
