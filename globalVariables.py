@@ -1,7 +1,11 @@
+
+W = 0
+H = 0
+
 actualUser = None
 
 # Pages
-actualPage = 3 # 0: Login 1: Register 2: Menu 3: Selection 4: Game 5: Leaderboard 6: Config 7: GameOver 8: Intro
+actualPage = 6 # 0: Login 1: Register 2: Menu 3: Selection 4: Game 5: Leaderboard 6: Config 7: GameOver 8: Intro
 
 # Sonds
 actualSong = 0

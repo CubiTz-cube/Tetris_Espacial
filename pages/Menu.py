@@ -14,7 +14,7 @@ class Menu():
         self.clock = pg.Clock()
         W = pg.display.Info().current_w
         H = pg.display.Info().current_h
-        self.manager = pgu.UIManager((W,H), "pages\\css\\global.json")
+        self.manager = pgu.UIManager((gv.W,gv.W), "pages\\css\\global.json")
         self.isLoad = False
 
         self.textName = DynamicText(100, 24, gv.actualUser[2], gv.fontAldrich, 40, "#000000")

@@ -13,7 +13,7 @@ class GameOver():
         self.clock = pg.Clock()
         W = pg.display.Info().current_w
         H = pg.display.Info().current_h
-        self.manager = pgu.UIManager((W,H), "pages\\css\\global.json")
+        self.manager = pgu.UIManager((gv.W,gv.W), "pages\\css\\global.json")
         self.isLoad = False
 
         self.buttonReset = DynamicButton(640 - 180, 360 + 100, 360, 70, "Reiniciar", self.manager)
