@@ -13,7 +13,7 @@ class Leaderboard():
         self.clock = pg.Clock()
         W = pg.display.Info().current_w
         H = pg.display.Info().current_h
-        self.manager = pgu.UIManager((W,H))
+        self.manager = pgu.UIManager((gv.W,gv.W))
 
         self.showState = None
         self.showUser = None
