@@ -11,17 +11,18 @@ class Config():
     def __init__(self) -> None:
         self.screen = pg.display.get_surface()
         self.clock = pg.Clock()
-        self.manager = pgu.UIManager((gv.W,gv.W))
+        self.manager = pgu.UIManager((gv.W,gv.W), "pages\\css\\global.json")
         self.isload = False
 
         self.textName = DynamicText(100, 24, gv.actualUser[2], gv.fontAldrich, 40, "#000000")
         self.textState = DynamicText(950, 24, gv.actualUser[3], gv.fontAldrich, 40, "#FFFFFF")
 
-        self.buttonBack = DynamicButton(980, 650, 305, 80, "Regresar al menu", self.manager)
+        self.buttonBack = DynamicButton(980, 650, 305, 80, "Regresar al menu", self.manager, ObjectID("#back",""))
 
-        self.InputSpeed = DynamicInput(300, 150, 200, 30, self.manager, "Velocidad: "+str(gv.speed*100))
-        self.buttonMusic = DynamicButton(500, 150, 150, 30, "Mutear Musica", self.manager)
-        self.buttonMusicChange = DynamicButton(500, 250, 150, 30, "Cambiar Musica", self.manager)
+        self.textSpeed = DynamicText(200, 260, "Velocidad: ", gv.fontAldrich, 40, "#FFFFFF")
+        self.InputSpeed = DynamicInput(450, 250, 350, 60, self.manager, str(gv.speed*100))
+        self.buttonMusic = DynamicButton(650, 350, 350, 60, "Mutear Musica", self.manager)
+        self.buttonMusicChange = DynamicButton(200, 350, 350, 60, "Cambiar Musica", self.manager)
 
         self.dynamicObjects = [
             DynamicRect(0, -40, 10000, 120, "#FFFFFF"),
@@ -30,6 +31,7 @@ class Config():
             self.textName,
             self.textState,
             self.buttonBack,
+            self.textSpeed,
             self.InputSpeed,
             self.buttonMusic,
             self.buttonMusicChange,
