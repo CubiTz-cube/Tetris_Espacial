@@ -21,7 +21,7 @@ class Config():
 
         self.textSpeed = DynamicText(200, 260, "Velocidad: ", gv.fontAldrich, 40, "#FFFFFF")
         self.InputSpeed = DynamicInput(450, 250, 350, 60, self.manager, str(gv.speed*100))
-        self.buttonMusic = DynamicButton(650, 350, 350, 60, "Mutear Musica", self.manager)
+        self.buttonMusic = DynamicButton(650, 350, 350, 60, "Mutear Musica" if gv.music else "Activar Musica", self.manager)
         self.buttonMusicChange = DynamicButton(200, 350, 350, 60, "Cambiar Musica", self.manager)
 
         self.dynamicObjects = [
@@ -79,8 +79,10 @@ class Config():
                 newSpeed = self.InputSpeed.element.get_text()
                 try:
                     newSpeed = int(newSpeed)
+                    if newSpeed > 1000:
+                        newSpeed = 1000
+                        self.InputSpeed.element.set_text("1000")
                     gv.speed = 1 * (newSpeed/100)
-                    print(f"nueva velocidad {gv.speed}")
                 except:
                     pass
 
