@@ -66,6 +66,7 @@ class Config():
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonBack.element:
                 gv.actualPage = 2
+                self.isload = False
 
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonMusicChange.element:
                 gv.actualSong = (gv.actualSong + 1) % len(sonds.music)
