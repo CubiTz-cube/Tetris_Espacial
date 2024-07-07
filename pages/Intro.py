@@ -27,7 +27,7 @@ class Intro():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
-                quit()
+                exit()
             if event.type == pg.VIDEORESIZE:
                 self.resize()
             if event.type == pg.KEYDOWN or event.type == pg.MOUSEBUTTONDOWN:
