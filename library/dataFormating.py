@@ -1,5 +1,4 @@
 import globalVariables as gv
-from library.encrypter import decrypt
 import datetime
 from datetime import date, timedelta
 
