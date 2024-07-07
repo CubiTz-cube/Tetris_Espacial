@@ -3,22 +3,22 @@
 </a>
 
 # ![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white) Tetris Espacial
-Un tetris de jugabilidad moderna con sitema de puntuaciones y cuentas. Con musica, efectos de sonido y fondo animado.
+Un Tetris de jugabilidad moderna con sistema de puntuaciones y cuentas. Con música, efectos de sonido y fondo animado.
 
 Creado para la materia *Algoritmos y Programación* en el segundo semestre de la [UCAB](https://www.ucab.edu.ve/).
 
-> Agradecimiento especial a [Venus](https://www.youtube.com/@venus77752) por la musica 🎵
+> Agradecimiento especial a [Venus](https://www.youtube.com/@venus77752) por la música 🎵
 
 ![Game](https://github.com/CubiTz-cube/T-84/assets/144462396/0b5d17db-02c7-4ec5-a0b9-1defaed1b41d)
 
 ## Características ⭐
 - Sistema de sesiones.
-- Vista de mejores puntajes. Se puede filtar por usuario y por región.
-- Configuracion para cambiar la musica, desactivar la musica, modificar velocidad de caida de las piezas y desactivar los números delas piezas.
-- 2 Modos de juego: por tiempo limitado y por piezas limitadas
-- Dimesión del tablero personalizable.
-- Puntaje dependiento el valor de las piezas en la linea.
-- Guardar pieza para usarla despues.
+- Vista de mejores puntajes. Se puede filtrar por usuario y por región.
+- Configuración para cambiar la música, desactivar la música, modificar velocidad de caída de las piezas y desactivar los números delas piezas.
+- 2 Modos de juego: por tiempo limitado y por piezas limitadas.
+- Dimensión del tablero personalizable.
+- Puntaje dependiendo el valor de las piezas en la línea.
+- Guardar pieza para usarla después.
 - Rotar pieza a la derecha e izquierda.
 - Bajar la pieza de golpe.
 ## Controles ⚡
@@ -33,7 +33,7 @@ Creado para la materia *Algoritmos y Programación* en el segundo semestre de la
 - Pygame_gui
 
 ## Como ejecutar 💻
-1. Instala el *Tetris.zip* que esta en *releases*.
+1. Instala el *Tetris.zip* que está en *releases*.
 2. Descomprimelo.
 3. Ejecuta el .exe.
 
