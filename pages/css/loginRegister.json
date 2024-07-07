@@ -85,5 +85,95 @@
                   "hovered_normal": "0.5"
               }
           }
-      }
+      },
+      "drop_down_menu":
+    {
+        "misc":
+        {
+            "expand_direction": "down"
+        },
+
+        "colours":
+        {
+            "normal_bg": "#1C1C1C",
+            "dark_bg": "#1C1C1C",
+            "disabled_dark_bg": "#1C1C1C",
+            "hovered_bg": "#292929",
+            "disabled_border": "#35393e"
+        }
+    },
+    "drop_down_menu.#expand_button":
+    {
+        "colours":
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF"
+         }
+    },
+    "drop_down_menu.#selected_option":
+    {
+        "colours":
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF"
+         }
+    },
+    "drop_down_menu.#drop_down_options_list.button":
+    {
+        "colours":
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF"
+         }
+    },
+        "vertical_scroll_bar":
+        {
+            "colours":
+            {
+                "normal_bg": "#292929",
+                "hovered_bg": "#292929",
+                "disabled_bg": "#292929",
+                "selected_bg": "#292929",
+                "active_bg": "#292929",
+                "dark_bg": "#292929",
+                "normal_text": "#FFFFFF",
+                "hovered_text": "#FFFFFF",
+                "selected_text": "#FFFFFF",
+                "disabled_text": "#FFFFFF"
+            },
+            "misc":
+            {
+               "shape": "rectangle",
+               "border_width": "0",
+               "enable_arrow_buttons": "1"
+            }
+        },
+        "vertical_scroll_bar.button":
+        {
+            "misc":
+            {
+               "border_width": "0"
+            }
+        },
+        "vertical_scroll_bar.#sliding_button":
+        {
+            "colours":
+            {
+               "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929"
+            }
+        }
 }

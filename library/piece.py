@@ -45,10 +45,10 @@ shape_T[1, 1] = 1
 shape_T[2, 1] = 1
 
 shape_Tmin = np.zeros((3, 3), dtype=int)
-shape_Tmin[1, 0] = 1
-shape_Tmin[1, 1] = 1
-shape_Tmin[1, 2] = 1
+shape_Tmin[2, 0] = 1
 shape_Tmin[2, 1] = 1
+shape_Tmin[2, 2] = 1
+shape_Tmin[1, 1] = 1
 
 shape_Imax = np.zeros((4, 4), dtype=int)
 shape_Imax[0, 1] = 1

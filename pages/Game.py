@@ -115,9 +115,15 @@ class Game():
                     self.tickKey = 0
                 if event.key == pg.K_UP or event.key == pg.K_w:
                     self.pieceInGame[0].rotateR(self.board)
+                if event.key == pg.K_z:
+                    self.pieceInGame[0].rotateR(self.board, False)
+                if event.key == pg.K_x:
+                    self.pieceInGame[0].rotateR(self.board)
                 if event.key == pg.K_ESCAPE:
                     self.isLoad = False
                     self.gameOver()
+                if event.key == pg.K_TAB:
+                    pass
     
     def updateNextPieces(self):
         for index, nextPiece in enumerate(self.pieceInGame[1:]):

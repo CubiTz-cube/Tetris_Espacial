@@ -1,4 +1,4 @@
-{
+{   
     "#pages":
      {
          "colours":
@@ -8,7 +8,12 @@
              "hovered_bg": "#292929",
              "normal_text": "#FFFFFF",
              "hovered_text": "#FFFFFF",
-             "active_text": "#FFFFFF"
+             "active_text": "#FFFFFF",
+             "normal_border": "#FFFFFF",
+             "hovered_border": "#FFFFFF",
+             "disabled_border": "#FFFFFF",
+             "selected_border": "#FFFFFF",
+             "active_border": "#FFFFFF"
          },
          "font":
          {
@@ -20,7 +25,7 @@
          {
              "shape": "rounded_rectangle",
              "shape_corner_radius": "12",
-             "border_width": "0",
+             "border_width": "3",
              "text_horiz_alignment": "center",
              "text_vert_alignment": "center",
              "state_transitions":
@@ -49,37 +54,37 @@
     "drop_down_menu.#expand_button":
     {
         "colours":
-        {
-            "normal_bg": "#1C1C1C",
-            "active_bg": "#1C1C1C",
-            "hovered_bg": "#292929",
-            "normal_text": "#FFFFFF",
-            "hovered_text": "#FFFFFF",
-            "active_text": "#FFFFFF"
-        }
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF"
+         }
     },
     "drop_down_menu.#selected_option":
     {
         "colours":
-        {
-            "normal_bg": "#1C1C1C",
-            "active_bg": "#1C1C1C",
-            "hovered_bg": "#292929",
-            "normal_text": "#FFFFFF",
-            "hovered_text": "#FFFFFF",
-            "active_text": "#FFFFFF"
-        }
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF"
+         }
     },
     "drop_down_menu.#drop_down_options_list.button":
     {
         "colours":
-        {
-            "normal_bg": "#1C1C1C",
-            "active_bg": "#1C1C1C",
-            "hovered_bg": "#292929",
-            "normal_text": "#FFFFFF",
-            "hovered_text": "#FFFFFF",
-            "active_text": "#FFFFFF"
-        }
+         {
+             "normal_bg": "#1C1C1C",
+             "active_bg": "#1C1C1C",
+             "hovered_bg": "#292929",
+             "normal_text": "#FFFFFF",
+             "hovered_text": "#FFFFFF",
+             "active_text": "#FFFFFF"
+         }
     }
 }
