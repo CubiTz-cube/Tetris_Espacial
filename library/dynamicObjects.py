@@ -139,7 +139,7 @@ class DynamicImage():
         self.screen.blit(self.image, (self.x, self.y))
 
 class DynamicInput():
-    def __init__(self, x, y, ObjectW, ObjectH, manager, defaultText="", options = []):
+    def __init__(self, x, y, ObjectW, ObjectH, manager, defaultText=""):
         self.screen = pg.display.get_surface()
         self.manager = manager
         self.W = 1280
@@ -155,19 +155,12 @@ class DynamicInput():
         self.y = self.relativeY * screenH
         self.ObjectW = self.relativeW * screenW
         self.ObjectH = self.relativeH * screenH
-        if options:
-            self.element = pgu.elements.UIDropDownMenu(
-                options_list=options,
-                starting_option=options[0] if options else defaultText,
-                relative_rect=pg.Rect((self.x, self.y), (self.ObjectW, self.ObjectH)),
-                manager=self.manager
-            )
-        else:
-            self.element = pgu.elements.UITextEntryLine(
-                relative_rect=pg.Rect((self.x, self.y), (self.ObjectW, self.ObjectH)),
-                manager=self.manager,
-                placeholder_text=defaultText
-            )
+
+        self.element = pgu.elements.UITextEntryLine(
+            relative_rect=pg.Rect((self.x, self.y), (self.ObjectW, self.ObjectH)),
+            manager=self.manager,
+            placeholder_text=defaultText
+        )
     def resize(self):
         screenW, screenH = pg.display.get_surface().get_size()
         self.element.set_dimensions((self.relativeW * screenW, self.relativeH * screenH))

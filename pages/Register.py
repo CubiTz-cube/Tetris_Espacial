@@ -14,7 +14,7 @@ class Register():
         self.W = pg.display.Info().current_w
         self.H = pg.display.Info().current_h
         self.manager = pgu.UIManager((gv.W,gv.W))
-        self.userData = ["","", "", gv.states[1], []]
+        self.userData = ["","", "", None, []]
         self.manager = pgu.UIManager((self.W,self.H), "pages\\css\\loginRegister.json")
         self.manager.get_theme().load_theme("pages\\css\\global.json")
         self.isLoad = False
@@ -22,7 +22,7 @@ class Register():
         self.inputName = DynamicInput(740, 250, 460, 75, self.manager, "Nombre y apellido")
         self.inputPassword = DynamicInput(740, 330, 460, 75, self.manager, "Contraseña")
         self.inputMail = DynamicInput(740, 410, 220, 75, self.manager, "Correo")
-        self.inputState = DynamicInput(980, 410, 220, 75, self.manager, "Estado", options=gv.states[1:])
+        self.inputState = DynamicDropDown(980, 410, 220, 75, self.manager, options=gv.states)
         self.buttonPlay = DynamicButton(790, 510, 360, 70, "Iniciar", self.manager, ObjectID("#play"))
         self.buttonLogin = DynamicButton(790, 580, 360, 50, "¿Tienes cuenta? inicia sesion", self.manager, ObjectID("#register"))
         self.textError = DynamicText(640, 620, "",gv.fontLekton, 18, "#AD1106")
@@ -65,7 +65,6 @@ class Register():
                 self.userData[2] = self.inputName.element.get_text()
 
             if event.type == pgu.UI_DROP_DOWN_MENU_CHANGED and event.ui_element == self.inputState.element:
-                self.userData[3] = self.inputState.element.selected_option[0]
                 self.userData[3] = self.inputState.element.selected_option[1]
 
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputPassword.element:
@@ -78,29 +77,32 @@ class Register():
                 mail = self.userData[0]
                 password = self.userData[1]
                 name = self.userData[2]
+                state = self.userData[3]
 
                 validationPass = self.validatePassword(password)
                 validationMail = self.validateEmail(mail)
-                if all(validationPass) and validationMail and self.validateGlobal(mail) and self.validateGlobal(password) and self.validateGlobal(name) and self.NoDuplicateMail(mail):
+                if all(validationPass) and validationMail and self.validateGlobal(mail) and self.validateGlobal(password) and self.validateGlobal(name) and state != None and self.NoDuplicateMail(mail):
                     self.saveUser()
                     gv.actualUser=self.userData
                     gv.actualPage = 2
-                elif(self.validateGlobal(name)!=True):
+                elif not self.validateGlobal(name):
                     self.textError.changeText('*El nombre no debe contener "|" o estar vacio.')
-                elif(validationPass[0]!=True):
+                elif not validationPass[0]:
                     self.textError.changeText("*Contraseña no valida.\nNo puede tener ñ.\nDebe tener al menos una mayuscula y minuscul.a\nNo puede tener acentos o caracteres especiales\naparte de los permitidos (*=.-)")
-                elif(validationPass[1]!=True):
+                elif not validationPass[1]:
                     self.textError.changeText("*Contraseña no válida.\nDebe tener al menos uno de los caracteres (*=.-)")
-                elif(validationPass[2]!=True):
+                elif not validationPass[2]:
                     self.textError.changeText("*Contraseña no válida\nNo se debe repetir 3 veces el mismo caracter.")
-                elif(validationPass[3]!=True):
+                elif not validationPass[3]:
                     self.textError.changeText("*Contraseña no válida\nDebe ser una combinacion alfanumerica.")
-                elif(validationPass[4]!=True):
+                elif not validationPass[4]:
                     self.textError.changeText(f"*Contraseña no válida\nDebe tener entre 8 y 10 caracteres.\nTiene {len(password)}")
-                elif(validationMail !=True or self.validateGlobal(mail)):
+                elif not validationMail or self.validateGlobal(mail):
                     self.textError.changeText("*Correo no válido.")
-                    if(self.NoDuplicateMail(mail) !=True):
+                    if not self.NoDuplicateMail(mail):
                         self.textError.changeText("Correo no válido.\nEste correo ya esta registrado")
+                elif state == None:
+                    self.textError.changeText("*Estado no válido.")
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonLogin.element:
                 gv.actualPage = 0
                 self.isLoad = False
@@ -132,13 +134,12 @@ class Register():
         return valid
     
     def validateGlobal(self, text:str):
-        if "@gmail.com" in text or "@hotmail.com" in text or "@est.ucab.edu.ve" in text or "@ucab.edu.ve" in text:
-            if text.startswith("@gmail.com") or text.startswith("@hotmail.com") or text.startswith("@est.ucab.edu.ve") or text.startswith("@ucab.edu.ve"):
-                return False
+        if text == None:
+            return False
         if text=="" or "|" in text: 
             return False
-        else:
-            return True
+
+        return True
 
     def validateEmail(self, email:str):
         if not (email.endswith("@gmail.com") or email.endswith("@hotmail.com") or email.endswith("@est.ucab.edu.ve") or email.endswith("@ucab.edu.ve")):
