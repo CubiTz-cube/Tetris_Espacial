@@ -25,6 +25,7 @@ class Config():
         self.InputSpeed = DynamicInput(450, 250, 350, 60, self.manager, str(gv.speed*100))
         self.buttonMusic = DynamicButton(650, 350, 350, 60, "Mutear Musica" if gv.music else "Activar Musica", self.manager, ObjectID("#ButtonConfig",""))
         self.buttonMusicChange = DynamicButton(200, 350, 350, 60, "Cambiar Musica", self.manager, ObjectID("#ButtonConfig",""))
+        self.buttonPiecesNum = DynamicButton(375, 450, 450, 60, "Piezas con números" if gv.piecesHasNum else "Piezas sin números", self.manager, ObjectID("#ButtonConfig",""))
 
         self.dynamicObjects = [
             DynamicRect(0, -40, 10000, 120, "#FFFFFF"),
@@ -37,6 +38,7 @@ class Config():
             self.InputSpeed,
             self.buttonMusic,
             self.buttonMusicChange,
+            self.buttonPiecesNum,
         ]
 
         self.starts = StartMaker(50, 10, minSpeed = 0.5, maxSpeed = 1)
@@ -81,6 +83,13 @@ class Config():
                     self.buttonMusic.element.set_text("Mutear Musica")
                     gv.music = True
                     sonds.playMusic(sonds.music[gv.actualSong])
+            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPiecesNum.element:
+                if gv.piecesHasNum:
+                    self.buttonPiecesNum.element.set_text("Piezas sin números")
+                    gv.piecesHasNum = False
+                else:
+                    self.buttonPiecesNum.element.set_text("Piezas con números")
+                    gv.piecesHasNum = True
 
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.InputSpeed.element:
                 newSpeed = self.InputSpeed.element.get_text()

@@ -9,6 +9,7 @@ from library.starsBack import StartMaker
 import library.dataFormating as df
 import globalVariables as gv
 import public.sonds.loadSonds as sonds
+from library.imageEdit import convertImgToBn
 
 from random import choice, randint
 from copy import copy
@@ -20,11 +21,22 @@ class Game():
         for index,active in enumerate(gv.activePieces):
             if active:
                 self.pieces.append(piece.allPieces[index])
-                
-        #[piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar] piezas que pode franklin
-        #[piezaImax, piezaTmin, piezaO, piezaS, piezaSI, piezaL, piezaLI] Piezas clasicas de tetris
 
         self.piecesImg = {pieza.value:pieza.image for pieza in self.pieces}
+        self.completepiecesImg = {
+            1:img.completePieces["orangeBlack"],
+            2:img.completePieces["orangeBlack"],
+            3:img.completePieces["greenBlue"],
+            4:img.completePieces["red"],
+            5:img.completePieces["orange"],
+            6:img.completePieces["greenBlue"],
+            7:img.completePieces["yellow"],
+            8:img.completePieces["green"],
+            9:img.completePieces["green"],
+            10:img.completePieces["blue"],
+            11:img.completePieces["purple"],
+            12:img.completePieces["blueBlack"],
+        }
 
         self.lastTime = pg.time.get_ticks()
         self.screen = pg.display.get_surface()
@@ -34,6 +46,8 @@ class Game():
         self.start_time = pg.time.get_ticks()
  
         self.pieceInGame:list[piece.Piece] = []
+        self.pieceSaved:piece.Piece = None
+        self.isPieceSavedNow = False
         self.score = 0
         self.tickPiece = 0
         self.speed = gv.speed
@@ -49,9 +63,10 @@ class Game():
         self.TIMEREVENT = pg.USEREVENT + 2
         pg.time.set_timer(self.TIMEREVENT, 1000)
 
+        self.imgSavedPiece = DynamicImage(320, 80, 0.45, img.completePiecesNum["1"])
+
         self.nextPiecesRender:list[DynamicImage] = []
 
-        self.textRenderNumber = [pg.font.Font(gv.fontLekton, 25).render(f"{i-2}", True, (0,0,0)) for i in range(2,15)]
         self.textRenderModeInactive = pg.font.Font(gv.fontLekton, 25).render(f"Sin modo", True, (255,255,255))
         self.textRenderModeTime = pg.font.Font(gv.fontLekton, 25).render(f"Tiempo:", True, (255,255,255))
         self.textRenderModePiece = pg.font.Font(gv.fontLekton, 25).render(f"Piezas:", True, (255,255,255))
@@ -122,12 +137,25 @@ class Game():
                 if event.key == pg.K_ESCAPE:
                     self.isLoad = False
                     self.gameOver()
-                if event.key == pg.K_TAB:
-                    pass
-    
+                if event.key == pg.K_TAB and not self.isPieceSavedNow:
+                    self.pieceInGame[0].erase(self.board)
+                    pieceToSave = self.pieceInGame.pop(0)
+                    pieceToSave.reset()
+                    pieceToSave.x = int((self.dimX - pieceToSave.shape.shape[1]) / 2)
+                    if self.pieceSaved != None: 
+                        self.pieceInGame.insert(0, self.pieceSaved)
+                    else:
+                        self.pieceInGame.append(copy(choice(self.pieces)))
+                    self.pieceSaved = pieceToSave
+                    self.updateNextPieces()
+                    if gv.piecesHasNum: self.imgSavedPiece.changeImg(convertImgToBn(img.completePiecesNum[str(self.pieceSaved.value)]))
+                    else: self.imgSavedPiece.changeImg(convertImgToBn(self.completepiecesImg[self.pieceSaved.value]))
+                    self.isPieceSavedNow = True
+
     def updateNextPieces(self):
         for index, nextPiece in enumerate(self.pieceInGame[1:]):
-            self.nextPiecesRender[index].changeImg(img.completePiecesNum[str(nextPiece.value)])
+            if gv.piecesHasNum: self.nextPiecesRender[index].changeImg(img.completePiecesNum[str(nextPiece.value)])
+            else: self.nextPiecesRender[index].changeImg(self.completepiecesImg[nextPiece.value])
 
     def resetGame(self):
         self.board = np.full([gv.dimY,gv.dimX,4], [0, 0, 0, 0])
@@ -148,7 +176,13 @@ class Game():
         for index,active in enumerate(gv.activePieces): 
             if active:
                 self.pieces.append(piece.allPieces[index])
-        self.pieceInGame = [copy(choice(self.pieces)) for _ in range(5)]
+
+        self.pieceInGame = []
+        for i in range(5):
+            pieceToAdd:piece.Piece = copy(choice(self.pieces))
+            pieceToAdd.x = int((self.dimX - pieceToAdd.shape.shape[1]) / 2)
+            self.pieceInGame.append(pieceToAdd)
+        self.pieceSaved = None
         self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{self.limit}", True, (255,255,255))
         self.updateNextPieces()
         
@@ -211,7 +245,11 @@ class Game():
         else: self.screen.blit(self.textRenderModePiece, (coordX, coordY))
         if  gv.mode != 0: self.screen.blit(self.textRenderLimit, ((BackX + (520/1280)*W)-4, coordY))
 
+        #Cuadro de la pieza guardada
         pg.draw.rect(self.screen, "#FFFFFF", ((BackX - (10/1280)*W)-4-(150/1280)*W, BackY-4,  (150/1280)*W, (scale*(self.dimY-3)+10)/4), 4)
+
+        if self.pieceSaved != None:
+            self.imgSavedPiece.render()
 
         #Piezas
         for Y in range(3, self.dimY):
@@ -219,10 +257,10 @@ class Game():
                 pieceX = X * scale + BackX
                 pieceY = (Y-3) * scale + BackY
                 if self.board[Y,X][0] != 0:
-                    image = self.piecesImg[self.board[Y,X][0]]
+                    if gv.piecesHasNum: image = img.piecesNum[str(self.board[Y,X][0])]
+                    else: image = self.piecesImg[self.board[Y,X][0]]
                     image = pg.transform.scale(image, (scale+1,scale+1))
                     self.screen.blit(image, (pieceX, pieceY))
-                    self.screen.blit(self.textRenderNumber[self.board[Y,X][0]], (pieceX, pieceY))
                 if self.board[Y,X][0] == 0 and X >= self.pieceInGame[0].x + self.pieceInGame[0].startEndPieceShape()[0] and X < self.pieceInGame[0].x + self.pieceInGame[0].startEndPieceShape()[1]:
                     pg.draw.rect(self.screen, "#090B1F", (pieceX, pieceY, scale+1, scale+1))
 
@@ -262,9 +300,17 @@ class Game():
                 self.checkModePieza()
                 if (self.pieceInGame[0].y <= 3):
                     self.gameOver()
+
                 self.pieceInGame.pop(0)
-                self.pieceInGame.append(copy(choice(self.pieces)))
+                pieceToAdd:piece.Piece = copy(choice(self.pieces))
+                pieceToAdd.x = int((self.dimX - pieceToAdd.shape.shape[1]) / 2)
+                self.pieceInGame.append(pieceToAdd)
+
                 self.updateNextPieces()
+                self.isPieceSavedNow = False
+                if self.pieceSaved != None: 
+                    if gv.piecesHasNum: self.imgSavedPiece.changeImg(img.completePiecesNum[str(self.pieceSaved.value)])
+                    else: self.imgSavedPiece.changeImg(self.completepiecesImg[self.pieceSaved.value])
                 
                 self.clearCompleteLines()
                 self.odsnumber = randint(1,17)

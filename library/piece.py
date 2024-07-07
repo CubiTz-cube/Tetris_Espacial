@@ -45,10 +45,10 @@ shape_T[1, 1] = 1
 shape_T[2, 1] = 1
 
 shape_Tmin = np.zeros((3, 3), dtype=int)
-shape_Tmin[2, 0] = 1
-shape_Tmin[2, 1] = 1
-shape_Tmin[2, 2] = 1
+shape_Tmin[1, 0] = 1
 shape_Tmin[1, 1] = 1
+shape_Tmin[1, 2] = 1
+shape_Tmin[0, 1] = 1
 
 shape_Imax = np.zeros((4, 4), dtype=int)
 shape_Imax[0, 1] = 1
@@ -67,6 +67,11 @@ class Piece:
         self.static = False
 
         self.image = image
+
+    def reset(self):
+        self.x = 0
+        self.y = 0
+        self.static = False
 
     def erase(self, board:np.ndarray[any]):
         for Y in range(self.shape.shape[0]):
@@ -160,7 +165,7 @@ piezaS = Piece(shape_S, 10, img.pieces["blue"])
 piezaTmin = Piece(shape_Tmin, 11, img.pieces["purple"])
 piezaImax = Piece(shape_Imax, 12, img.pieces["blueBlack"])
 
-allPieces = [piezaIvar, piezaI, piezaL, piezaLI, piezaS, piezaLvar, piezaO, piezaT, piezaTvar, piezaS, piezaTmin, piezaImax]
+allPieces = [piezaIvar, piezaI, piezaL, piezaLI, piezaSI, piezaLvar, piezaO, piezaT, piezaTvar, piezaS, piezaTmin, piezaImax]
 imgCompletePieces = [img.completePieces["orangeBlack"], img.completePieces["orangeBlack"], img.completePieces["green"], img.completePieces["red"], img.completePieces["orange"], img.completePieces["green"], img.completePieces["yellow"], img.completePieces["greenBlue"], img.completePieces["greenBlue"], img.completePieces["blue"], img.completePieces["purple"], img.completePieces["blueBlack"]]
 imgCompletePiecesNum = [img.completePiecesNum[str(i)] for i in range(1,13)]
 

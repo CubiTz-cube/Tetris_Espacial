@@ -11,6 +11,7 @@ def loadImagesDict(directorio:str, end:str=".png"):
     return images
 
 pieces = loadImagesDict("public\\images\\pieces")
+piecesNum = loadImagesDict("public\\images\\piecesNum")
 completePieces = loadImagesDict("public\\images\\completePieces")
 completePiecesNum = loadImagesDict("public\\images\\completePiecesNum")
 logos = loadImagesDict("public\\images\\logos")

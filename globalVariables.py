@@ -10,14 +10,15 @@ actualPage = 8 # 0: Login 1: Register 2: Menu 3: Selection 4: Game 5: Leaderboar
 # Sonds
 actualSong = 0
 activeSond = True
-music = False
-volumen = 1
+music = True
+volumen = 0.5
 
 #Game
 mode = 0 # 0: Ninguno 1: Tiempo 2: Pieza
 limit = 60
 speed = 1
 viewScore = 0
+piecesHasNum = False
 
 dimX = 12
 dimY = 21
