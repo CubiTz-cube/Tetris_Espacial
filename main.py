@@ -27,6 +27,7 @@ pg.display.set_mode((gv.W-100, gv.H-100), pg.RESIZABLE)
 pg.display.set_caption("Tetris")
 pg.display.set_icon(img.pieces["blue"])
 clock = pg.time.Clock()
+pg.mouse.set_cursor(*pg.cursors.arrow)
 
 try:
     pg.mixer.init()

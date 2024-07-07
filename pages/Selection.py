@@ -6,7 +6,7 @@ import globalVariables as gv
 import public.images.loadImages as img
 from library.dynamicObjects import *
 from library.piece import allPieces, imgCompletePiecesNum
-from library.imageEdit import convertImgToBn
+from library.imageEdit import *
 from library.starsBack import StartMaker
 
 class Selection():
@@ -42,11 +42,13 @@ class Selection():
         self.buttonPlay = DynamicButton(460, 590, 360, 120, "Iniciar", self.manager, ObjectID("#play",""))
         self.buttonBack = DynamicButton(980, 650, 305, 80, "Regresar al menu", self.manager, ObjectID("#back",""))
 
-        self.buttonClasic = DynamicButton(0, 0, 200, 50, "Clasico", self.manager, ObjectID("#selectPiece",""))
-        self.buttonRequest = DynamicButton(200, 00, 200, 50, "Pedido", self.manager, ObjectID("#selectPiece",""))
+        self.TextSelection = DynamicText(35, 10, "Seleccion de piezas", gv.fontAldrich, 32, "#FFFFFF")
+        self.buttonClasic = DynamicButton(400, 0, 200, 50, "Clasico", self.manager, ObjectID("#selectPiece",""))
+        self.buttonRequest = DynamicButton(600, 00, 200, 50, "Pedido", self.manager, ObjectID("#selectPiece",""))
 
         self.dinamicObjects = [
             self.backGround,
+            self.TextSelection,
             self.buttonPlay,
             self.buttonBack, 
             self.textMode,
@@ -147,6 +149,15 @@ class Selection():
                         self.pieceImages[i].changeImg(convertImgToBn(imgCompletePiecesNum[i]))
 
             for index, button in enumerate(self.pieceButtons):
+                if event.type == pgu.UI_BUTTON_ON_HOVERED and event.ui_element == button.element:
+                    self.pieceImages[index].changeImg(lightImage(self.pieceImages[index].imageSave, 35))
+
+                if event.type == pgu.UI_BUTTON_ON_UNHOVERED and event.ui_element == button.element:
+                    if gv.activePieces[index]:
+                        self.pieceImages[index].changeImg(imgCompletePiecesNum[index])
+                    else:
+                        self.pieceImages[index].changeImg(convertImgToBn(imgCompletePiecesNum[index]))
+
                 if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == button.element:
                     if  "#unSelect" in button.element.get_object_ids():
                         button.element.change_object_id(ObjectID("#select","@transparent"))
