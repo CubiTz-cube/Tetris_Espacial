@@ -59,6 +59,7 @@ shape_Imax[3, 1] = 1
 class Piece:
     def __init__(self, shape:np.ndarray[any], value:int, image, rotate = True) -> None:
         self.shape = shape
+        self.savedShape = shape
         self.value = value
         self.canRotate = rotate
 
@@ -72,6 +73,7 @@ class Piece:
         self.x = 0
         self.y = 0
         self.static = False
+        self.shape = self.savedShape
 
     def erase(self, board:np.ndarray[any]):
         for Y in range(self.shape.shape[0]):

@@ -74,7 +74,7 @@ class Register():
             if event.type == pgu.UI_TEXT_ENTRY_CHANGED and event.ui_element == self.inputMail.element:
                 self.userData[0] = self.inputMail.element.get_text()
 
-            if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element:
+            if (event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonPlay.element) or (event.type == pg.KEYDOWN and event.key == pg.K_RETURN):
                 mail = self.userData[0]
                 password = self.userData[1]
                 name = self.userData[2]
