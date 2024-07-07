@@ -26,7 +26,7 @@ class Intro():
     def events(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
-                pg.quit()
+                
                 gv.running = False
             if event.type == pg.VIDEORESIZE:
                 self.resize()
