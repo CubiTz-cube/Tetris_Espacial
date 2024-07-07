@@ -1,13 +1,11 @@
 import pygame as pg
 import pygame_gui as pgu
-from library.encrypter import encrypt, decrypt
 from library.dataFormating import getAllUsers 
 import globalVariables as gv
 from library.dynamicObjects import *
 import public.images.loadImages as img
 import re
 from pygame_gui.core import ObjectID
-
 
 class Register():
     def __init__(self) -> None:
