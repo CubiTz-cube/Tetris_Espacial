@@ -35,6 +35,7 @@ class Leaderboard():
         self.buttonBack = DynamicButton(980, 650, 305, 80, "Regresar al menu", self.manager, ObjectID("#back",""))
         self.buttonNextScore = DynamicButton(1134, 600, 150, 50, "Siguiente", self.manager, ObjectID("#pages",""))
         self.buttonBackScore = DynamicButton(980, 600, 150, 50, "Anterior", self.manager, ObjectID("#pages",""))
+        self.textPageScore = DynamicText(1076, 560, f"Página {self.pageScore+1}", gv.fontLekton, 28, "#FFFFFF")
 
         self.inputState = DynamicDropDown(0, 100, 300, 30, self.manager, gv.states)
         self.inputUser = DynamicDropDown(350, 100, 300, 30, self.manager, [("Usuario no seleccionado", None)]+[user[0] for user in getAllUsers()])
@@ -50,6 +51,7 @@ class Leaderboard():
             self.inputUser,
             self.buttonNextScore,
             self.buttonBackScore,
+            self.textPageScore,
         ]
 
     def resize(self):
@@ -80,9 +82,11 @@ class Leaderboard():
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonNextScore.element:
                 self.pageScore += 1
                 self.updateLeaderboard()
+                self.textPageScore.changeText(f"Página {self.pageScore+1}")
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonBackScore.element:
                 if self.pageScore > 0: self.pageScore -= 1
                 self.updateLeaderboard()
+                self.textPageScore.changeText(f"Página {self.pageScore+1}")
 
             self.manager.process_events(event)
     
