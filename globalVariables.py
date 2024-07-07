@@ -6,6 +6,7 @@ actualUser = None
 
 # Pages
 actualPage = 8 # 0: Login 1: Register 2: Menu 3: Selection 4: Game 5: Leaderboard 6: Config 7: GameOver 8: Intro
+running = True
 
 # Sonds
 actualSong = 2

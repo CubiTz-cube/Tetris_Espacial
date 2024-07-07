@@ -43,7 +43,7 @@ class GameOver():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
-                exit()
+                gv.running = False
             if event.type == pg.VIDEORESIZE:
                 self.resize()
             if event.type == pgu.UI_BUTTON_PRESSED and event.ui_element == self.buttonReset.element:

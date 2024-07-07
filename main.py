@@ -50,7 +50,7 @@ pages = [
     Intro()
 ]
 
-while True:
+while gv.running:
     pages[gv.actualPage].bucle()
     clock.tick(60)
-    pg.display.flip()
+    if gv.running: pg.display.flip()

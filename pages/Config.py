@@ -60,7 +60,7 @@ class Config():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
-                exit()
+                gv.running = False
 
             if event.type == pg.VIDEORESIZE:
                 self.resize()
