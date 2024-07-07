@@ -8,7 +8,7 @@ actualUser = None
 actualPage = 8 # 0: Login 1: Register 2: Menu 3: Selection 4: Game 5: Leaderboard 6: Config 7: GameOver 8: Intro
 
 # Sonds
-actualSong = 0
+actualSong = 2
 activeSond = True
 music = True
 volumen = 0.5
@@ -18,7 +18,7 @@ mode = 0 # 0: Ninguno 1: Tiempo 2: Pieza
 limit = 60
 speed = 1
 viewScore = 0
-piecesHasNum = False
+piecesHasNum = True
 
 dimX = 12
 dimY = 21

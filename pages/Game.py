@@ -8,7 +8,7 @@ import public.images.loadImages as img
 from library.starsBack import StartMaker
 import library.dataFormating as df
 import globalVariables as gv
-import public.sonds.loadSonds as sonds
+from public.sonds.loadSonds import sfx
 from library.imageEdit import convertImgToBn
 
 from random import choice, randint
@@ -64,6 +64,7 @@ class Game():
         pg.time.set_timer(self.TIMEREVENT, 1000)
 
         self.imgSavedPiece = DynamicImage(320, 80, 0.45, img.completePiecesNum["1"])
+        self.textNextSavedPiece = DynamicText(310, 65, "Guardada", gv.fontAldrich, 20, "#FFFFFF")
 
         self.nextPiecesRender:list[DynamicImage] = []
 
@@ -72,7 +73,7 @@ class Game():
         self.textRenderModePiece = pg.font.Font(gv.fontLekton, 25).render(f"Piezas:", True, (255,255,255))
         self.scoreTextRender = pg.font.Font(gv.fontLektonBold, 25).render(f"Score: {self.score}", True, (255,255,255))
         self.textRenderLimit = pg.font.Font(gv.fontLekton, 25).render(f"{self.limit}", True, (255,255,255))
-        self.textNextPieces = pg.font.Font(gv.fontAldrich, 20).render(f"Siguientes", True, (255,255,255))
+        self.textNextPieces = DynamicText(886, 65, "Siguiente", gv.fontAldrich, 20, "#FFFFFF")
         self.textEscapeTo = DynamicText(540, 10, "Presiona ESC para Terminar el juego", gv.fontLekton, 15, "#FFFFFF")
 
         for i in range(4):
@@ -80,6 +81,13 @@ class Game():
 
         self.odsnumber = randint(1,17)
         self.starts = StartMaker(100, 10, minSpeed = 0.25, maxSpeed = 0.75)
+
+        if gv.activeSond:
+            self.sondPlace1 = pg.mixer.Sound(sfx["place1"])
+            self.sondPlace2 = pg.mixer.Sound(sfx["place2"])
+            self.sondPlace3 = pg.mixer.Sound(sfx["place3"])
+            self.sondCompleteLine = pg.mixer.Sound(sfx["completeLine"])
+            self.sondSwitch = pg.mixer.Sound(sfx["switch"])
 
     def resize(self):
         for index, obj in enumerate(self.nextPiecesRender):
@@ -138,6 +146,7 @@ class Game():
                     self.isLoad = False
                     self.gameOver()
                 if event.key == pg.K_TAB and not self.isPieceSavedNow:
+                    if gv.activeSond: pg.mixer.Sound.play(self.sondSwitch)
                     self.pieceInGame[0].erase(self.board)
                     pieceToSave = self.pieceInGame.pop(0)
                     pieceToSave.reset()
@@ -224,7 +233,7 @@ class Game():
         
         #Cuadro de la proximas piezas
         coordX = (BackX + (410/1280)*W)-4
-        self.screen.blit(self.textNextPieces, (coordX+4 + ((150/1280)*W+- self.textNextPieces.get_width())/2 , BackY+(5/1280)*W))
+        self.textNextPieces.render()
         pg.draw.rect(self.screen, "#FFFFFF", (coordX, BackY-4,  (150/1280)*W, (scale*(self.dimY-3)+10)*2/3), 4)
 
         #Cuadro del score y las ods
@@ -247,7 +256,7 @@ class Game():
 
         #Cuadro de la pieza guardada
         pg.draw.rect(self.screen, "#FFFFFF", ((BackX - (10/1280)*W)-4-(150/1280)*W, BackY-4,  (150/1280)*W, (scale*(self.dimY-3)+10)/4), 4)
-
+        self.textNextSavedPiece.render()
         if self.pieceSaved != None:
             self.imgSavedPiece.render()
 
@@ -280,6 +289,7 @@ class Game():
                 completeLine = False
 
         if completeLine:
+            if gv.activeSond: pg.mixer.Sound.play(self.sondCompleteLine)
             self.score += np.sum(self.board[Y][:, 0]) * 100
             self.board[Y] = np.full([self.dimX, 4], [0, 0, 0, 0])
             self.board[3:Y+1] = np.roll(self.board[3:Y+1], shift=1, axis=0)
@@ -297,6 +307,8 @@ class Game():
         if self.tickPiece > 350:
             self.tickPiece = 0
             if self.pieceInGame[0].static: 
+                if gv.activeSond: pg.mixer.Sound.play(choice([self.sondPlace1, self.sondPlace2, self.sondPlace3]))
+
                 self.checkModePieza()
                 if (self.pieceInGame[0].y <= 3):
                     self.gameOver()

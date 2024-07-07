@@ -35,7 +35,7 @@ except:
     gv.activeSond = False
 
 
-sonds.playMusic(sonds.music[0])
+sonds.playMusic(sonds.music[gv.actualSong])
 
 pages = [
     Login(),

@@ -112,7 +112,6 @@ class Login():
                 if (outer[1] == self.user[1]):
                     passwordFind = True
                     gv.actualUser = outer
-                    print(gv.actualUser)
 
         return [userFind, passwordFind]
 
