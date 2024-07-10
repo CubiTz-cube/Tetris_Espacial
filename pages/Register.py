@@ -97,7 +97,7 @@ class Register():
                     self.textError.changeText("*Contraseña no válida\nDebe ser una combinacion alfanumerica.")
                 elif not validationPass[4]:
                     self.textError.changeText(f"*Contraseña no válida\nDebe tener entre 8 y 10 caracteres.\nTiene {len(password)}")
-                elif not validationMail or self.validateGlobal(mail):
+                elif not validationMail or not self.validateGlobal(mail):
                     self.textError.changeText("*Correo no válido.")
                     if not self.NoDuplicateMail(mail):
                         self.textError.changeText("Correo no válido.\nEste correo ya esta registrado")
