@@ -18,13 +18,13 @@ class Login():
         self.manager.get_theme().load_theme("pages\\css\\global.json")
         self.isLoad = False
 
-        self.user = ["", ""]
+        self.user = ["invitado@gmail.com", "invitado"]
         self.allUsers = getAllUsers()
 
         gv.actualUser = self.allUsers[0]
 
-        self.inputMail = DynamicInput(100, 250, 460, 85, self.manager, "Correo")
-        self.inputPassword = DynamicInput(100, 340, 460, 85, self.manager, "Contraseña")
+        self.inputMail = DynamicInput(100, 250, 460, 85, self.manager, "invitado@gmail.com")
+        self.inputPassword = DynamicInput(100, 340, 460, 85, self.manager, "invitado")
 
         self.buttonPlay = DynamicButton(150, 510, 360, 70, "Iniciar", self.manager, ObjectID("#play"))
         self.buttonRegister = DynamicButton(150, 580, 360, 50, "¿No tienes cuenta? Registrate", self.manager, ObjectID("#register"))
