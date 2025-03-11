@@ -6,8 +6,9 @@
 Un Tetris de jugabilidad moderna con sistema de puntuaciones y cuentas. Con música, efectos de sonido y fondo animado.
 
 Creado para la materia *Algoritmos y Programación* en el segundo semestre de la [UCAB](https://www.ucab.edu.ve/).
+ Agradecimiento especial a [Venus](https://www.youtube.com/@venus77752) por la música 🎵.
 
-> Agradecimiento especial a [Venus](https://www.youtube.com/@venus77752) por la música 🎵
+> Usado como ejemplo para ferias de carreras en la UCAB
 
 ![Game](https://github.com/CubiTz-cube/T-84/assets/144462396/0b5d17db-02c7-4ec5-a0b9-1defaed1b41d)
 
